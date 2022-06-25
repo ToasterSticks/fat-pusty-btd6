@@ -32,17 +32,12 @@ const command: [ApplicationCommand, InteractionHandler] = [
 		let decompressed: string;
 
 		try {
-			decompressed = String.fromCharCode.apply(
-				null,
-				// @ts-expect-error some weird types
-				new Uint16Array(
-					pako.inflate(
-						new Uint8Array(
-							atob(b64Str)
-								.split('')
-								.map((x) => x.charCodeAt(0))
-						)
-					)
+			decompressed = pako.inflate(
+				new Uint8Array(
+					atob(b64Str)
+						.split('')
+						.map((x) => x.charCodeAt(0)),
+				{ to: 'string' },
 				)
 			);
 		} catch {
