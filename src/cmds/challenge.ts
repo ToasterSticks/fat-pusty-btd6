@@ -36,9 +36,9 @@ const command: [ApplicationCommand, InteractionHandler] = [
 				new Uint8Array(
 					atob(b64Str)
 						.split('')
-						.map((x) => x.charCodeAt(0)),
-				{ to: 'string' },
-				)
+						.map((x) => x.charCodeAt(0))
+				),
+				{ to: 'string' }
 			);
 		} catch {
 			return {

@@ -1,8 +1,4 @@
-import {
-	createApplicationCommandHandler,
-	Permissions,
-	PermissionType,
-} from 'cloudflare-discord-bot';
+import { createApplicationCommandHandler, Permissions } from 'cloudflare-discord-bot';
 
 import pingCommand from './cmds/ping';
 import redditCommand from './cmds/reddit';
