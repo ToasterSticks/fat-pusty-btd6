@@ -18,14 +18,7 @@ const applicationCommandHandler = createApplicationCommandHandler({
 	publicKey: PUBLIC_KEY,
 	// guildId: '826591380716388353',
 	commands: [pingCommand, redditCommand, challengeCommand],
-	permissions: new Permissions([
-		PermissionType.ADD_REACTIONS,
-		PermissionType.ATTACH_FILES,
-		PermissionType.EMBED_LINKS,
-		PermissionType.SEND_MESSAGES,
-		PermissionType.USE_EXTERNAL_EMOJIS,
-		PermissionType.USE_EXTERNAL_STICKERS,
-	]),
+	permissions: new Permissions([]),
 });
 
 addEventListener('fetch', (event) => {
