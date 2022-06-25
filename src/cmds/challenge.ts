@@ -90,14 +90,14 @@ const command: [ApplicationCommand, InteractionHandler] = [
 			description.push(
 				`<:_:${
 					data.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
-				}> Bloon speed: ${data.bloonModifiers.speedMultiplier * 100}%`
+				}> Bloon speed: ${Math.round(data.bloonModifiers.speedMultiplier * 100)}%`
 			);
 
 		if (data.bloonModifiers.moabSpeedMultiplier !== 1)
 			description.push(
 				`<:_:${
 					data.bloonModifiers.moabSpeedMultiplier < 1 ? '947454215587000340' : '947454219907125258'
-				}> Moab speed: ${data.bloonModifiers.moabSpeedMultiplier * 100}%`
+				}> Moab speed: ${Math.round(data.bloonModifiers.moabSpeedMultiplier * 100)}%`
 			);
 
 		if (data.bloonModifiers.healthMultipliers.bloons !== 1)
@@ -106,7 +106,7 @@ const command: [ApplicationCommand, InteractionHandler] = [
 					data.bloonModifiers.healthMultipliers.bloons < 1
 						? '947456989150199859'
 						: '947456989208932382'
-				}> Ceramic health: ${data.bloonModifiers.healthMultipliers.bloons * 100}%`
+				}> Ceramic health: ${Math.round(data.bloonModifiers.healthMultipliers.bloons * 100)}%`
 			);
 
 		if (data.bloonModifiers.healthMultipliers.moabs !== 1)
@@ -115,21 +115,21 @@ const command: [ApplicationCommand, InteractionHandler] = [
 					data.bloonModifiers.healthMultipliers.moabs < 1
 						? '947459371154178098'
 						: '947459368473989130'
-				}> Moab health: ${data.bloonModifiers.healthMultipliers.moabs * 100}%`
+				}> Moab health: ${Math.round(data.bloonModifiers.healthMultipliers.moabs * 100)}%`
 			);
 
 		if (data.bloonModifiers.regrowRateMultiplier && data.bloonModifiers.regrowRateMultiplier !== 1)
 			description.push(
 				`<:_:${
 					data.bloonModifiers.regrowRateMultiplier < 1 ? '947460169372143686' : '947460169699307520'
-				}> Regrow rate: ${data.bloonModifiers.regrowRateMultiplier * 100}%`
+				}> Regrow rate: ${Math.round(data.bloonModifiers.regrowRateMultiplier * 100)}%`
 			);
 
 		if (data.abilityCooldownReductionMultiplier && data.abilityCooldownReductionMultiplier !== 1)
 			description.push(
 				`<:_:${
 					data.abilityCooldownReductionMultiplier < 1 ? '947462092661862420' : '947462070721454160'
-				}> Ability cooldown: ${data.abilityCooldownReductionMultiplier * 100}%`
+				}> Ability cooldown: ${Math.round(data.abilityCooldownReductionMultiplier * 100)}%`
 			);
 
 		if (data.removeableCostMultiplier == 0)
@@ -142,7 +142,7 @@ const command: [ApplicationCommand, InteractionHandler] = [
 			description.push(
 				`<:_:${
 					data.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
-				}> Removal cost: ${data.removeableCostMultiplier * 100}%`
+				}> Removal cost: ${Math.round(data.removeableCostMultiplier * 100)}%`
 			);
 
 		if (data.leastCashUsed && data.leastCashUsed > -1)
