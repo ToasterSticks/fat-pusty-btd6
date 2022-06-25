@@ -118,14 +118,14 @@ const command: [ApplicationCommand, InteractionHandler] = [
 				}> Moab health: ${data.bloonModifiers.healthMultipliers.moabs * 100}%`
 			);
 
-		if (data.bloonModifiers.regrowRateMultiplier !== 1)
+		if (data.bloonModifiers.regrowRateMultiplier && data.bloonModifiers.regrowRateMultiplier !== 1)
 			description.push(
 				`<:_:${
 					data.bloonModifiers.regrowRateMultiplier < 1 ? '947460169372143686' : '947460169699307520'
 				}> Regrow rate: ${data.bloonModifiers.regrowRateMultiplier * 100}%`
 			);
 
-		if (data.abilityCooldownReductionMultiplier !== 1)
+		if (data.abilityCooldownReductionMultiplier && data.abilityCooldownReductionMultiplier !== 1)
 			description.push(
 				`<:_:${
 					data.abilityCooldownReductionMultiplier < 1 ? '947462092661862420' : '947462070721454160'
