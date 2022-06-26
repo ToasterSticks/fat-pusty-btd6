@@ -218,7 +218,7 @@ const command: [ApplicationCommand, InteractionHandler] = [
 		getTowers(data.towers).forEach(([category, towers]) =>
 			embed.fields?.push({
 				name: category,
-				value: towers,
+				value: towers || 'None',
 			})
 		);
 
