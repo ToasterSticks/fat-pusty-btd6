@@ -17,6 +17,12 @@ export type SlashCommand = [
 	) => Promise<APIInteractionResponse> | APIInteractionResponse
 ];
 
+export interface BloonsBossData {
+	normalDcm: BloonsChallengeData;
+	eliteDcm: BloonsChallengeData;
+	bossType: 'bloonarius' | 'lych' | 'vortex';
+}
+
 export interface BloonsChallengeData {
 	towers: Tower[];
 	map: string;

@@ -71,7 +71,7 @@ const command: SlashCommand = [
 
 export const generateEmbed = (
 	challenge: BloonsChallengeData,
-	identifier: string,
+	id?: string,
 	type?: 'Daily' | 'Advanced'
 ): APIEmbed => {
 	if (challenge.map === 'Tutorial') challenge.map = 'MonkeyMeadow';
@@ -81,12 +81,14 @@ export const generateEmbed = (
 	const embed: APIEmbed = {
 		color: 13296619,
 		title: challenge.name,
-		url: !type ? `https://join.btd6.com/Challenge/${identifier}` : undefined,
+		url: !type ? `https://join.btd6.com/Challenge/${id}` : undefined,
 		thumbnail: { url: `https://i.gyazo.com/${gamemodeIcons[challenge.mode]}.png` },
-		author: {
-			name: type ? `${type} challenge #${identifier}` : identifier,
-			icon_url: `https://i.gyazo.com/${difficultyIcons[challenge.difficulty]}.png`,
-		},
+		author: id
+			? {
+					name: type ? `${type} challenge #${id}` : id,
+					icon_url: `https://i.gyazo.com/${difficultyIcons[challenge.difficulty]}.png`,
+			  }
+			: undefined,
 	};
 
 	const description: string[] = [];
