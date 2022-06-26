@@ -1,9 +1,6 @@
 import { createApplicationCommandHandler, Permissions } from 'cloudflare-discord-bot';
 
-import pingCommand from './cmds/ping';
-import redditCommand from './cmds/reddit';
-import challengeCommand from './cmds/challenge';
-import inviteCommand from './cmds/invite';
+import commands from './cmds';
 
 declare const CLIENT_ID: string;
 declare const CLIENT_SECRET: string;
@@ -14,8 +11,8 @@ const applicationCommandHandler = createApplicationCommandHandler({
 	applicationSecret: CLIENT_SECRET,
 	publicKey: PUBLIC_KEY,
 	// guildId: '826591380716388353',
-	commands: [pingCommand, redditCommand, challengeCommand, inviteCommand],
 	permissions: new Permissions([]),
+	commands,
 });
 
 addEventListener('fetch', (event) => {

@@ -31,7 +31,7 @@ export interface BloonsChallengeData {
 	ignoreLeastMode?: boolean;
 }
 
-interface BloonModifiers {
+export interface BloonModifiers {
 	speedMultiplier: number;
 	moabSpeedMultiplier: number;
 	healthMultipliers: HealthMultipliers;
@@ -40,17 +40,17 @@ interface BloonModifiers {
 	regrowRateMultiplier?: number;
 }
 
-interface HealthMultipliers {
+export interface HealthMultipliers {
 	bloons: number;
 	moabs: number;
 }
 
-interface Power {
+export interface Power {
 	power: string;
 	max: number;
 }
 
-interface StartRules {
+export interface StartRules {
 	lives: number;
 	maxLives: number;
 	cash: number;
@@ -58,7 +58,7 @@ interface StartRules {
 	endRound: number;
 }
 
-interface Tower {
+export interface Tower {
 	tower: string;
 	max: number;
 	path1NumBlockedTiers: number;

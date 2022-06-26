@@ -8,7 +8,7 @@ import {
 	ApplicationCommandOptionType,
 	Embed,
 } from 'cloudflare-discord-bot';
-import { BloonsChallengeData } from '../types';
+import { BloonsChallengeData, Tower } from '../types';
 
 const command: [ApplicationCommand, InteractionHandler] = [
 	{
@@ -53,9 +53,9 @@ const command: [ApplicationCommand, InteractionHandler] = [
 
 		const data: BloonsChallengeData = JSON.parse(decompressed);
 
-		if (data.map == 'Tutorial') data.map = 'MonkeyMeadow';
-		if (data.map == 'Town Centre') data.map = 'TownCenter';
-		if (data.mode == 'Clicks') data.mode = 'Chimps';
+		if (data.map === 'Tutorial') data.map = 'MonkeyMeadow';
+		if (data.map === 'Town Centre') data.map = 'TownCenter';
+		if (data.mode === 'Clicks') data.mode = 'Chimps';
 
 		const embed: Embed = {
 			color: 3974235,
@@ -127,10 +127,10 @@ const command: [ApplicationCommand, InteractionHandler] = [
 				}> Ability cooldown: ${Math.round(data.abilityCooldownReductionMultiplier * 100)}%`
 			);
 
-		if (data.removeableCostMultiplier == 0)
+		if (data.removeableCostMultiplier === 0)
 			description.push(`<:_:947462619835535451> Free removal`);
 
-		if (data.removeableCostMultiplier == 12)
+		if (data.removeableCostMultiplier === 12)
 			description.push(`<:_:947462621060280330> Removal disabled`);
 
 		if (data.removeableCostMultiplier)
@@ -153,39 +153,39 @@ const command: [ApplicationCommand, InteractionHandler] = [
 
 		const startRules = { ...data.startRules };
 
-		if (startRules.lives == -1) {
-			if (data.difficulty == 'Easy') startRules.lives = 200;
-			if (data.difficulty == 'Medium') startRules.lives = 150;
-			if (data.difficulty == 'Hard') startRules.lives = 50;
-			if (data.mode == 'Chimps' || data.mode == 'Impoppable') startRules.lives = 1;
+		if (startRules.lives === -1) {
+			if (data.difficulty === 'Easy') startRules.lives = 200;
+			if (data.difficulty === 'Medium') startRules.lives = 150;
+			if (data.difficulty === 'Hard') startRules.lives = 50;
+			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.lives = 1;
 		}
 
-		if (startRules.maxLives == -1) {
+		if (startRules.maxLives === -1) {
 			startRules.maxLives = 5000;
 
-			if (data.mode == 'Chimps' || data.mode == 'Impoppable') startRules.maxLives = 1;
+			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.maxLives = 1;
 		}
 
-		if (startRules.cash == -1) {
+		if (startRules.cash === -1) {
 			startRules.cash = 650;
 
-			if (data.mode == 'Deflation') startRules.cash = 20000;
+			if (data.mode === 'Deflation') startRules.cash = 20000;
 		}
 
-		if (startRules.round == -1) {
+		if (startRules.round === -1) {
 			startRules.round = 1;
 
-			if (data.difficulty == 'Hard') startRules.round = 3;
-			if (data.mode == 'Deflation') startRules.round = 31;
-			if (data.mode == 'Chimps' || data.mode == 'Impoppable') startRules.round = 6;
+			if (data.difficulty === 'Hard') startRules.round = 3;
+			if (data.mode === 'Deflation') startRules.round = 31;
+			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.round = 6;
 		}
 
-		if (startRules.endRound == -1) {
-			if (data.difficulty == 'Easy') startRules.endRound = 40;
-			if (data.difficulty == 'Medium') startRules.endRound = 60;
-			if (data.difficulty == 'Hard') startRules.endRound = 80;
-			if (data.mode == 'Deflation') startRules.round = 60;
-			if (data.mode == 'Chimps' || data.mode == 'Impoppable') startRules.endRound = 100;
+		if (startRules.endRound === -1) {
+			if (data.difficulty === 'Easy') startRules.endRound = 40;
+			if (data.difficulty === 'Medium') startRules.endRound = 60;
+			if (data.difficulty === 'Hard') startRules.endRound = 80;
+			if (data.mode === 'Deflation') startRules.round = 60;
+			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.endRound = 100;
 		}
 
 		embed.fields = [
@@ -206,9 +206,21 @@ const command: [ApplicationCommand, InteractionHandler] = [
 			},
 			{
 				name: 'Hero',
-				value: `${spacePascalCase(data.towers.find((t) => t.isHero && t.max)?.tower ?? 'None')}`,
+				value: `${spacePascalCase(
+					data.towers
+						.filter((t) => t.isHero && t.max)
+						.map((t) => t.tower)
+						.join(', ') || 'None'
+				)}`,
 			},
 		];
+
+		getTowers(data.towers).forEach(([category, towers]) =>
+			embed.fields?.push({
+				name: category,
+				value: towers,
+			})
+		);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
@@ -221,6 +233,94 @@ const command: [ApplicationCommand, InteractionHandler] = [
 ];
 
 const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').trim();
+
+const getTowers = (towers: Tower[]) => {
+	towers = towers.filter((tower) => tower.max !== 0);
+
+	towers.forEach((tower) => {
+		tower.tower = tower.tower
+			.replaceAll('Monkey', '')
+			.replaceAll('Shooter', '')
+			.replaceAll('Gunner', '');
+
+		tower.tower = tower.tower.replace(/([a-z])([A-Z])/g, '$1 $2');
+
+		tower.path1NumBlockedTiers = 5 - tower.path1NumBlockedTiers;
+		tower.path2NumBlockedTiers = 5 - tower.path2NumBlockedTiers;
+		tower.path3NumBlockedTiers = 5 - tower.path3NumBlockedTiers;
+
+		if (tower.path1NumBlockedTiers === 6) tower.path1NumBlockedTiers = 0;
+		if (tower.path2NumBlockedTiers === 6) tower.path2NumBlockedTiers = 0;
+		if (tower.path3NumBlockedTiers === 6) tower.path3NumBlockedTiers = 0;
+
+		if (isNaN(tower.path1NumBlockedTiers)) tower.path1NumBlockedTiers = 5;
+		if (isNaN(tower.path2NumBlockedTiers)) tower.path2NumBlockedTiers = 5;
+		if (isNaN(tower.path3NumBlockedTiers)) tower.path3NumBlockedTiers = 5;
+	});
+
+	const towerOrder = [
+		'Dart',
+		'Boomerang',
+		'Bomb',
+		'Tack',
+		'Ice',
+		'Glue',
+		'Sniper',
+		'Sub',
+		'Buccaneer',
+		'Ace',
+		'Heli',
+		'Mortar',
+		'Dartling',
+		'Wizard',
+		'Super',
+		'Ninja',
+		'Alchemist',
+		'Druid',
+		'Farm',
+		'Spactory',
+		'Village',
+		'Engineer',
+	];
+
+	towers.sort((a, b) => towerOrder.indexOf(a.tower) - towerOrder.indexOf(b.tower));
+
+	const primary = towers.filter(({ tower }) =>
+		['Dart', 'Boomerang', 'Bomb', 'Tack', 'Ice', 'Glue'].includes(tower)
+	);
+
+	const military = towers.filter(({ tower }) =>
+		['Sniper', 'Sub', 'Buccaneer', 'Ace', 'Heli', 'Mortar', 'Dartling'].includes(tower)
+	);
+
+	const magic = towers.filter(({ tower }) =>
+		['Wizard', 'Super', 'Ninja', 'Alchemist', 'Druid'].includes(tower)
+	);
+
+	const support = towers.filter(({ tower }) =>
+		['Farm', 'Spactory', 'Village', 'Engineer'].includes(tower)
+	);
+
+	return [
+		['Primary', primary.map(stringifyCrosspath).join(', ')],
+		['Military', military.map(stringifyCrosspath).join(', ')],
+		['Magic', magic.map(stringifyCrosspath).join(', ')],
+		['Support', support.map(stringifyCrosspath).join(', ')],
+	];
+};
+
+const stringifyCrosspath = ({
+	tower,
+	max,
+	path1NumBlockedTiers,
+	path2NumBlockedTiers,
+	path3NumBlockedTiers,
+}: Tower) =>
+	`${max > 0 ? `${max}x ` : ''}**${tower.toLowerCase()}${
+		[path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers].some((count) => count !== 5)
+			? ` (${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers})`
+			: ''
+	}**`;
 
 const gamemodeIcons: Record<string, string> = {
 	Deflation: '692f69b2239e6e7c58530d24e05e50f1',
