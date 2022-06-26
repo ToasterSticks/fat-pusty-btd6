@@ -1,4 +1,8 @@
-import { APIInteractionResponse, InteractionResponseType } from 'discord-api-types/v10';
+import {
+	APIInteractionResponse,
+	InteractionResponseType,
+	MessageFlags,
+} from 'discord-api-types/v10';
 
 import { SlashCommand } from '../types';
 
@@ -10,7 +14,10 @@ const command: SlashCommand = [
 	(): APIInteractionResponse => {
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: { content: `Add me to a server by clicking [here](${INVITE_URL}).` },
+			data: {
+				content: `Add me to a server by clicking [here](${INVITE_URL}).`,
+				flags: MessageFlags.Ephemeral,
+			},
 		};
 	},
 ];
