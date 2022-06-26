@@ -33,7 +33,9 @@ const command: SlashCommand = [
 		const id = (is_advanced ? advanced_id : normal_id).toString();
 
 		const b64Str = await fetch(
-			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallengesAdvanced/${id}`
+			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallenges${
+				is_advanced ? 'Advanced' : ''
+			}/${id}`
 		).then((res) => res.text());
 
 		let decompressed: string;
