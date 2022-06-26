@@ -316,11 +316,11 @@ const stringifyCrosspath = ({
 	path2NumBlockedTiers,
 	path3NumBlockedTiers,
 }: Tower) =>
-	`${max > 0 ? `${max}x ` : ''}**${tower.toLowerCase()}${
+	`${max > 0 ? `${max}x ` : ''}**${tower.toLowerCase()}**${
 		[path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers].some((count) => count !== 5)
 			? ` (${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers})`
 			: ''
-	}**`;
+	}`;
 
 const gamemodeIcons: Record<string, string> = {
 	Deflation: '692f69b2239e6e7c58530d24e05e50f1',
