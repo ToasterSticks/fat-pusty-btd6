@@ -58,12 +58,10 @@ const command: [ApplicationCommand, InteractionHandler] = [
 		if (data.mode === 'Clicks') data.mode = 'Chimps';
 
 		const embed: Embed = {
-			color: 3974235,
+			color: 13296619,
 			title: data.name,
 			url: `https://join.btd6.com/Challenge/${code}`,
-			thumbnail: {
-				url: `https://i.gyazo.com/${gamemodeIcons[data.mode]}.png`,
-			},
+			thumbnail: { url: `https://i.gyazo.com/${gamemodeIcons[data.mode]}.png` },
 			author: {
 				name: code,
 				icon_url: `https://i.gyazo.com/${difficultyIcons[data.difficulty]}.png`,
