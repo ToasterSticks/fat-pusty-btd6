@@ -360,7 +360,7 @@ const gamemodeIcons: Record<string, string> = {
 
 const difficultyIcons: Record<string, string> = {
 	Easy: 'fa0dc0d42855ce8fc7920eec06ede956',
-	Medium: '08e5b02e88d6d4c50e75d6e433db359challenge',
+	Medium: '08e5b02e88d6d4c50e75d6e433db359d',
 	Hard: '6e6137d23ad90d5df01ddd4baf1ac36e',
 };
 
