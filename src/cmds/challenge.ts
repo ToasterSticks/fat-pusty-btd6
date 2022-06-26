@@ -1,4 +1,4 @@
-import pako from 'pako';
+import { inflate } from 'pako';
 import {
 	APIChatInputApplicationCommandGuildInteraction,
 	APIEmbed,
@@ -13,7 +13,7 @@ import { BloonsChallengeData, SlashCommand, Tower } from '../types';
 const command: SlashCommand = [
 	{
 		name: 'challenge',
-		description: "Display a BTD6 challenge's details",
+		description: "Display a challenge's details",
 		options: [
 			{
 				name: 'code',
@@ -37,7 +37,7 @@ const command: SlashCommand = [
 		let decompressed: string;
 
 		try {
-			decompressed = pako.inflate(
+			decompressed = inflate(
 				new Uint8Array(
 					atob(b64Str)
 						.split('')
@@ -57,177 +57,7 @@ const command: SlashCommand = [
 
 		const challenge: BloonsChallengeData = JSON.parse(decompressed);
 
-		if (challenge.map === 'Tutorial') challenge.map = 'MonkeyMeadow';
-		if (challenge.map === 'Town Centre') challenge.map = 'TownCenter';
-		if (challenge.mode === 'Clicks') challenge.mode = 'Chimps';
-
-		const embed: APIEmbed = {
-			color: 13296619,
-			title: challenge.name,
-			url: `https://join.btd6.com/Challenge/${code}`,
-			thumbnail: { url: `https://i.gyazo.com/${gamemodeIcons[challenge.mode]}.png` },
-			author: {
-				name: code,
-				icon_url: `https://i.gyazo.com/${difficultyIcons[challenge.difficulty]}.png`,
-			},
-		};
-
-		const description: string[] = [];
-
-		description.push(
-			`${spacePascalCase(challenge.map)} - ${challenge.difficulty} - ${spacePascalCase(
-				challenge.mode
-			)}\n`
-		);
-
-		if (challenge.disableSelling) description.push('<:_:947206526018387999> Selling disabled');
-		if (challenge.disableMK) description.push('<:_:947206527721291786> Knowledge disabled');
-		if (challenge.bloonModifiers.allCamo) description.push('<:_:947206526765002843> All camo');
-		if (challenge.bloonModifiers.allRegen) description.push('<:_:947206530162376804> All regrow ');
-
-		if (challenge.bloonModifiers.speedMultiplier !== 1)
-			description.push(
-				`<:_:${
-					challenge.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
-				}> Bloon speed: ${Math.round(challenge.bloonModifiers.speedMultiplier * 100)}%`
-			);
-
-		if (challenge.bloonModifiers.moabSpeedMultiplier !== 1)
-			description.push(
-				`<:_:${
-					challenge.bloonModifiers.moabSpeedMultiplier < 1
-						? '947454215587000340'
-						: '947454219907125258'
-				}> Moab speed: ${Math.round(challenge.bloonModifiers.moabSpeedMultiplier * 100)}%`
-			);
-
-		if (challenge.bloonModifiers.healthMultipliers.bloons !== 1)
-			description.push(
-				`<:_:${
-					challenge.bloonModifiers.healthMultipliers.bloons < 1
-						? '947456989150199859'
-						: '947456989208932382'
-				}> Ceramic health: ${Math.round(challenge.bloonModifiers.healthMultipliers.bloons * 100)}%`
-			);
-
-		if (challenge.bloonModifiers.healthMultipliers.moabs !== 1)
-			description.push(
-				`<:_:${
-					challenge.bloonModifiers.healthMultipliers.moabs < 1
-						? '947459371154178098'
-						: '947459368473989130'
-				}> Moab health: ${Math.round(challenge.bloonModifiers.healthMultipliers.moabs * 100)}%`
-			);
-
-		if (
-			challenge.bloonModifiers.regrowRateMultiplier &&
-			challenge.bloonModifiers.regrowRateMultiplier !== 1
-		)
-			description.push(
-				`<:_:${
-					challenge.bloonModifiers.regrowRateMultiplier < 1
-						? '947460169372143686'
-						: '947460169699307520'
-				}> Regrow rate: ${Math.round(challenge.bloonModifiers.regrowRateMultiplier * 100)}%`
-			);
-
-		if (
-			challenge.abilityCooldownReductionMultiplier &&
-			challenge.abilityCooldownReductionMultiplier !== 1
-		)
-			description.push(
-				`<:_:${
-					challenge.abilityCooldownReductionMultiplier < 1
-						? '947462092661862420'
-						: '947462070721454160'
-				}> Ability cooldown: ${Math.round(challenge.abilityCooldownReductionMultiplier * 100)}%`
-			);
-
-		if (challenge.removeableCostMultiplier === 0)
-			description.push(`<:_:947462619835535451> Free removal`);
-		else if (challenge.removeableCostMultiplier === 12)
-			description.push(`<:_:947462621060280330> Removal disabled`);
-		else if (challenge.removeableCostMultiplier && challenge.removeableCostMultiplier !== 1)
-			description.push(
-				`<:_:${
-					challenge.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
-				}> Removal cost: ${Math.round(challenge.removeableCostMultiplier * 100)}%`
-			);
-
-		if (challenge.leastCashUsed && challenge.leastCashUsed > -1)
-			description.push(`<:_:964440130221928498> Cash limit: $${challenge.leastCashUsed}`);
-
-		if (challenge.leastTiersUsed && challenge.leastTiersUsed > -1)
-			description.push(`<:_:964440130481963048> Tier limit: ${challenge.leastTiersUsed}`);
-
-		if (challenge.maxTowers !== -1)
-			description.push(`<:_:948162885694148608> Max towers: ${challenge.maxTowers}`);
-
-		embed.description = description.join('\n');
-
-		const startRules = { ...challenge.startRules };
-
-		if (startRules.lives === -1) {
-			if (challenge.difficulty === 'Easy') startRules.lives = 200;
-			if (challenge.difficulty === 'Medium') startRules.lives = 150;
-			if (challenge.difficulty === 'Hard') startRules.lives = 50;
-			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.lives = 1;
-		}
-
-		if (startRules.maxLives === -1) {
-			startRules.maxLives = 5000;
-
-			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.maxLives = 1;
-		}
-
-		if (startRules.cash === -1) {
-			startRules.cash = 650;
-
-			if (challenge.mode === 'Deflation') startRules.cash = 20000;
-		}
-
-		if (startRules.round === -1) {
-			startRules.round = 1;
-
-			if (challenge.difficulty === 'Hard') startRules.round = 3;
-			if (challenge.mode === 'Deflation') startRules.round = 31;
-			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.round = 6;
-		}
-
-		if (startRules.endRound === -1) {
-			if (challenge.difficulty === 'Easy') startRules.endRound = 40;
-			if (challenge.difficulty === 'Medium') startRules.endRound = 60;
-			if (challenge.difficulty === 'Hard') startRules.endRound = 80;
-			if (challenge.mode === 'Deflation') startRules.round = 60;
-			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.endRound = 100;
-		}
-
-		embed.fields = [
-			{
-				name: 'Lives',
-				value: `${startRules.lives}/${startRules.maxLives}`,
-				inline: true,
-			},
-			{
-				name: 'Cash',
-				value: `$${startRules.cash}`,
-				inline: true,
-			},
-			{
-				name: 'Round(s)',
-				value: `${startRules.round}-${startRules.endRound}`,
-				inline: true,
-			},
-		];
-
-		getTowers(challenge.towers).forEach(
-			([category, towers]) =>
-				towers &&
-				embed.fields?.push({
-					name: category,
-					value: towers,
-				})
-		);
+		const embed = generateEmbed(challenge, code);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
@@ -238,6 +68,186 @@ const command: SlashCommand = [
 		};
 	},
 ];
+
+export const generateEmbed = (
+	challenge: BloonsChallengeData,
+	identifier: string,
+	type?: 'Daily' | 'Advanced'
+): APIEmbed => {
+	if (challenge.map === 'Tutorial') challenge.map = 'MonkeyMeadow';
+	if (challenge.map === 'Town Centre') challenge.map = 'TownCenter';
+	if (challenge.mode === 'Clicks') challenge.mode = 'Chimps';
+
+	const embed: APIEmbed = {
+		color: 13296619,
+		title: challenge.name,
+		url: !type ? `https://join.btd6.com/Challenge/${identifier}` : undefined,
+		thumbnail: { url: `https://i.gyazo.com/${gamemodeIcons[challenge.mode]}.png` },
+		author: {
+			name: type ? `${type} challenge #${identifier}` : identifier,
+			icon_url: `https://i.gyazo.com/${difficultyIcons[challenge.difficulty]}.png`,
+		},
+	};
+
+	const description: string[] = [];
+
+	description.push(
+		`${spacePascalCase(challenge.map)} - ${challenge.difficulty} - ${spacePascalCase(
+			challenge.mode
+		)}\n`
+	);
+
+	if (challenge.disableSelling) description.push('<:_:947206526018387999> Selling disabled');
+	if (challenge.disableMK) description.push('<:_:947206527721291786> Knowledge disabled');
+	if (challenge.bloonModifiers.allCamo) description.push('<:_:947206526765002843> All camo');
+	if (challenge.bloonModifiers.allRegen) description.push('<:_:947206530162376804> All regrow ');
+
+	if (challenge.bloonModifiers.speedMultiplier !== 1)
+		description.push(
+			`<:_:${
+				challenge.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
+			}> Bloon speed: ${Math.round(challenge.bloonModifiers.speedMultiplier * 100)}%`
+		);
+
+	if (challenge.bloonModifiers.moabSpeedMultiplier !== 1)
+		description.push(
+			`<:_:${
+				challenge.bloonModifiers.moabSpeedMultiplier < 1
+					? '947454215587000340'
+					: '947454219907125258'
+			}> Moab speed: ${Math.round(challenge.bloonModifiers.moabSpeedMultiplier * 100)}%`
+		);
+
+	if (challenge.bloonModifiers.healthMultipliers.bloons !== 1)
+		description.push(
+			`<:_:${
+				challenge.bloonModifiers.healthMultipliers.bloons < 1
+					? '947456989150199859'
+					: '947456989208932382'
+			}> Ceramic health: ${Math.round(challenge.bloonModifiers.healthMultipliers.bloons * 100)}%`
+		);
+
+	if (challenge.bloonModifiers.healthMultipliers.moabs !== 1)
+		description.push(
+			`<:_:${
+				challenge.bloonModifiers.healthMultipliers.moabs < 1
+					? '947459371154178098'
+					: '947459368473989130'
+			}> Moab health: ${Math.round(challenge.bloonModifiers.healthMultipliers.moabs * 100)}%`
+		);
+
+	if (
+		challenge.bloonModifiers.regrowRateMultiplier &&
+		challenge.bloonModifiers.regrowRateMultiplier !== 1
+	)
+		description.push(
+			`<:_:${
+				challenge.bloonModifiers.regrowRateMultiplier < 1
+					? '947460169372143686'
+					: '947460169699307520'
+			}> Regrow rate: ${Math.round(challenge.bloonModifiers.regrowRateMultiplier * 100)}%`
+		);
+
+	if (
+		challenge.abilityCooldownReductionMultiplier &&
+		challenge.abilityCooldownReductionMultiplier !== 1
+	)
+		description.push(
+			`<:_:${
+				challenge.abilityCooldownReductionMultiplier < 1
+					? '947462092661862420'
+					: '947462070721454160'
+			}> Ability cooldown: ${Math.round(challenge.abilityCooldownReductionMultiplier * 100)}%`
+		);
+
+	if (challenge.removeableCostMultiplier === 0)
+		description.push(`<:_:947462619835535451> Free removal`);
+	else if (challenge.removeableCostMultiplier === 12)
+		description.push(`<:_:947462621060280330> Removal disabled`);
+	else if (challenge.removeableCostMultiplier && challenge.removeableCostMultiplier !== 1)
+		description.push(
+			`<:_:${
+				challenge.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
+			}> Removal cost: ${Math.round(challenge.removeableCostMultiplier * 100)}%`
+		);
+
+	if (challenge.leastCashUsed && challenge.leastCashUsed > -1)
+		description.push(`<:_:964440130221928498> Cash limit: $${challenge.leastCashUsed}`);
+
+	if (challenge.leastTiersUsed && challenge.leastTiersUsed > -1)
+		description.push(`<:_:964440130481963048> Tier limit: ${challenge.leastTiersUsed}`);
+
+	if (challenge.maxTowers !== -1)
+		description.push(`<:_:948162885694148608> Max towers: ${challenge.maxTowers}`);
+
+	embed.description = description.join('\n');
+
+	const startRules = { ...challenge.startRules };
+
+	if (startRules.lives === -1) {
+		if (challenge.difficulty === 'Easy') startRules.lives = 200;
+		if (challenge.difficulty === 'Medium') startRules.lives = 150;
+		if (challenge.difficulty === 'Hard') startRules.lives = 50;
+		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.lives = 1;
+	}
+
+	if (startRules.maxLives === -1) {
+		startRules.maxLives = 5000;
+
+		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.maxLives = 1;
+	}
+
+	if (startRules.cash === -1) {
+		startRules.cash = 650;
+
+		if (challenge.mode === 'Deflation') startRules.cash = 20000;
+	}
+
+	if (startRules.round === -1) {
+		startRules.round = 1;
+
+		if (challenge.difficulty === 'Hard') startRules.round = 3;
+		if (challenge.mode === 'Deflation') startRules.round = 31;
+		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.round = 6;
+	}
+
+	if (startRules.endRound === -1) {
+		if (challenge.difficulty === 'Easy') startRules.endRound = 40;
+		if (challenge.difficulty === 'Medium') startRules.endRound = 60;
+		if (challenge.difficulty === 'Hard') startRules.endRound = 80;
+		if (challenge.mode === 'Deflation') startRules.round = 60;
+		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.endRound = 100;
+	}
+
+	embed.fields = [
+		{
+			name: 'Lives',
+			value: `${startRules.lives}/${startRules.maxLives}`,
+			inline: true,
+		},
+		{
+			name: 'Cash',
+			value: `$${startRules.cash}`,
+			inline: true,
+		},
+		{
+			name: 'Round(s)',
+			value: `${startRules.round}-${startRules.endRound}`,
+			inline: true,
+		},
+	];
+
+	getTowers(challenge.towers).forEach(
+		([category, towers]) =>
+			towers &&
+			embed.fields?.push({
+				name: category,
+				value: towers,
+			})
+	);
+
+	return embed;
+};
 
 const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').trim();
 
