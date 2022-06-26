@@ -8,12 +8,12 @@ import {
 const command: [ApplicationCommand, InteractionHandler] = [
 	{
 		name: 'invite',
-		description: 'Invite the bot to your server',
+		description: 'Add the application to your server',
 	},
 	async (): Promise<InteractionResponse> => {
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: { content: `Invite me to a server by clicking [here](${INVITE_URL}).` },
+			data: { content: `Add me to a server by clicking [here](${INVITE_URL}).` },
 		};
 	},
 ];
