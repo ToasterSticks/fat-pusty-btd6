@@ -1,17 +1,17 @@
 import {
-	ApplicationCommand,
-	InteractionHandler,
-	Interaction,
-	InteractionResponse,
+	APIChatInputApplicationCommandGuildInteraction,
+	APIInteractionResponse,
 	InteractionResponseType,
-} from 'cloudflare-discord-bot';
+} from 'discord-api-types/v10';
 
-const command: [ApplicationCommand, InteractionHandler] = [
+import { SlashCommand } from '../types';
+
+const command: SlashCommand = [
 	{
 		name: 'ping',
 		description: 'Reply with pong',
 	},
-	async (interaction: Interaction): Promise<InteractionResponse> => {
+	(interaction: APIChatInputApplicationCommandGuildInteraction): APIInteractionResponse => {
 		const userID = interaction.member.user.id;
 
 		return {
@@ -19,7 +19,6 @@ const command: [ApplicationCommand, InteractionHandler] = [
 			data: {
 				content: `Pong! <@${userID}>!`,
 				allowed_mentions: { users: [userID] },
-				// @ts-expect-error ephemeral
 				flags: 1 << 6,
 			},
 		};

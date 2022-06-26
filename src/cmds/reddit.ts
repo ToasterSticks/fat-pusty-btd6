@@ -1,16 +1,13 @@
-import {
-	ApplicationCommand,
-	InteractionHandler,
-	InteractionResponse,
-	InteractionResponseType,
-} from 'cloudflare-discord-bot';
+import { APIInteractionResponse, InteractionResponseType } from 'discord-api-types/v10';
 
-const command: [ApplicationCommand, InteractionHandler] = [
+import { SlashCommand } from '../types';
+
+const command: SlashCommand = [
 	{
 		name: 'reddit',
 		description: 'Fetch the hottest BTD6 posts',
 	},
-	async (): Promise<InteractionResponse> => {
+	async (): Promise<APIInteractionResponse> => {
 		const { data } = await fetch(`https://www.reddit.com/r/btd6/hot.json`)
 			.then((res) => res.json() as Promise<RedditResponse>)
 			.catch(() => ({ data: null }));
@@ -20,7 +17,6 @@ const command: [ApplicationCommand, InteractionHandler] = [
 				type: InteractionResponseType.ChannelMessageWithSource,
 				data: {
 					content: 'There was an error while fetching posts for this subreddit.',
-					// @ts-expect-error ephemeral
 					flags: 1 << 6,
 				},
 			};

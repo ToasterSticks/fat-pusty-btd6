@@ -1,8 +1,21 @@
+import {
+	APIChatInputApplicationCommandGuildInteraction,
+	APIInteractionResponse,
+	RESTPostAPIChatInputApplicationCommandsJSONBody,
+} from 'discord-api-types/v10';
+
 declare global {
 	const CLIENT_ID: string;
 	const CLIENT_SECRET: string;
 	const PUBLIC_KEY: string;
 }
+
+export type SlashCommand = [
+	RESTPostAPIChatInputApplicationCommandsJSONBody,
+	(
+		interaction: APIChatInputApplicationCommandGuildInteraction
+	) => Promise<APIInteractionResponse> | APIInteractionResponse
+];
 
 export interface BloonsChallengeData {
 	towers: Tower[];

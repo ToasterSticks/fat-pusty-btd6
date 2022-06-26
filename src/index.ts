@@ -6,8 +6,8 @@ const applicationCommandHandler = createApplicationCommandHandler({
 	applicationId: CLIENT_ID,
 	applicationSecret: CLIENT_SECRET,
 	publicKey: PUBLIC_KEY,
-	// guildId: '826591380716388353',
 	permissions: new Permissions([]),
+	// @ts-expect-error Using Discord-API-Types v10
 	commands,
 });
 

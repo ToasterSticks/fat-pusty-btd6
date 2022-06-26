@@ -1,16 +1,13 @@
-import {
-	ApplicationCommand,
-	InteractionHandler,
-	InteractionResponse,
-	InteractionResponseType,
-} from 'cloudflare-discord-bot';
+import { APIInteractionResponse, InteractionResponseType } from 'discord-api-types/v10';
 
-const command: [ApplicationCommand, InteractionHandler] = [
+import { SlashCommand } from '../types';
+
+const command: SlashCommand = [
 	{
 		name: 'invite',
 		description: 'Add the application to your server',
 	},
-	async (): Promise<InteractionResponse> => {
+	(): APIInteractionResponse => {
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: { content: `Add me to a server by clicking [here](${INVITE_URL}).` },

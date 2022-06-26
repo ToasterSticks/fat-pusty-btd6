@@ -1,16 +1,15 @@
 import pako from 'pako';
 import {
-	ApplicationCommand,
-	InteractionHandler,
-	Interaction,
-	InteractionResponse,
-	InteractionResponseType,
+	APIChatInputApplicationCommandGuildInteraction,
+	APIEmbed,
+	APIInteractionResponse,
 	ApplicationCommandOptionType,
-	Embed,
-} from 'cloudflare-discord-bot';
-import { BloonsChallengeData, Tower } from '../types';
+	InteractionResponseType,
+} from 'discord-api-types/v10';
 
-const command: [ApplicationCommand, InteractionHandler] = [
+import { BloonsChallengeData, SlashCommand, Tower } from '../types';
+
+const command: SlashCommand = [
 	{
 		name: 'challenge',
 		description: "Display a BTD6 challenge's details",
@@ -18,13 +17,20 @@ const command: [ApplicationCommand, InteractionHandler] = [
 			{
 				name: 'code',
 				description: 'The challenge code',
-				type: ApplicationCommandOptionType.STRING,
+				type: ApplicationCommandOptionType.String,
 				required: true,
 			},
 		],
 	},
-	async (interaction: Interaction): Promise<InteractionResponse> => {
-		const code = (interaction.data?.options?.[0].value as unknown as string).toUpperCase();
+	async (
+		interaction: APIChatInputApplicationCommandGuildInteraction
+	): Promise<APIInteractionResponse> => {
+		const code = (
+			interaction.data.options?.[0].type === ApplicationCommandOptionType.String
+				? interaction.data.options?.[0].value
+				: ''
+		).toUpperCase();
+
 		const b64Str = await fetch(
 			`https://static-api.nkstatic.com/appdocs/11/es/challenges/${code}`
 		).then((res) => res.text());
@@ -45,7 +51,6 @@ const command: [ApplicationCommand, InteractionHandler] = [
 				type: InteractionResponseType.ChannelMessageWithSource,
 				data: {
 					content: 'The provided challenge code is invalid.',
-					// @ts-expect-error ephemeral
 					flags: 1 << 6,
 				},
 			};
@@ -57,7 +62,7 @@ const command: [ApplicationCommand, InteractionHandler] = [
 		if (data.map === 'Town Centre') data.map = 'TownCenter';
 		if (data.mode === 'Clicks') data.mode = 'Chimps';
 
-		const embed: Embed = {
+		const embed: APIEmbed = {
 			color: 13296619,
 			title: data.name,
 			url: `https://join.btd6.com/Challenge/${code}`,
