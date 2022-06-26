@@ -5,6 +5,7 @@ import {
 	APIInteractionResponse,
 	ApplicationCommandOptionType,
 	InteractionResponseType,
+	MessageFlags,
 } from 'discord-api-types/v10';
 
 import { BloonsChallengeData, SlashCommand, Tower } from '../types';
@@ -22,13 +23,11 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async (
-		interaction: APIChatInputApplicationCommandGuildInteraction
-	): Promise<APIInteractionResponse> => {
+	async ({
+		data,
+	}: APIChatInputApplicationCommandGuildInteraction): Promise<APIInteractionResponse> => {
 		const code = (
-			interaction.data.options?.[0].type === ApplicationCommandOptionType.String
-				? interaction.data.options?.[0].value
-				: ''
+			data.options?.[0].type === ApplicationCommandOptionType.String ? data.options[0].value : ''
 		).toUpperCase();
 
 		const b64Str = await fetch(
@@ -51,142 +50,156 @@ const command: SlashCommand = [
 				type: InteractionResponseType.ChannelMessageWithSource,
 				data: {
 					content: 'The provided challenge code is invalid.',
-					flags: 1 << 6,
+					flags: MessageFlags.Ephemeral,
 				},
 			};
 		}
 
-		const data: BloonsChallengeData = JSON.parse(decompressed);
+		const challenge: BloonsChallengeData = JSON.parse(decompressed);
 
-		if (data.map === 'Tutorial') data.map = 'MonkeyMeadow';
-		if (data.map === 'Town Centre') data.map = 'TownCenter';
-		if (data.mode === 'Clicks') data.mode = 'Chimps';
+		if (challenge.map === 'Tutorial') challenge.map = 'MonkeyMeadow';
+		if (challenge.map === 'Town Centre') challenge.map = 'TownCenter';
+		if (challenge.mode === 'Clicks') challenge.mode = 'Chimps';
 
 		const embed: APIEmbed = {
 			color: 13296619,
-			title: data.name,
+			title: challenge.name,
 			url: `https://join.btd6.com/Challenge/${code}`,
-			thumbnail: { url: `https://i.gyazo.com/${gamemodeIcons[data.mode]}.png` },
+			thumbnail: { url: `https://i.gyazo.com/${gamemodeIcons[challenge.mode]}.png` },
 			author: {
 				name: code,
-				icon_url: `https://i.gyazo.com/${difficultyIcons[data.difficulty]}.png`,
+				icon_url: `https://i.gyazo.com/${difficultyIcons[challenge.difficulty]}.png`,
 			},
 		};
 
 		const description: string[] = [];
 
 		description.push(
-			`${spacePascalCase(data.map)} - ${data.difficulty} - ${spacePascalCase(data.mode)}\n`
+			`${spacePascalCase(challenge.map)} - ${challenge.difficulty} - ${spacePascalCase(
+				challenge.mode
+			)}\n`
 		);
 
-		if (data.disableSelling) description.push('<:_:947206526018387999> Selling disabled');
-		if (data.disableMK) description.push('<:_:947206527721291786> Knowledge disabled');
-		if (data.bloonModifiers.allCamo) description.push('<:_:947206526765002843> All camo');
-		if (data.bloonModifiers.allRegen) description.push('<:_:947206530162376804> All regrow ');
+		if (challenge.disableSelling) description.push('<:_:947206526018387999> Selling disabled');
+		if (challenge.disableMK) description.push('<:_:947206527721291786> Knowledge disabled');
+		if (challenge.bloonModifiers.allCamo) description.push('<:_:947206526765002843> All camo');
+		if (challenge.bloonModifiers.allRegen) description.push('<:_:947206530162376804> All regrow ');
 
-		if (data.bloonModifiers.speedMultiplier !== 1)
+		if (challenge.bloonModifiers.speedMultiplier !== 1)
 			description.push(
 				`<:_:${
-					data.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
-				}> Bloon speed: ${Math.round(data.bloonModifiers.speedMultiplier * 100)}%`
+					challenge.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
+				}> Bloon speed: ${Math.round(challenge.bloonModifiers.speedMultiplier * 100)}%`
 			);
 
-		if (data.bloonModifiers.moabSpeedMultiplier !== 1)
+		if (challenge.bloonModifiers.moabSpeedMultiplier !== 1)
 			description.push(
 				`<:_:${
-					data.bloonModifiers.moabSpeedMultiplier < 1 ? '947454215587000340' : '947454219907125258'
-				}> Moab speed: ${Math.round(data.bloonModifiers.moabSpeedMultiplier * 100)}%`
+					challenge.bloonModifiers.moabSpeedMultiplier < 1
+						? '947454215587000340'
+						: '947454219907125258'
+				}> Moab speed: ${Math.round(challenge.bloonModifiers.moabSpeedMultiplier * 100)}%`
 			);
 
-		if (data.bloonModifiers.healthMultipliers.bloons !== 1)
+		if (challenge.bloonModifiers.healthMultipliers.bloons !== 1)
 			description.push(
 				`<:_:${
-					data.bloonModifiers.healthMultipliers.bloons < 1
+					challenge.bloonModifiers.healthMultipliers.bloons < 1
 						? '947456989150199859'
 						: '947456989208932382'
-				}> Ceramic health: ${Math.round(data.bloonModifiers.healthMultipliers.bloons * 100)}%`
+				}> Ceramic health: ${Math.round(challenge.bloonModifiers.healthMultipliers.bloons * 100)}%`
 			);
 
-		if (data.bloonModifiers.healthMultipliers.moabs !== 1)
+		if (challenge.bloonModifiers.healthMultipliers.moabs !== 1)
 			description.push(
 				`<:_:${
-					data.bloonModifiers.healthMultipliers.moabs < 1
+					challenge.bloonModifiers.healthMultipliers.moabs < 1
 						? '947459371154178098'
 						: '947459368473989130'
-				}> Moab health: ${Math.round(data.bloonModifiers.healthMultipliers.moabs * 100)}%`
+				}> Moab health: ${Math.round(challenge.bloonModifiers.healthMultipliers.moabs * 100)}%`
 			);
 
-		if (data.bloonModifiers.regrowRateMultiplier && data.bloonModifiers.regrowRateMultiplier !== 1)
+		if (
+			challenge.bloonModifiers.regrowRateMultiplier &&
+			challenge.bloonModifiers.regrowRateMultiplier !== 1
+		)
 			description.push(
 				`<:_:${
-					data.bloonModifiers.regrowRateMultiplier < 1 ? '947460169372143686' : '947460169699307520'
-				}> Regrow rate: ${Math.round(data.bloonModifiers.regrowRateMultiplier * 100)}%`
+					challenge.bloonModifiers.regrowRateMultiplier < 1
+						? '947460169372143686'
+						: '947460169699307520'
+				}> Regrow rate: ${Math.round(challenge.bloonModifiers.regrowRateMultiplier * 100)}%`
 			);
 
-		if (data.abilityCooldownReductionMultiplier && data.abilityCooldownReductionMultiplier !== 1)
+		if (
+			challenge.abilityCooldownReductionMultiplier &&
+			challenge.abilityCooldownReductionMultiplier !== 1
+		)
 			description.push(
 				`<:_:${
-					data.abilityCooldownReductionMultiplier < 1 ? '947462092661862420' : '947462070721454160'
-				}> Ability cooldown: ${Math.round(data.abilityCooldownReductionMultiplier * 100)}%`
+					challenge.abilityCooldownReductionMultiplier < 1
+						? '947462092661862420'
+						: '947462070721454160'
+				}> Ability cooldown: ${Math.round(challenge.abilityCooldownReductionMultiplier * 100)}%`
 			);
 
-		if (data.removeableCostMultiplier === 0)
+		if (challenge.removeableCostMultiplier === 0)
 			description.push(`<:_:947462619835535451> Free removal`);
-		else if (data.removeableCostMultiplier === 12)
+		else if (challenge.removeableCostMultiplier === 12)
 			description.push(`<:_:947462621060280330> Removal disabled`);
-		else if (data.removeableCostMultiplier && data.removeableCostMultiplier !== 1)
+		else if (challenge.removeableCostMultiplier && challenge.removeableCostMultiplier !== 1)
 			description.push(
 				`<:_:${
-					data.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
-				}> Removal cost: ${Math.round(data.removeableCostMultiplier * 100)}%`
+					challenge.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
+				}> Removal cost: ${Math.round(challenge.removeableCostMultiplier * 100)}%`
 			);
 
-		if (data.leastCashUsed && data.leastCashUsed > -1)
-			description.push(`<:_:964440130221928498> Cash limit: $${data.leastCashUsed}`);
+		if (challenge.leastCashUsed && challenge.leastCashUsed > -1)
+			description.push(`<:_:964440130221928498> Cash limit: $${challenge.leastCashUsed}`);
 
-		if (data.leastTiersUsed && data.leastTiersUsed > -1)
-			description.push(`<:_:964440130481963048> Tier limit: ${data.leastTiersUsed}`);
+		if (challenge.leastTiersUsed && challenge.leastTiersUsed > -1)
+			description.push(`<:_:964440130481963048> Tier limit: ${challenge.leastTiersUsed}`);
 
-		if (data.maxTowers !== -1)
-			description.push(`<:_:948162885694148608> Max towers: ${data.maxTowers}`);
+		if (challenge.maxTowers !== -1)
+			description.push(`<:_:948162885694148608> Max towers: ${challenge.maxTowers}`);
 
 		embed.description = description.join('\n');
 
-		const startRules = { ...data.startRules };
+		const startRules = { ...challenge.startRules };
 
 		if (startRules.lives === -1) {
-			if (data.difficulty === 'Easy') startRules.lives = 200;
-			if (data.difficulty === 'Medium') startRules.lives = 150;
-			if (data.difficulty === 'Hard') startRules.lives = 50;
-			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.lives = 1;
+			if (challenge.difficulty === 'Easy') startRules.lives = 200;
+			if (challenge.difficulty === 'Medium') startRules.lives = 150;
+			if (challenge.difficulty === 'Hard') startRules.lives = 50;
+			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.lives = 1;
 		}
 
 		if (startRules.maxLives === -1) {
 			startRules.maxLives = 5000;
 
-			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.maxLives = 1;
+			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.maxLives = 1;
 		}
 
 		if (startRules.cash === -1) {
 			startRules.cash = 650;
 
-			if (data.mode === 'Deflation') startRules.cash = 20000;
+			if (challenge.mode === 'Deflation') startRules.cash = 20000;
 		}
 
 		if (startRules.round === -1) {
 			startRules.round = 1;
 
-			if (data.difficulty === 'Hard') startRules.round = 3;
-			if (data.mode === 'Deflation') startRules.round = 31;
-			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.round = 6;
+			if (challenge.difficulty === 'Hard') startRules.round = 3;
+			if (challenge.mode === 'Deflation') startRules.round = 31;
+			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.round = 6;
 		}
 
 		if (startRules.endRound === -1) {
-			if (data.difficulty === 'Easy') startRules.endRound = 40;
-			if (data.difficulty === 'Medium') startRules.endRound = 60;
-			if (data.difficulty === 'Hard') startRules.endRound = 80;
-			if (data.mode === 'Deflation') startRules.round = 60;
-			if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.endRound = 100;
+			if (challenge.difficulty === 'Easy') startRules.endRound = 40;
+			if (challenge.difficulty === 'Medium') startRules.endRound = 60;
+			if (challenge.difficulty === 'Hard') startRules.endRound = 80;
+			if (challenge.mode === 'Deflation') startRules.round = 60;
+			if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.endRound = 100;
 		}
 
 		embed.fields = [
@@ -207,7 +220,7 @@ const command: SlashCommand = [
 			},
 		];
 
-		getTowers(data.towers).forEach(
+		getTowers(challenge.towers).forEach(
 			([category, towers]) =>
 				towers &&
 				embed.fields?.push({

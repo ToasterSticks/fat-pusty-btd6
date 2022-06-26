@@ -2,6 +2,7 @@ import {
 	APIChatInputApplicationCommandGuildInteraction,
 	APIInteractionResponse,
 	InteractionResponseType,
+	MessageFlags,
 } from 'discord-api-types/v10';
 
 import { SlashCommand } from '../types';
@@ -11,15 +12,15 @@ const command: SlashCommand = [
 		name: 'ping',
 		description: 'Reply with pong',
 	},
-	(interaction: APIChatInputApplicationCommandGuildInteraction): APIInteractionResponse => {
-		const userID = interaction.member.user.id;
+	({ member }: APIChatInputApplicationCommandGuildInteraction): APIInteractionResponse => {
+		const userID = member.user.id;
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
 				content: `Pong! <@${userID}>!`,
 				allowed_mentions: { users: [userID] },
-				flags: 1 << 6,
+				flags: MessageFlags.Ephemeral,
 			},
 		};
 	},

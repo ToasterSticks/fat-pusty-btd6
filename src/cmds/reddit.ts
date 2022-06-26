@@ -1,4 +1,8 @@
-import { APIInteractionResponse, InteractionResponseType } from 'discord-api-types/v10';
+import {
+	APIInteractionResponse,
+	InteractionResponseType,
+	MessageFlags,
+} from 'discord-api-types/v10';
 
 import { SlashCommand } from '../types';
 
@@ -17,7 +21,7 @@ const command: SlashCommand = [
 				type: InteractionResponseType.ChannelMessageWithSource,
 				data: {
 					content: 'There was an error while fetching posts for this subreddit.',
-					flags: 1 << 6,
+					flags: MessageFlags.Ephemeral,
 				},
 			};
 
