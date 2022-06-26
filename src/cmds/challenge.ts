@@ -202,22 +202,15 @@ const command: [ApplicationCommand, InteractionHandler] = [
 				value: `${startRules.round}-${startRules.endRound}`,
 				inline: true,
 			},
-			{
-				name: 'Hero',
-				value: `${spacePascalCase(
-					data.towers
-						.filter((t) => t.isHero && t.max)
-						.map((t) => t.tower)
-						.join(', ') || 'None'
-				)}`,
-			},
 		];
 
-		getTowers(data.towers).forEach(([category, towers]) =>
-			embed.fields?.push({
-				name: category,
-				value: towers || 'None',
-			})
+		getTowers(data.towers).forEach(
+			([category, towers]) =>
+				towers &&
+				embed.fields?.push({
+					name: category,
+					value: towers,
+				})
 		);
 
 		return {
@@ -298,6 +291,15 @@ const getTowers = (towers: Tower[]) => {
 	);
 
 	return [
+		[
+			'Hero(s)',
+			spacePascalCase(
+				towers
+					.filter((t) => t.isHero)
+					.map((t) => t.tower)
+					.join(', ')
+			),
+		],
 		['Primary', primary.map(stringifyCrosspath).join(', ')],
 		['Military', military.map(stringifyCrosspath).join(', ')],
 		['Magic', magic.map(stringifyCrosspath).join(', ')],
