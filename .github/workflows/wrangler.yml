@@ -11,10 +11,11 @@ jobs:
     name: Deploy
     steps:
       - name: Retrieve date
-        run: echo ::set-env name=CURRENT_DATE::$(date '+%Y-%m-%d')
+        run: echo ::set-output name=CURRENT_DATE::$(date '+%Y-%m-%d')
+        id: date
       - uses: actions/checkout@v3
       - name: Publish
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          command: publish --compatibility-date ${{ env.CURRENT_DATE }}
+          command: publish --compatibility-date ${{ steps.date.outputs.CURRENT_DATE }}
