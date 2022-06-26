@@ -2,10 +2,6 @@ import { createApplicationCommandHandler, Permissions } from 'cloudflare-discord
 
 import commands from './cmds';
 
-declare const CLIENT_ID: string;
-declare const CLIENT_SECRET: string;
-declare const PUBLIC_KEY: string;
-
 const applicationCommandHandler = createApplicationCommandHandler({
 	applicationId: CLIENT_ID,
 	applicationSecret: CLIENT_SECRET,

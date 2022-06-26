@@ -44,7 +44,7 @@ const command: [ApplicationCommand, InteractionHandler] = [
 			return {
 				type: InteractionResponseType.ChannelMessageWithSource,
 				data: {
-					content: 'The challenge code you have provided is invalid.',
+					content: 'The provided challenge code is invalid.',
 					// @ts-expect-error ephemeral
 					flags: 1 << 6,
 				},

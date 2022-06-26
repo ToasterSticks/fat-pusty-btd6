@@ -1,7 +1,5 @@
 import {
 	ApplicationCommand,
-	ApplicationCommandOptionType,
-	Interaction,
 	InteractionHandler,
 	InteractionResponse,
 	InteractionResponseType,
@@ -11,18 +9,9 @@ const command: [ApplicationCommand, InteractionHandler] = [
 	{
 		name: 'reddit',
 		description: 'Fetch the hottest BTD6 posts',
-		options: [
-			{
-				name: 'subreddit',
-				description: 'The subreddit to fetch posts from',
-				type: ApplicationCommandOptionType.STRING,
-			},
-		],
 	},
-	async (interaction: Interaction): Promise<InteractionResponse> => {
-		const { data } = await fetch(
-			`https://www.reddit.com/r/${interaction.data?.options?.[0].value ?? 'btd6'}/hot.json`
-		)
+	async (): Promise<InteractionResponse> => {
+		const { data } = await fetch(`https://www.reddit.com/r/btd6/hot.json`)
 			.then((res) => res.json() as Promise<RedditResponse>)
 			.catch(() => ({ data: null }));
 
