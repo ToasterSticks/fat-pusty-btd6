@@ -129,11 +129,9 @@ const command: [ApplicationCommand, InteractionHandler] = [
 
 		if (data.removeableCostMultiplier === 0)
 			description.push(`<:_:947462619835535451> Free removal`);
-
-		if (data.removeableCostMultiplier === 12)
+		else if (data.removeableCostMultiplier === 12)
 			description.push(`<:_:947462621060280330> Removal disabled`);
-
-		if (data.removeableCostMultiplier)
+		else if (data.removeableCostMultiplier && data.removeableCostMultiplier !== 1)
 			description.push(
 				`<:_:${
 					data.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
@@ -239,11 +237,9 @@ const getTowers = (towers: Tower[]) => {
 
 	towers.forEach((tower) => {
 		tower.tower = tower.tower
-			.replaceAll('Monkey', '')
-			.replaceAll('Shooter', '')
-			.replaceAll('Gunner', '');
-
-		tower.tower = tower.tower.replace(/([a-z])([A-Z])/g, '$1 $2');
+			.replace(/Monkey|Shooter|Pilot|Gunner/g, '')
+			.replace(/([a-z])([A-Z])/g, '$1 $2')
+			.trim();
 
 		tower.path1NumBlockedTiers = 5 - tower.path1NumBlockedTiers;
 		tower.path2NumBlockedTiers = 5 - tower.path2NumBlockedTiers;
