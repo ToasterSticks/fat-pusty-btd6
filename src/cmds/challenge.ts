@@ -354,11 +354,14 @@ const getTowers = (towers: Tower[]) => {
 	];
 };
 
-const stringifyCrosspath = (
-	{ tower, max, path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers }: Tower,
-	index: number
-) =>
-	`${max > 0 ? `${max}x ` : ''}**${index ? tower.toLowerCase() : tower}**${
+const stringifyCrosspath = ({
+	tower,
+	max,
+	path1NumBlockedTiers,
+	path2NumBlockedTiers,
+	path3NumBlockedTiers,
+}: Tower) =>
+	`${max > 0 ? `*${max}x* ` : ''}${tower.toLowerCase()}${
 		[path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers].some((count) => count !== 5)
 			? ` (${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers})`
 			: ''
