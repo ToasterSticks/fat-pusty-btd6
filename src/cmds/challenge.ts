@@ -340,17 +340,12 @@ const getTowers = (towers: Tower[]) => {
 		['Farm', 'Spactory', 'Village', 'Engineer'].includes(tower)
 	);
 
-	const heroes = towers.filter((t) => t.isHero);
+	const heroes = towers.filter((tower) => tower.isHero);
 
 	return [
 		[
 			`Hero${heroes.length !== 1 ? 'es' : ''}`,
-			spacePascalCase(
-				heroes
-					.map((t) => t.tower)
-					.sort((a, b) => a.localeCompare(b))
-					.join(', ')
-			),
+			spacePascalCase(heroes.map((t) => t.tower).join(', ')),
 		],
 		['Primary', primary.map(stringifyCrosspath).join(', ')],
 		['Military', military.map(stringifyCrosspath).join(', ')],
