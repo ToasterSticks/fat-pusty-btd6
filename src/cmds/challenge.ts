@@ -1,8 +1,6 @@
 import { inflate } from 'pako';
 import {
-	APIChatInputApplicationCommandGuildInteraction,
 	APIEmbed,
-	APIInteractionResponse,
 	ApplicationCommandOptionType,
 	InteractionResponseType,
 	MessageFlags,
@@ -23,9 +21,7 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({
-		data,
-	}: APIChatInputApplicationCommandGuildInteraction): Promise<APIInteractionResponse> => {
+	async ({ data }) => {
 		const code = (
 			data.options?.[0].type === ApplicationCommandOptionType.String ? data.options[0].value : ''
 		).toUpperCase();

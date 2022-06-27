@@ -1,6 +1,5 @@
 import {
 	APIChatInputApplicationCommandGuildInteraction,
-	APIInteractionResponse,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
@@ -12,7 +11,7 @@ const command: SlashCommand = [
 		name: 'ping',
 		description: 'Reply with pong',
 	},
-	({ member }: APIChatInputApplicationCommandGuildInteraction): APIInteractionResponse => {
+	({ member }: APIChatInputApplicationCommandGuildInteraction) => {
 		const userID = member.user.id;
 
 		return {

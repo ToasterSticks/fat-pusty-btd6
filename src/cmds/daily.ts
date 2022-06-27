@@ -1,6 +1,5 @@
 import {
 	APIChatInputApplicationCommandGuildInteraction,
-	APIInteractionResponse,
 	ApplicationCommandOptionType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
@@ -20,22 +19,20 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({
-		data,
-	}: APIChatInputApplicationCommandGuildInteraction): Promise<APIInteractionResponse> => {
-		const normal_id = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24);
-		const advanced_id = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24);
-		const is_advanced =
+	async ({ data }: APIChatInputApplicationCommandGuildInteraction) => {
+		const normalId = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24);
+		const advancedId = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24);
+		const isAdvanced =
 			data.options?.[0].type === ApplicationCommandOptionType.Boolean && data.options[0].value;
-		const id = (is_advanced ? advanced_id : normal_id).toString();
+		const id = (isAdvanced ? advancedId : normalId).toString();
 
 		const challenge = (await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallenges${
-				is_advanced ? 'Advanced' : ''
+				isAdvanced ? 'Advanced' : ''
 			}/${id}`
 		).then((res) => res.json())) as BloonsChallengeData;
 
-		const embed = generateEmbed(challenge, id, is_advanced ? 'Advanced' : 'Daily');
+		const embed = generateEmbed(challenge, id, isAdvanced ? 'Advanced' : 'Daily');
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

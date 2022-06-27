@@ -1,6 +1,6 @@
 import { createApplicationCommandHandler, Permissions } from 'cloudflare-discord-bot';
 
-import commands from './cmds';
+import { commands, components } from './cmds';
 
 const applicationCommandHandler = createApplicationCommandHandler({
 	applicationId: CLIENT_ID,
@@ -9,6 +9,8 @@ const applicationCommandHandler = createApplicationCommandHandler({
 	permissions: new Permissions([]),
 	// @ts-expect-error I want my types
 	commands,
+	// @ts-expect-error ---
+	components,
 });
 
 addEventListener('fetch', (event) => {

@@ -5,7 +5,7 @@ import inviteCommand from './invite';
 import dailyChallengeCommand from './daily';
 import bossCommand from './boss';
 
-export default [
+export const commands = [
 	pingCommand,
 	redditCommand,
 	challengeCommand,
@@ -13,3 +13,7 @@ export default [
 	dailyChallengeCommand,
 	bossCommand,
 ];
+
+export const components = {
+	boss: bossCommand,
+};

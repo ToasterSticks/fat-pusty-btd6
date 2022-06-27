@@ -42,6 +42,9 @@
 		"extends": [
 			"typescript",
 			"prettier"
-		]
+		],
+		"rules": {
+			"@typescript-eslint/explicit-module-boundary-types": "off"
+		}
 	}
 }
