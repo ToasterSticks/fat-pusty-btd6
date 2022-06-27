@@ -1,8 +1,4 @@
-import {
-	APIChatInputApplicationCommandGuildInteraction,
-	ApplicationCommandOptionType,
-	InteractionResponseType,
-} from 'discord-api-types/v10';
+import { ApplicationCommandOptionType, InteractionResponseType } from 'discord-api-types/v10';
 
 import { BloonsChallengeData, SlashCommand } from '../types';
 import { generateEmbed } from './challenge';
@@ -19,7 +15,7 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({ data }: APIChatInputApplicationCommandGuildInteraction) => {
+	async ({ data }) => {
 		const normalId = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24);
 		const advancedId = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24);
 		const isAdvanced =
