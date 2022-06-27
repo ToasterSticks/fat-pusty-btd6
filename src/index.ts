@@ -7,7 +7,7 @@ const applicationCommandHandler = createApplicationCommandHandler({
 	applicationSecret: CLIENT_SECRET,
 	publicKey: PUBLIC_KEY,
 	permissions: new Permissions([]),
-	// @ts-expect-error Using Discord-API-Types v10
+	// @ts-expect-error I want my types
 	commands,
 });
 

@@ -12,7 +12,7 @@
 		"test": "jest --config jestconfig.json --verbose"
 	},
 	"dependencies": {
-		"cloudflare-discord-bot": "^0.0.4",
+		"cloudflare-discord-bot": "github:ToasterSticks/cloudflare-discord-bot",
 		"common-tags": "^1.8.2",
 		"pako": "^2.0.4"
 	},
