@@ -331,7 +331,12 @@ const getTowers = (towers: Tower[]) => {
 	return [
 		[
 			`Hero${heroes.length !== 1 ? 'es' : ''}`,
-			spacePascalCase(heroes.map((t) => t.tower).join(', ')),
+			spacePascalCase(
+				heroes
+					.map((t) => t.tower)
+					.sort((a, b) => a.localeCompare(b))
+					.join(', ')
+			),
 		],
 		['Primary', primary.map(stringifyCrosspath).join(', ')],
 		['Military', military.map(stringifyCrosspath).join(', ')],
