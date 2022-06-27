@@ -81,8 +81,12 @@ export const generateEmbed = (
 	const embed: APIEmbed = {
 		color: 13296619,
 		title: challenge.name,
-		url: !type ? `https://join.btd6.com/Challenge/${id}` : undefined,
-		thumbnail: { url: `https://i.gyazo.com/${gamemodeIcons[challenge.mode]}.png` },
+		url: !type && id ? `https://join.btd6.com/Challenge/${id}` : undefined,
+		thumbnail: {
+			url: `https://i.gyazo.com/${
+				id ? gamemodeIcons[challenge.mode] : bossIcons[challenge.name]
+			}.png`,
+		},
 		author: id
 			? {
 					name: type ? `${type} challenge #${id}` : id,
@@ -221,6 +225,8 @@ export const generateEmbed = (
 		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.endRound = 100;
 	}
 
+	const isSingleRound = startRules.round === startRules.endRound;
+
 	embed.fields = [
 		{
 			name: 'Lives',
@@ -233,8 +239,10 @@ export const generateEmbed = (
 			inline: true,
 		},
 		{
-			name: 'Round(s)',
-			value: `${startRules.round}-${startRules.endRound}`,
+			name: `Round${!isSingleRound ? 's' : ''}`,
+			value: isSingleRound
+				? startRules.round.toString()
+				: `${startRules.round}-${startRules.endRound}`,
 			inline: true,
 		},
 	];
@@ -318,15 +326,12 @@ const getTowers = (towers: Tower[]) => {
 		['Farm', 'Spactory', 'Village', 'Engineer'].includes(tower)
 	);
 
+	const heroes = towers.filter((t) => t.isHero);
+
 	return [
 		[
-			'Hero(s)',
-			spacePascalCase(
-				towers
-					.filter((t) => t.isHero)
-					.map((t) => t.tower)
-					.join(', ')
-			),
+			`Hero${heroes.length !== 1 ? 'es' : ''}`,
+			spacePascalCase(heroes.map((t) => t.tower).join(', ')),
 		],
 		['Primary', primary.map(stringifyCrosspath).join(', ')],
 		['Military', military.map(stringifyCrosspath).join(', ')],
@@ -347,6 +352,15 @@ const stringifyCrosspath = ({
 			? ` (${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers})`
 			: ''
 	}`;
+
+const bossIcons: Record<string, string> = {
+	'Bloonarius Normal': 'd7c187d0b125443079d5b41e822e7214',
+	'Bloonarius Elite': '177b43d651bf8fcb5dc01c75b0a066b9',
+	'Lych Normal': '761c68a031bb5169416bed0036f56301',
+	'Lych Elite': '7e857296728f236ecba6c6f2ddd25ad7',
+	'Vortex Normal': '9baf65029709fe34eda0775436d32c6c',
+	'Vortex Elite': '4d0beb6dd632fde0e61cb7d959e0352b',
+};
 
 const gamemodeIcons: Record<string, string> = {
 	Deflation: '692f69b2239e6e7c58530d24e05e50f1',
