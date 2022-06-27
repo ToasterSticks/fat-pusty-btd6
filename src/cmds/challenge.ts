@@ -284,6 +284,20 @@ const getTowers = (towers: Tower[]) => {
 	});
 
 	const towerOrder = [
+		'Quincy',
+		'Gwendolin',
+		'StrikerJones',
+		'ObynGreenfoot',
+		'Geraldo',
+		'CaptainChurchill',
+		'Benjamin',
+		'Ezili',
+		'PatFusty',
+		'Adora',
+		'AdmiralBrickell',
+		'Etienne',
+		'Sauda',
+		'Psi',
 		'Dart',
 		'Boomerang',
 		'Bomb',
