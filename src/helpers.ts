@@ -290,10 +290,10 @@ const getTowers = (towers: Tower[]) => {
 			`Hero${heroes.length !== 1 ? 'es' : ''}`,
 			spacePascalCase(heroes.map((t) => t.tower).join(', ')),
 		],
-		['Primary', primary.map(stringifyCrosspath).join(', ')],
-		['Military', military.map(stringifyCrosspath).join(', ')],
-		['Magic', magic.map(stringifyCrosspath).join(', ')],
-		['Support', support.map(stringifyCrosspath).join(', ')],
+		['Primary', primary.map(stringifyCrosspath).join('\n')],
+		['Military', military.map(stringifyCrosspath).join('\n')],
+		['Magic', magic.map(stringifyCrosspath).join('\n')],
+		['Support', support.map(stringifyCrosspath).join('\n')],
 	];
 };
 
@@ -304,9 +304,9 @@ const stringifyCrosspath = ({
 	path2NumBlockedTiers,
 	path3NumBlockedTiers,
 }: Tower) =>
-	`${max > 0 ? `*${max}x* ` : ''}${tower.toLowerCase()}${
+	`${max > 0 ? `${max}x ` : ''}${tower.toLowerCase()}${
 		[path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers].some((count) => count !== 5)
-			? ` (${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers})`
+			? ` \`(${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers})\``
 			: ''
 	}`;
 
