@@ -25,7 +25,7 @@ const command: SlashCommand = [
 		const normalId = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24);
 		const advancedId = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24);
 		const isAdvanced = getOption(data, 'advanced') as boolean | null;
-		const id = (getOption(data, 'challenge') || isAdvanced ? advancedId : normalId).toString();
+		const id = (getOption(data, 'challenge') || (isAdvanced ? advancedId : normalId)).toString();
 
 		const challenge = (await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallenges${
