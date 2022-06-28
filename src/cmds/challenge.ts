@@ -22,7 +22,7 @@ const command: SlashCommand = [
 		],
 	},
 	async ({ data }) => {
-		const code = getOption(data, 'code') as string;
+		const code = (getOption(data, 'code') as string).toUpperCase();
 
 		const b64Str = await fetch(
 			`https://static-api.nkstatic.com/appdocs/11/es/challenges/${code}`
