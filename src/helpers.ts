@@ -304,7 +304,7 @@ const stringifyCrosspath = ({
 	path2NumBlockedTiers,
 	path3NumBlockedTiers,
 }: Tower) =>
-	`${max > 0 ? `${max}x ` : ''}${tower.toLowerCase()}${
+	`${max > 0 ? `${max}x ` : ''}${tower}${
 		[path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers].some((count) => count !== 5)
 			? ` \`(${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers})\``
 			: ''
