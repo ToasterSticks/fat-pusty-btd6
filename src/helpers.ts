@@ -280,7 +280,7 @@ const getTowers = (towers: Tower[]) => {
 	);
 
 	const support = towers.filter(({ tower }) =>
-		['Farm', 'Spactory', 'Village', 'Engineer'].includes(tower)
+		['Farm', 'SpikeFactory', 'Village', 'Engineer'].includes(tower)
 	);
 
 	const heroes = towers.filter((tower) => tower.isHero);
