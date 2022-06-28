@@ -208,10 +208,7 @@ const getTowers = (towers: Tower[]) => {
 	towers = towers.filter((tower) => tower.max !== 0);
 
 	towers.forEach((tower) => {
-		tower.tower = tower.tower
-			.replace(/Monkey|Shooter|Pilot|Gunner|Banana/g, '')
-			.replace(/([a-z])([A-Z])/g, '$1 $2')
-			.trim();
+		tower.tower = spacePascalCase(tower.tower.replace(/Monkey|Shooter|Pilot|Gunner|Banana/g, ''));
 
 		tower.path1NumBlockedTiers = 5 - tower.path1NumBlockedTiers;
 		tower.path2NumBlockedTiers = 5 - tower.path2NumBlockedTiers;
@@ -226,63 +223,37 @@ const getTowers = (towers: Tower[]) => {
 		if (isNaN(tower.path3NumBlockedTiers)) tower.path3NumBlockedTiers = 5;
 	});
 
-	const towerOrder = [
+	const heroOrder = [
 		'Quincy',
 		'Gwendolin',
-		'StrikerJones',
-		'ObynGreenfoot',
+		'Striker Jones',
+		'Obyn Greenfoot',
 		'Geraldo',
-		'CaptainChurchill',
+		'Captain Churchill',
 		'Benjamin',
 		'Ezili',
-		'PatFusty',
+		'Pat Fusty',
 		'Adora',
-		'AdmiralBrickell',
+		'Admiral Brickell',
 		'Etienne',
 		'Sauda',
 		'Psi',
-		'Dart',
-		'Boomerang',
-		'Bomb',
-		'Tack',
-		'Ice',
-		'Glue',
-		'Sniper',
-		'Sub',
-		'Buccaneer',
-		'Ace',
-		'Heli',
-		'Mortar',
-		'Dartling',
-		'Wizard',
-		'Super',
-		'Ninja',
-		'Alchemist',
-		'Druid',
-		'Farm',
-		'SpikeFactory',
-		'Village',
-		'Engineer',
 	];
 
-	towers.sort((a, b) => towerOrder.indexOf(a.tower) - towerOrder.indexOf(b.tower));
+	const priOrder = ['Dart', 'Boomerang', 'Bomb', 'Tack', 'Ice', 'Glue'];
+	const milOrder = ['Sniper', 'Sub', 'Buccaneer', 'Ace', 'Heli', 'Mortar', 'Dartling'];
+	const magOrder = ['Wizard', 'Super', 'Ninja', 'Alchemist', 'Druid'];
+	const supOrder = ['Farm', 'Spike Factory', 'Village', 'Engineer'];
 
-	const primary = towers.filter(({ tower }) =>
-		['Dart', 'Boomerang', 'Bomb', 'Tack', 'Ice', 'Glue'].includes(tower)
-	);
+	towers.sort((a, b) => {
+		const towerOrder = [...heroOrder, ...priOrder, ...milOrder, ...magOrder, ...supOrder];
+		return towerOrder.indexOf(a.tower) - towerOrder.indexOf(b.tower);
+	});
 
-	const military = towers.filter(({ tower }) =>
-		['Sniper', 'Sub', 'Buccaneer', 'Ace', 'Heli', 'Mortar', 'Dartling'].includes(tower)
-	);
-
-	const magic = towers.filter(({ tower }) =>
-		['Wizard', 'Super', 'Ninja', 'Alchemist', 'Druid'].includes(tower)
-	);
-
-	const support = towers.filter(({ tower }) =>
-		['Farm', 'SpikeFactory', 'Village', 'Engineer'].includes(tower)
-	);
-
+	const primary = towers.filter(({ tower }) => priOrder.includes(tower));
+	const military = towers.filter(({ tower }) => milOrder.includes(tower));
+	const magic = towers.filter(({ tower }) => magOrder.includes(tower));
+	const support = towers.filter(({ tower }) => supOrder.includes(tower));
 	const heroes = towers.filter((tower) => tower.isHero);
 
 	return [
