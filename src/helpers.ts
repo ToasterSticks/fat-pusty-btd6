@@ -257,10 +257,7 @@ const getTowers = (towers: Tower[]) => {
 	const heroes = towers.filter((tower) => tower.isHero);
 
 	return [
-		[
-			`Hero${heroes.length !== 1 ? 'es' : ''}`,
-			spacePascalCase(heroes.map((t) => t.tower).join(', ')),
-		],
+		[`Hero${heroes.length !== 1 ? 'es' : ''}`, heroes.map((t) => t.tower).join(', ')],
 		['Primary', primary.map(stringifyCrosspath).join('\n')],
 		['Military', military.map(stringifyCrosspath).join('\n')],
 		['Magic', magic.map(stringifyCrosspath).join('\n')],
