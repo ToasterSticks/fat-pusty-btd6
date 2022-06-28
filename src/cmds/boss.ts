@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType, InteractionResponseType } from 'discord-api-types/v10';
 
 import { BloonsBossData, SlashCommand } from '../types';
-import { generateEmbed } from './challenge';
+import { capitalize, generateChallengeEmbed, getOption } from '../helpers';
 
 const command: SlashCommand = [
 	{
@@ -23,10 +23,9 @@ const command: SlashCommand = [
 		normalDcm.name = `${capitalize(bossType)} Normal`;
 		eliteDcm.name = `${capitalize(bossType)} Elite`;
 
-		const isElite =
-			data.options?.[0].type === ApplicationCommandOptionType.Boolean && data.options[0].value;
+		const isElite = getOption(data, 'elite') as boolean | null;
 
-		const embed = generateEmbed(isElite ? eliteDcm : normalDcm);
+		const embed = generateChallengeEmbed(isElite ? eliteDcm : normalDcm);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
@@ -37,7 +36,5 @@ const command: SlashCommand = [
 		};
 	},
 ];
-
-const capitalize = (str: string) => str[0].toUpperCase() + str.substring(1);
 
 export default command;

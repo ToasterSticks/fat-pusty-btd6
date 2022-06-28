@@ -1,6 +1,6 @@
 import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
 
-import { SlashCommand } from '../types';
+import { RedditResponse, SlashCommand } from '../types';
 
 const command: SlashCommand = [
 	{
@@ -42,18 +42,5 @@ const command: SlashCommand = [
 		};
 	},
 ];
-
-interface RedditResponse {
-	kind: string;
-	data: {
-		after: string;
-		dist: number;
-		modhash: string;
-		geo_filter: null;
-		// eslint-disable-next-line
-		children: any[];
-		before: null;
-	};
-}
 
 export default command;

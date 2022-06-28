@@ -91,3 +91,16 @@ export interface Tower {
 	path3NumBlockedTiers: number;
 	isHero: boolean;
 }
+
+export interface RedditResponse {
+	kind: string;
+	data: {
+		after: string;
+		dist: number;
+		modhash: string;
+		geo_filter: null;
+		// eslint-disable-next-line
+		children: any[];
+		before: null;
+	};
+}
