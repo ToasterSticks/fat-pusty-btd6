@@ -209,7 +209,7 @@ const getTowers = (towers: Tower[]) => {
 
 	towers.forEach((tower) => {
 		tower.tower = tower.tower
-			.replace(/Monkey|Shooter|Pilot|Gunner/g, '')
+			.replace(/Monkey|Shooter|Pilot|Gunner|Banana/g, '')
 			.replace(/([a-z])([A-Z])/g, '$1 $2')
 			.trim();
 
@@ -260,7 +260,7 @@ const getTowers = (towers: Tower[]) => {
 		'Alchemist',
 		'Druid',
 		'Farm',
-		'Spactory',
+		'SpikeFactory',
 		'Village',
 		'Engineer',
 	];
