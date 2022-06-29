@@ -38,30 +38,28 @@ export const generateChallengeEmbed = (
 					icon_url: `https://i.gyazo.com/${difficultyIcons[challenge.difficulty]}.png`,
 			  }
 			: undefined,
+		description: `${spacePascalCase(challenge.map)} - ${challenge.difficulty} - ${spacePascalCase(
+			challenge.mode
+		)}`,
+		fields: [],
 	};
 
-	const description: string[] = [];
+	const modifiers: string[] = [];
 
-	description.push(
-		`${spacePascalCase(challenge.map)} - ${challenge.difficulty} - ${spacePascalCase(
-			challenge.mode
-		)}\n`
-	);
-
-	if (challenge.disableSelling) description.push('<:_:947206526018387999> Selling disabled');
-	if (challenge.disableMK) description.push('<:_:947206527721291786> Knowledge disabled');
-	if (challenge.bloonModifiers.allCamo) description.push('<:_:947206526765002843> All camo');
-	if (challenge.bloonModifiers.allRegen) description.push('<:_:947206530162376804> All regrow ');
+	if (challenge.disableSelling) modifiers.push('<:_:947206526018387999> Selling disabled');
+	if (challenge.disableMK) modifiers.push('<:_:947206527721291786> Knowledge disabled');
+	if (challenge.bloonModifiers.allCamo) modifiers.push('<:_:947206526765002843> All camo');
+	if (challenge.bloonModifiers.allRegen) modifiers.push('<:_:947206530162376804> All regrow ');
 
 	if (challenge.bloonModifiers.speedMultiplier !== 1)
-		description.push(
+		modifiers.push(
 			`<:_:${
 				challenge.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
 			}> Bloon speed: ${Math.round(challenge.bloonModifiers.speedMultiplier * 100)}%`
 		);
 
 	if (challenge.bloonModifiers.moabSpeedMultiplier !== 1)
-		description.push(
+		modifiers.push(
 			`<:_:${
 				challenge.bloonModifiers.moabSpeedMultiplier < 1
 					? '947454215587000340'
@@ -70,7 +68,7 @@ export const generateChallengeEmbed = (
 		);
 
 	if (challenge.bloonModifiers.healthMultipliers.bloons !== 1)
-		description.push(
+		modifiers.push(
 			`<:_:${
 				challenge.bloonModifiers.healthMultipliers.bloons < 1
 					? '947456989150199859'
@@ -79,7 +77,7 @@ export const generateChallengeEmbed = (
 		);
 
 	if (challenge.bloonModifiers.healthMultipliers.moabs !== 1)
-		description.push(
+		modifiers.push(
 			`<:_:${
 				challenge.bloonModifiers.healthMultipliers.moabs < 1
 					? '947459371154178098'
@@ -91,7 +89,7 @@ export const generateChallengeEmbed = (
 		challenge.bloonModifiers.regrowRateMultiplier &&
 		challenge.bloonModifiers.regrowRateMultiplier !== 1
 	)
-		description.push(
+		modifiers.push(
 			`<:_:${
 				challenge.bloonModifiers.regrowRateMultiplier < 1
 					? '947460169372143686'
@@ -103,7 +101,7 @@ export const generateChallengeEmbed = (
 		challenge.abilityCooldownReductionMultiplier &&
 		challenge.abilityCooldownReductionMultiplier !== 1
 	)
-		description.push(
+		modifiers.push(
 			`<:_:${
 				challenge.abilityCooldownReductionMultiplier < 1
 					? '947462092661862420'
@@ -112,26 +110,24 @@ export const generateChallengeEmbed = (
 		);
 
 	if (challenge.removeableCostMultiplier === 0)
-		description.push(`<:_:947462619835535451> Free removal`);
+		modifiers.push(`<:_:947462619835535451> Free removal`);
 	else if (challenge.removeableCostMultiplier === 12)
-		description.push(`<:_:947462621060280330> Removal disabled`);
+		modifiers.push(`<:_:947462621060280330> Removal disabled`);
 	else if (challenge.removeableCostMultiplier && challenge.removeableCostMultiplier !== 1)
-		description.push(
+		modifiers.push(
 			`<:_:${
 				challenge.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
 			}> Removal cost: ${Math.round(challenge.removeableCostMultiplier * 100)}%`
 		);
 
 	if (challenge.leastCashUsed && challenge.leastCashUsed > -1)
-		description.push(`<:_:964440130221928498> Cash limit: $${challenge.leastCashUsed}`);
+		modifiers.push(`<:_:964440130221928498> Cash limit: $${challenge.leastCashUsed}`);
 
 	if (challenge.leastTiersUsed && challenge.leastTiersUsed > -1)
-		description.push(`<:_:964440130481963048> Tier limit: ${challenge.leastTiersUsed}`);
+		modifiers.push(`<:_:964440130481963048> Tier limit: ${challenge.leastTiersUsed}`);
 
 	if (challenge.maxTowers !== -1)
-		description.push(`<:_:948162885694148608> Max towers: ${challenge.maxTowers}`);
-
-	embed.description = description.join('\n');
+		modifiers.push(`<:_:948162885694148608> Max towers: ${challenge.maxTowers}`);
 
 	const startRules = { ...challenge.startRules };
 
@@ -172,7 +168,13 @@ export const generateChallengeEmbed = (
 
 	const isSingleRound = startRules.round === startRules.endRound;
 
-	embed.fields = [
+	if (modifiers.length)
+		embed.fields?.push({
+			name: 'Modifiers',
+			value: modifiers.join('\n'),
+		});
+
+	embed.fields?.push(
 		{
 			name: 'Lives',
 			value: `${startRules.lives}/${startRules.maxLives}`,
@@ -189,8 +191,8 @@ export const generateChallengeEmbed = (
 				? startRules.round.toString()
 				: `${startRules.round}-${startRules.endRound}`,
 			inline: true,
-		},
-	];
+		}
+	);
 
 	getTowers(challenge.towers).forEach(
 		([category, towers]) =>
