@@ -170,7 +170,7 @@ export const generateChallengeEmbed = (
 
 	if (modifiers.length)
 		embed.fields?.push({
-			name: 'Modifiers',
+			name: `Modifier${modifiers.length > 1 ? 's' : ''}`,
 			value: modifiers.join('\n'),
 		});
 
