@@ -42,14 +42,13 @@ const command: SlashCommand = [
 			};
 
 		const type = getOption(data, 'type') as string;
-		const number = getOption(data, 'number') as string;
-		const bossId = type + number;
+		const number = getOption(data, 'number') as number;
 
-		await KV.put('boss', bossId);
+		await KV.put('boss', type + number);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: { content: `The boss event has been set to \`${bossId}\`.` },
+			data: { content: `The boss event has been set to \`${type} - ${number}\`.` },
 		};
 	},
 ];
