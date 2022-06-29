@@ -1,4 +1,8 @@
-import { ApplicationCommandOptionType, InteractionResponseType } from 'discord-api-types/v10';
+import {
+	ApplicationCommandOptionType,
+	InteractionResponseType,
+	MessageFlags,
+} from 'discord-api-types/v10';
 
 import { BloonsBossData, SlashCommand } from '../types';
 import { capitalize, generateChallengeEmbed, getOption } from '../helpers';
@@ -16,8 +20,19 @@ const command: SlashCommand = [
 		],
 	},
 	async ({ data }) => {
+		const id = await KV.get('boss');
+
+		if (!id)
+			return {
+				type: InteractionResponseType.ChannelMessageWithSource,
+				data: {
+					content: 'The boss event has not been set.',
+					flags: MessageFlags.Ephemeral,
+				},
+			};
+
 		const { normalDcm, eliteDcm, bossType } = (await fetch(
-			'https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/Bloonarius26'
+			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${id}`
 		).then((res) => res.json())) as BloonsBossData;
 
 		normalDcm.name = `${capitalize(bossType)} Normal`;

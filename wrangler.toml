@@ -5,3 +5,7 @@ workers_dev = true
 
 [build]
 command = "npm install && npm run build"
+
+kv_namespaces = [
+  { binding = "KV", id = "12a6d5b6242545168d5aa77786b93e3b" }
+]

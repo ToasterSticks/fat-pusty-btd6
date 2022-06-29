@@ -2,6 +2,8 @@ import { APIChatInputApplicationCommandInteractionData, APIEmbed } from 'discord
 
 import { BloonsChallengeData, Tower } from './types';
 
+export const OWNERS = ['320546614857170945'];
+
 export const capitalize = (str: string) => str[0].toUpperCase() + str.substring(1);
 
 export const getOption = (data: APIChatInputApplicationCommandInteractionData, name: string) => {

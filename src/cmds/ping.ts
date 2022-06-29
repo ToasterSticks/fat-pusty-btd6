@@ -7,8 +7,8 @@ const command: SlashCommand = [
 		name: 'ping',
 		description: 'Reply with pong',
 	},
-	({ member }) => {
-		const userID = member.user.id;
+	({ member: { user } }) => {
+		const userID = user.id;
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
