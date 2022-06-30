@@ -33,7 +33,18 @@ const command: SlashCommand = [
 
 		const { normalDcm, eliteDcm, bossType } = (await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${id}`
-		).then((res) => res.json())) as BloonsBossData;
+		)
+			.then((res) => res.json())
+			.catch(() => ({}))) as BloonsBossData;
+
+		if (!bossType)
+			return {
+				type: InteractionResponseType.ChannelMessageWithSource,
+				data: {
+					content: 'There is no boss event data available.',
+					flags: MessageFlags.Ephemeral,
+				},
+			};
 
 		normalDcm.name = `${capitalize(bossType)} Normal`;
 		eliteDcm.name = `${capitalize(bossType)} Elite`;
