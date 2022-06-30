@@ -22,15 +22,6 @@ const command: SlashCommand = [
 	async ({ data }) => {
 		const id = await KV.get('boss');
 
-		if (!id)
-			return {
-				type: InteractionResponseType.ChannelMessageWithSource,
-				data: {
-					content: 'The boss event has not been set.',
-					flags: MessageFlags.Ephemeral,
-				},
-			};
-
 		const { normalDcm, eliteDcm, bossType } = (await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${id}`
 		)
