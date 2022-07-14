@@ -20,7 +20,7 @@ export const generateChallengeEmbed = (
 	type?: 'Daily' | 'Advanced'
 ): APIEmbed => {
 	if (challenge.map === 'Tutorial') challenge.map = 'MonkeyMeadow';
-	if (challenge.map === 'Town Centre') challenge.map = 'TownCenter';
+	if (challenge.map === 'TownCentre') challenge.map = 'TownCenter';
 	if (challenge.mode === 'Clicks') challenge.mode = 'Chimps';
 
 	const embed: APIEmbed = {
