@@ -11,7 +11,7 @@ module.exports = {
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js'],
 		fallback: {
-			util: false,
+			util: require.resolve('util/'),
 			zlib: false,
 			crypto: false,
 		},

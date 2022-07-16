@@ -15,7 +15,8 @@
 		"cloudflare-discord-bot": "github:ToasterSticks/cloudflare-discord-bot",
 		"common-tags": "^1.8.2",
 		"nksku": "^1.0.7",
-		"pako": "^2.0.4"
+		"pako": "^2.0.4",
+		"util": "^0.12.4"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^3.0.0",
