@@ -12,10 +12,14 @@
 		"test": "jest --config jestconfig.json --verbose"
 	},
 	"dependencies": {
+		"assert": "^2.0.0",
+		"browserify-zlib": "^0.2.0",
 		"cloudflare-discord-bot": "github:ToasterSticks/cloudflare-discord-bot",
 		"common-tags": "^1.8.2",
 		"nksku": "^1.0.7",
 		"pako": "^2.0.4",
+		"process": "^0.11.10",
+		"stream-browserify": "^3.0.0",
 		"util": "^0.12.4"
 	},
 	"devDependencies": {

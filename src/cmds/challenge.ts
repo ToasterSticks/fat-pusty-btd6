@@ -24,6 +24,7 @@ const command: SlashCommand = [
 		],
 	},
 	async ({ data }) => {
+		console.log(1);
 		const code = (getOption(data, 'code') as string).toUpperCase();
 
 		const b64Str = await fetch(
@@ -63,13 +64,14 @@ const command: SlashCommand = [
 			hint: 'single_challenge',
 			options: {},
 		});
+		console.log(2);
 
 		const {
 			results: [{ stats }],
 		} = (await fetch('https://api.ninjakiwi.com/utility/es/search', {
 			method: 'POST',
 			body: JSON.stringify({
-				data,
+				data: reqStr,
 				auth: {
 					session: null,
 					appID: 11,
@@ -83,6 +85,8 @@ const command: SlashCommand = [
 		})
 			.then((res) => res.json() as Promise<{ data: string }>)
 			.then(({ data }) => JSON.parse(data))) as AuthorizedChallengeData;
+
+		console.log(3);
 
 		const embed = generateChallengeEmbed({ data: challenge, id: code, stats });
 

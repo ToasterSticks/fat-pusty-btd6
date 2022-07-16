@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
 	entry: './src/index.ts',
@@ -12,10 +13,17 @@ module.exports = {
 		extensions: ['.ts', '.tsx', '.js'],
 		fallback: {
 			util: require.resolve('util/'),
-			zlib: false,
+			zlib: require.resolve('browserify-zlib'),
+			stream: require.resolve('stream-browserify'),
+			assert: require.resolve('assert/'),
 			crypto: false,
 		},
 	},
+	plugins: [
+		new webpack.ProvidePlugin({
+			process: 'process/browser',
+		}),
+	],
 	module: {
 		rules: [
 			{
