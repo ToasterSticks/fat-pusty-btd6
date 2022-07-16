@@ -1,6 +1,6 @@
 import { APIChatInputApplicationCommandInteractionData, APIEmbed } from 'discord-api-types/v10';
 
-import { BloonsChallengeData, Tower } from './types';
+import { BloonsChallengeData, Stats, Tower } from './types';
 
 export const OWNERS = ['320546614857170945'];
 
@@ -14,156 +14,159 @@ export const getOption = (data: APIChatInputApplicationCommandInteractionData, n
 	return 'value' in option ? option.value : null;
 };
 
-export const generateChallengeEmbed = (
-	challenge: BloonsChallengeData,
-	id?: string,
-	type?: 'Daily' | 'Advanced'
-): APIEmbed => {
-	if (challenge.map === 'Tutorial') challenge.map = 'MonkeyMeadow';
-	if (challenge.map === 'TownCentre') challenge.map = 'TownCenter';
-	if (challenge.mode === 'Clicks') challenge.mode = 'Chimps';
+export const generateChallengeEmbed = ({
+	data,
+	id,
+	type,
+	stats,
+}: {
+	data: BloonsChallengeData;
+	id?: string;
+	type?: 'Daily' | 'Advanced';
+	stats?: Stats;
+}): APIEmbed => {
+	if (data.map === 'Tutorial') data.map = 'MonkeyMeadow';
+	if (data.map === 'TownCentre') data.map = 'TownCenter';
+	if (data.mode === 'Clicks') data.mode = 'Chimps';
 
 	const embed: APIEmbed = {
 		color: 13296619,
-		title: challenge.name,
+		title: data.name,
 		url: !type && id ? `https://join.btd6.com/Challenge/${id}` : undefined,
 		thumbnail: {
-			url: `https://i.gyazo.com/${
-				id ? gamemodeIcons[challenge.mode] : bossIcons[challenge.name]
-			}.png`,
+			url: `https://i.gyazo.com/${id ? gamemodeIcons[data.mode] : bossIcons[data.name]}.png`,
 		},
 		author: id
 			? {
-					name: type ? `${type} challenge #${id}` : id,
-					icon_url: `https://i.gyazo.com/${difficultyIcons[challenge.difficulty]}.png`,
+					name: type ? `${type} data #${id}` : id,
+					icon_url: `https://i.gyazo.com/${difficultyIcons[data.difficulty]}.png`,
 			  }
 			: undefined,
-		description: `${spacePascalCase(challenge.map)} - ${challenge.difficulty} - ${spacePascalCase(
-			challenge.mode
+		description: `${spacePascalCase(data.map)} - ${data.difficulty} - ${spacePascalCase(
+			data.mode
 		)}`,
 		fields: [],
 	};
 
+	if (stats)
+		embed.fields?.push({
+			name: 'Stats',
+			value: [
+				`Attempts: ${stats.plays}`,
+				`Wins: ${stats.wins}`,
+				`Fails: ${stats.losses}`,
+				`Unique players: ${stats.playsUnique}`,
+				`Victorious players: ${stats.winsUnique}`,
+			].join('\n'),
+		});
+
 	const modifiers: string[] = [];
 
-	if (challenge.disableSelling) modifiers.push('<:_:947206526018387999> Selling disabled');
-	if (challenge.disableMK) modifiers.push('<:_:947206527721291786> Knowledge disabled');
-	if (challenge.bloonModifiers.allCamo) modifiers.push('<:_:947206526765002843> All camo');
-	if (challenge.bloonModifiers.allRegen) modifiers.push('<:_:947206530162376804> All regrow ');
+	if (data.disableSelling) modifiers.push('<:_:947206526018387999> Selling disabled');
+	if (data.disableMK) modifiers.push('<:_:947206527721291786> Knowledge disabled');
+	if (data.bloonModifiers.allCamo) modifiers.push('<:_:947206526765002843> All camo');
+	if (data.bloonModifiers.allRegen) modifiers.push('<:_:947206530162376804> All regrow ');
 
-	if (challenge.bloonModifiers.speedMultiplier !== 1)
+	if (data.bloonModifiers.speedMultiplier !== 1)
 		modifiers.push(
 			`<:_:${
-				challenge.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
-			}> Bloon speed: ${Math.round(challenge.bloonModifiers.speedMultiplier * 100)}%`
+				data.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
+			}> Bloon speed: ${Math.round(data.bloonModifiers.speedMultiplier * 100)}%`
 		);
 
-	if (challenge.bloonModifiers.moabSpeedMultiplier !== 1)
+	if (data.bloonModifiers.moabSpeedMultiplier !== 1)
 		modifiers.push(
 			`<:_:${
-				challenge.bloonModifiers.moabSpeedMultiplier < 1
-					? '947454215587000340'
-					: '947454219907125258'
-			}> Moab speed: ${Math.round(challenge.bloonModifiers.moabSpeedMultiplier * 100)}%`
+				data.bloonModifiers.moabSpeedMultiplier < 1 ? '947454215587000340' : '947454219907125258'
+			}> Moab speed: ${Math.round(data.bloonModifiers.moabSpeedMultiplier * 100)}%`
 		);
 
-	if (challenge.bloonModifiers.healthMultipliers.bloons !== 1)
+	if (data.bloonModifiers.healthMultipliers.bloons !== 1)
 		modifiers.push(
 			`<:_:${
-				challenge.bloonModifiers.healthMultipliers.bloons < 1
+				data.bloonModifiers.healthMultipliers.bloons < 1
 					? '947456989150199859'
 					: '947456989208932382'
-			}> Ceramic health: ${Math.round(challenge.bloonModifiers.healthMultipliers.bloons * 100)}%`
+			}> Ceramic health: ${Math.round(data.bloonModifiers.healthMultipliers.bloons * 100)}%`
 		);
 
-	if (challenge.bloonModifiers.healthMultipliers.moabs !== 1)
+	if (data.bloonModifiers.healthMultipliers.moabs !== 1)
 		modifiers.push(
 			`<:_:${
-				challenge.bloonModifiers.healthMultipliers.moabs < 1
+				data.bloonModifiers.healthMultipliers.moabs < 1
 					? '947459371154178098'
 					: '947459368473989130'
-			}> Moab health: ${Math.round(challenge.bloonModifiers.healthMultipliers.moabs * 100)}%`
+			}> Moab health: ${Math.round(data.bloonModifiers.healthMultipliers.moabs * 100)}%`
 		);
 
-	if (
-		challenge.bloonModifiers.regrowRateMultiplier &&
-		challenge.bloonModifiers.regrowRateMultiplier !== 1
-	)
+	if (data.bloonModifiers.regrowRateMultiplier && data.bloonModifiers.regrowRateMultiplier !== 1)
 		modifiers.push(
 			`<:_:${
-				challenge.bloonModifiers.regrowRateMultiplier < 1
-					? '947460169372143686'
-					: '947460169699307520'
-			}> Regrow rate: ${Math.round(challenge.bloonModifiers.regrowRateMultiplier * 100)}%`
+				data.bloonModifiers.regrowRateMultiplier < 1 ? '947460169372143686' : '947460169699307520'
+			}> Regrow rate: ${Math.round(data.bloonModifiers.regrowRateMultiplier * 100)}%`
 		);
 
-	if (
-		challenge.abilityCooldownReductionMultiplier &&
-		challenge.abilityCooldownReductionMultiplier !== 1
-	)
+	if (data.abilityCooldownReductionMultiplier && data.abilityCooldownReductionMultiplier !== 1)
 		modifiers.push(
 			`<:_:${
-				challenge.abilityCooldownReductionMultiplier < 1
-					? '947462092661862420'
-					: '947462070721454160'
-			}> Ability cooldown: ${Math.round(challenge.abilityCooldownReductionMultiplier * 100)}%`
+				data.abilityCooldownReductionMultiplier < 1 ? '947462092661862420' : '947462070721454160'
+			}> Ability cooldown: ${Math.round(data.abilityCooldownReductionMultiplier * 100)}%`
 		);
 
-	if (challenge.removeableCostMultiplier === 0)
-		modifiers.push(`<:_:947462619835535451> Free removal`);
-	else if (challenge.removeableCostMultiplier === 12)
+	if (data.removeableCostMultiplier === 0) modifiers.push(`<:_:947462619835535451> Free removal`);
+	else if (data.removeableCostMultiplier === 12)
 		modifiers.push(`<:_:947462621060280330> Removal disabled`);
-	else if (challenge.removeableCostMultiplier && challenge.removeableCostMultiplier !== 1)
+	else if (data.removeableCostMultiplier && data.removeableCostMultiplier !== 1)
 		modifiers.push(
 			`<:_:${
-				challenge.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
-			}> Removal cost: ${Math.round(challenge.removeableCostMultiplier * 100)}%`
+				data.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
+			}> Removal cost: ${Math.round(data.removeableCostMultiplier * 100)}%`
 		);
 
-	if (challenge.leastCashUsed && challenge.leastCashUsed > -1)
-		modifiers.push(`<:_:964440130221928498> Cash limit: $${challenge.leastCashUsed}`);
+	if (data.leastCashUsed && data.leastCashUsed > -1)
+		modifiers.push(`<:_:964440130221928498> Cash limit: $${data.leastCashUsed}`);
 
-	if (challenge.leastTiersUsed && challenge.leastTiersUsed > -1)
-		modifiers.push(`<:_:964440130481963048> Tier limit: ${challenge.leastTiersUsed}`);
+	if (data.leastTiersUsed && data.leastTiersUsed > -1)
+		modifiers.push(`<:_:964440130481963048> Tier limit: ${data.leastTiersUsed}`);
 
-	if (challenge.maxTowers !== -1)
-		modifiers.push(`<:_:948162885694148608> Max towers: ${challenge.maxTowers}`);
+	if (data.maxTowers !== -1)
+		modifiers.push(`<:_:948162885694148608> Max towers: ${data.maxTowers}`);
 
-	const startRules = { ...challenge.startRules };
+	const startRules = { ...data.startRules };
 
 	if (startRules.lives === -1) {
-		if (challenge.difficulty === 'Easy') startRules.lives = 200;
-		if (challenge.difficulty === 'Medium') startRules.lives = 150;
-		if (challenge.difficulty === 'Hard') startRules.lives = 50;
-		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.lives = 1;
+		if (data.difficulty === 'Easy') startRules.lives = 200;
+		if (data.difficulty === 'Medium') startRules.lives = 150;
+		if (data.difficulty === 'Hard') startRules.lives = 50;
+		if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.lives = 1;
 	}
 
 	if (startRules.maxLives === -1) {
 		startRules.maxLives = 5000;
 
-		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.maxLives = 1;
+		if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.maxLives = 1;
 	}
 
 	if (startRules.cash === -1) {
 		startRules.cash = 650;
 
-		if (challenge.mode === 'Deflation') startRules.cash = 20000;
+		if (data.mode === 'Deflation') startRules.cash = 20000;
 	}
 
 	if (startRules.round === -1) {
 		startRules.round = 1;
 
-		if (challenge.difficulty === 'Hard') startRules.round = 3;
-		if (challenge.mode === 'Deflation') startRules.round = 31;
-		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.round = 6;
+		if (data.difficulty === 'Hard') startRules.round = 3;
+		if (data.mode === 'Deflation') startRules.round = 31;
+		if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.round = 6;
 	}
 
 	if (startRules.endRound === -1) {
-		if (challenge.difficulty === 'Easy') startRules.endRound = 40;
-		if (challenge.difficulty === 'Medium') startRules.endRound = 60;
-		if (challenge.difficulty === 'Hard') startRules.endRound = 80;
-		if (challenge.mode === 'Deflation') startRules.round = 60;
-		if (challenge.mode === 'Chimps' || challenge.mode === 'Impoppable') startRules.endRound = 100;
+		if (data.difficulty === 'Easy') startRules.endRound = 40;
+		if (data.difficulty === 'Medium') startRules.endRound = 60;
+		if (data.difficulty === 'Hard') startRules.endRound = 80;
+		if (data.mode === 'Deflation') startRules.round = 60;
+		if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.endRound = 100;
 	}
 
 	const isSingleRound = startRules.round === startRules.endRound;
@@ -194,7 +197,7 @@ export const generateChallengeEmbed = (
 		}
 	);
 
-	getTowers(challenge.towers).forEach(
+	getTowers(data.towers).forEach(
 		([category, towers]) =>
 			towers &&
 			embed.fields?.push({

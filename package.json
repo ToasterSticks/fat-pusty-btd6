@@ -14,6 +14,7 @@
 	"dependencies": {
 		"cloudflare-discord-bot": "github:ToasterSticks/cloudflare-discord-bot",
 		"common-tags": "^1.8.2",
+		"nksku": "^1.0.7",
 		"pako": "^2.0.4"
 	},
 	"devDependencies": {

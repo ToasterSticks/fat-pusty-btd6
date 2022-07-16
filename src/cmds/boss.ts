@@ -42,7 +42,7 @@ const command: SlashCommand = [
 
 		const isElite = getOption(data, 'elite') as boolean | null;
 
-		const embed = generateChallengeEmbed(isElite ? eliteDcm : normalDcm);
+		const embed = generateChallengeEmbed({ data: isElite ? eliteDcm : normalDcm });
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

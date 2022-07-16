@@ -106,3 +106,48 @@ export interface RedditResponse {
 		before: null;
 	};
 }
+
+export interface AuthorizedChallengeData {
+	total: number;
+	next: number;
+	found: number;
+	results: Result[];
+	cached: boolean;
+}
+
+export interface Result {
+	id: string;
+	owner: string;
+	challengeName: string;
+	map: string;
+	gameVersionNumber: number;
+	gameVersion: string;
+	latestVersionBeaten: number;
+	stats: Stats;
+	pageFile: boolean;
+	isUnlosable: boolean;
+	isUnwinable: boolean;
+	isDeleted: boolean;
+	properties: Properties;
+	odysseyDifficulty: number;
+	createdAt: number;
+}
+
+export interface Properties {
+	startRound: number;
+	endRound: number;
+	isExtreme: boolean;
+}
+
+export interface Stats {
+	plays: number;
+	playsUnique: number;
+	wins: number;
+	winsUnique: number;
+	losses: number;
+	lossesUnique: number;
+	upvotes: number;
+	restarts: number;
+	firstWin: string;
+	latestWin: string;
+}

@@ -41,7 +41,11 @@ const command: SlashCommand = [
 				data: { content: 'There is no data for the provided challenge number.' },
 			};
 
-		const embed = generateChallengeEmbed(challenge, id, isAdvanced ? 'Advanced' : 'Daily');
+		const embed = generateChallengeEmbed({
+			data: challenge,
+			type: isAdvanced ? 'Advanced' : 'Daily',
+			id,
+		});
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
