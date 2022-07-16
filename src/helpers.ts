@@ -52,11 +52,12 @@ export const generateChallengeEmbed = ({
 		embed.fields?.push({
 			name: 'Stats',
 			value: [
-				`Attempts: ${stats.plays}`,
+				`Plays: ${stats.plays}`,
 				`Wins: ${stats.wins}`,
 				`Fails: ${stats.losses}`,
 				`Unique players: ${stats.playsUnique}`,
 				`Victorious players: ${stats.winsUnique}`,
+				`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
 			].join('\n'),
 		});
 
