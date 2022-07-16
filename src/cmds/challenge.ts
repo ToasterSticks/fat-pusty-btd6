@@ -24,12 +24,43 @@ const command: SlashCommand = [
 		],
 	},
 	async ({ data }) => {
-		console.log(1);
 		const code = (getOption(data, 'code') as string).toUpperCase();
 
-		const b64Str = await fetch(
-			`https://static-api.nkstatic.com/appdocs/11/es/challenges/${code}`
-		).then((res) => res.text());
+		const nonce = (Math.random() * Math.pow(2, 63)).toString();
+
+		const reqStr = JSON.stringify({
+			index: 'challenges',
+			query: `id:${code}`,
+			limit: 1,
+			offset: 0,
+			hint: 'single_challenge',
+			options: {},
+		});
+
+		const [b64Str, { results }] = await Promise.all([
+			fetch(`https://static-api.nkstatic.com/appdocs/11/es/challenges/${code}`).then((res) =>
+				res.text()
+			),
+			fetch('https://api.ninjakiwi.com/utility/es/search', {
+				method: 'POST',
+				body: JSON.stringify({
+					data: reqStr,
+					auth: {
+						session: null,
+						appID: 11,
+						skuID: 35,
+						device: null,
+					},
+					sig: nksku.signonce.sign(reqStr, nonce),
+					nonce,
+				}),
+				headers: { 'User-Agent': 'btd6-windowsplayer-31.2', 'Content-Type': 'application/json' },
+			})
+				.then((res) => res.json() as Promise<{ data: string }>)
+				.then(({ data }) => JSON.parse(data) as AuthorizedChallengeData),
+		]);
+
+		const stats = results[0]?.stats;
 
 		let decompressed: string;
 
@@ -53,40 +84,6 @@ const command: SlashCommand = [
 		}
 
 		const challenge: BloonsChallengeData = JSON.parse(decompressed);
-
-		const nonce = (Math.random() * Math.pow(2, 63)).toString();
-
-		const reqStr = JSON.stringify({
-			index: 'challenges',
-			query: `id:${code}`,
-			limit: 1,
-			offset: 0,
-			hint: 'single_challenge',
-			options: {},
-		});
-		console.log(2);
-
-		const {
-			results: [{ stats }],
-		} = (await fetch('https://api.ninjakiwi.com/utility/es/search', {
-			method: 'POST',
-			body: JSON.stringify({
-				data: reqStr,
-				auth: {
-					session: null,
-					appID: 11,
-					skuID: 35,
-					device: null,
-				},
-				sig: nksku.signonce.sign(reqStr, nonce),
-				nonce,
-			}),
-			headers: { 'User-Agent': 'btd6-windowsplayer-31.2', 'Content-Type': 'application/json' },
-		})
-			.then((res) => res.json() as Promise<{ data: string }>)
-			.then(({ data }) => JSON.parse(data))) as AuthorizedChallengeData;
-
-		console.log(3);
 
 		const embed = generateChallengeEmbed({ data: challenge, id: code, stats });
 
