@@ -10,6 +10,11 @@ module.exports = {
 	mode: 'development',
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js'],
+		fallback: {
+			util: false,
+			zlib: false,
+			crypto: false,
+		},
 	},
 	module: {
 		rules: [
