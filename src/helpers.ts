@@ -13,6 +13,22 @@ export const addNumberSeparator = (num: number) => {
 	return digits > 4 ? num.toLocaleString() : num.toString();
 };
 
+export const trimJoinedLength = (
+	arr: string[],
+	length: number,
+	joinValue: string
+): [string[], number] => {
+	const newArr: string[] = [];
+
+	for (const element of arr) {
+		if (newArr.concat(element).join(joinValue).length > length) break;
+
+		newArr.push(element);
+	}
+
+	return [newArr, arr.length - newArr.length];
+};
+
 export const getOption = (data: APIChatInputApplicationCommandInteractionData, name: string) => {
 	const option = data.options?.find((option) => option.name === name);
 

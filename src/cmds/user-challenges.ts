@@ -6,7 +6,7 @@ import {
 } from 'discord-api-types/v10';
 
 import { AuthorizedChallengeData, SlashCommand } from '../types';
-import { findUser, formRequestOptions, getOption } from '../helpers';
+import { findUser, formRequestOptions, getOption, trimJoinedLength } from '../helpers';
 
 const command: SlashCommand = [
 	{
@@ -79,24 +79,25 @@ const command: SlashCommand = [
 				},
 			};
 
+		const [challengeList, itemsLeft] = trimJoinedLength(
+			results.map(
+				({ id, createdAt, challengeName, map }) =>
+					`[\`${id}\`](https://join.btd6.com/Challenge/${id} '${map}') - <t:${Math.trunc(
+						createdAt / 1000
+					)}:R> - **${challengeName}**`
+			),
+			4096,
+			'\n'
+		);
+
 		const embed: APIEmbed = {
 			color: 13296619,
 			title: btdUser.displayName,
 			thumbnail: { url: 'https://i.gyazo.com/04aab0ce9c39bf995c7fc263d4059bd3.png' },
-			description: results
-				.slice(0, 30)
-				.map(
-					({ id, createdAt, challengeName }) =>
-						`[\`${id}\`](https://join.btd6.com/Challenge/${id}) - <t:${Math.trunc(
-							createdAt / 1000
-						)}:R> - **${challengeName}**`
-				)
-				.join('\n'),
+			description: challengeList.join('\n'),
 		};
 
-		if (results.length > 30) {
-			embed.footer = { text: `${results.length - 30} other challenges were omitted.` };
-		}
+		if (itemsLeft) embed.footer = { text: `${itemsLeft} other challenges were omitted.` };
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
