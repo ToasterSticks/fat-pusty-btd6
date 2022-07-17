@@ -84,7 +84,7 @@ const command: SlashCommand = [
 			title: btdUser.displayName,
 			thumbnail: { url: 'https://i.gyazo.com/04aab0ce9c39bf995c7fc263d4059bd3.png' },
 			description: results
-				.slice(50)
+				.slice(0, 50)
 				.map(
 					({ id, createdAt, challengeName }) =>
 						`[\`${id}\`](https://join.btd6.com/Challenge/${id}) - <t:${Math.trunc(
