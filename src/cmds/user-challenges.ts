@@ -6,7 +6,13 @@ import {
 } from 'discord-api-types/v10';
 
 import { AuthorizedChallengeData, SlashCommand } from '../types';
-import { findUser, formRequestOptions, getOption, trimJoinedLength } from '../helpers';
+import {
+	findUser,
+	formRequestOptions,
+	getOption,
+	spacePascalCase,
+	trimJoinedLength,
+} from '../helpers';
 
 const command: SlashCommand = [
 	{
@@ -80,12 +86,14 @@ const command: SlashCommand = [
 			};
 
 		const [challengeList, itemsLeft] = trimJoinedLength(
-			results.map(
-				({ id, createdAt, challengeName, map }) =>
-					`[\`${id}\`](https://join.btd6.com/Challenge/${id} '${map}') - <t:${Math.trunc(
-						createdAt / 1000
-					)}:R> - **${challengeName}**`
-			),
+			results.map(({ id, createdAt, challengeName, map }) => {
+				if (map === 'Tutorial') map = 'MonkeyMeadow';
+				if (map === 'TownCentre') map = 'TownCenter';
+
+				return `[\`${id}\`](https://join.btd6.com/Challenge/${id} '${spacePascalCase(
+					map
+				)}') - <t:${Math.trunc(createdAt / 1000)}:R> - **${challengeName}**`;
+			}),
 			4096,
 			'\n'
 		);

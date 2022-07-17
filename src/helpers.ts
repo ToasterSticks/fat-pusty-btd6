@@ -299,7 +299,7 @@ export const generateChallengeEmbed = ({
 	return embed;
 };
 
-const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').trim();
+export const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').trim();
 
 const getTowers = (towers: Tower[]) => {
 	towers = towers.filter((tower) => tower.max !== 0);
