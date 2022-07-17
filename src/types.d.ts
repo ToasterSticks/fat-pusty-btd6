@@ -150,4 +150,25 @@ export interface Stats {
 	restarts: number;
 	firstWin: string;
 	latestWin: string;
+	creator: string;
+}
+
+export interface AuthorizedUserData {
+	users: Record<string, Profile>;
+}
+
+export interface Profile {
+	nkapiID: string;
+	displayName: string;
+	clan: number;
+	country: string;
+	continent: string;
+	avatar: number;
+	online: boolean;
+	onlineApp: number;
+	providersAvailable: string[];
+	access: number;
+	age: number;
+	shortcode: string;
+	safeName: string;
 }

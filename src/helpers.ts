@@ -43,7 +43,7 @@ export const generateChallengeEmbed = ({
 		},
 		author: id
 			? {
-					name: type ? `${type} data #${id}` : id,
+					name: type ? `${type} challenge #${id}` : `${id} ~${stats?.creator}`,
 					icon_url: `https://i.gyazo.com/${difficultyIcons[data.difficulty]}.png`,
 			  }
 			: undefined,
@@ -66,6 +66,8 @@ export const generateChallengeEmbed = ({
 				`Victorious players: ${addNumberSeparator(stats.winsUnique)}`,
 				`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
 				`Win rate: ${Math.round((stats.wins / attempts) * 100)}%`,
+				`First winner: ${stats.firstWin}`,
+				`Recent winner: ${stats.latestWin}`,
 			].join('\n'),
 		});
 	}
