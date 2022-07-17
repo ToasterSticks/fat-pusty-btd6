@@ -48,18 +48,22 @@ export const generateChallengeEmbed = ({
 		fields: [],
 	};
 
-	if (stats)
+	if (stats) {
+		const attempts = stats.plays + stats.restarts;
+
 		embed.fields?.push({
 			name: 'Stats',
 			value: [
-				`Plays: ${stats.plays}`,
+				`Attempts: ${attempts}`,
 				`Wins: ${stats.wins}`,
-				`Fails: ${stats.losses}`,
+				`Fails: ${attempts - stats.wins}`,
 				`Unique players: ${stats.playsUnique}`,
 				`Victorious players: ${stats.winsUnique}`,
 				`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
+				`Win rate: ${Math.round((stats.wins / attempts) * 100)}%`,
 			].join('\n'),
 		});
+	}
 
 	const modifiers: string[] = [];
 
