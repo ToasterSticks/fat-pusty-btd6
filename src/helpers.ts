@@ -64,8 +64,8 @@ export const generateChallengeEmbed = ({
 				`Fails: ${addNumberSeparator(attempts - stats.wins)}`,
 				`Unique players: ${addNumberSeparator(stats.playsUnique)}`,
 				`Victorious players: ${addNumberSeparator(stats.winsUnique)}`,
-				`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
-				`Win rate: ${Math.round((stats.wins / attempts) * 100)}%`,
+				stats.playsUnique ? `Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%` : undefined,
+				attempts ? `Win rate: ${Math.round((stats.wins / attempts) * 100)}%` : undefined,
 				stats.firstWin ? `First winner: ${stats.firstWin}` : undefined,
 				stats.latestWin ? `Recent winner: ${stats.latestWin}` : undefined,
 			]
