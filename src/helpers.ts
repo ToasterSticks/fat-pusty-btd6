@@ -110,7 +110,7 @@ export const generateChallengeEmbed = ({
 	};
 
 	if (stats) {
-		const attempts = stats.plays + stats.restarts;
+		const attempts = stats.plays + (stats.restarts ?? 0);
 
 		embed.fields?.push({
 			name: 'Statistics',

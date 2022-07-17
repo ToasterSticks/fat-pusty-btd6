@@ -147,7 +147,7 @@ export interface Stats {
 	losses: number;
 	lossesUnique: number;
 	upvotes: number;
-	restarts: number;
+	restarts?: number;
 	firstWin?: string;
 	latestWin?: string;
 	creator: string;
