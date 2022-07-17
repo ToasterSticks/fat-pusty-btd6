@@ -85,8 +85,8 @@ const command: SlashCommand = [
 				(
 					[
 						['creator', owner],
-						['firstWin', stats.firstWin.slice(3)],
-						['latestWin', stats.latestWin.slice(3)],
+						['firstWin', stats.firstWin?.slice(3)],
+						['latestWin', stats.latestWin?.slice(3)],
 					] as const
 				).map(async ([key, value]) => {
 					if (!value) {
