@@ -81,7 +81,7 @@ const command: SlashCommand = [
 
 		const embed: APIEmbed = {
 			color: 13296619,
-			author: { name: btdUser.displayName },
+			title: btdUser.displayName,
 			thumbnail: { url: 'https://i.gyazo.com/04aab0ce9c39bf995c7fc263d4059bd3.png' },
 			description: results
 				.map(
