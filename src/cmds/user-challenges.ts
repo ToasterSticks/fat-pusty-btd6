@@ -17,6 +17,8 @@ const command: SlashCommand = [
 				name: 'user',
 				description: 'The user whose challenges to display',
 				type: ApplicationCommandOptionType.String,
+				min_length: 9,
+				max_length: 9,
 			},
 		],
 	},
@@ -61,7 +63,7 @@ const command: SlashCommand = [
 						sort: [{ createdAt: 'desc' }],
 						search_type: 'query_then_fetch',
 					},
-					limit: 35,
+					limit: 9999,
 					offset: 0,
 				},
 				nonce
@@ -84,6 +86,7 @@ const command: SlashCommand = [
 			title: btdUser.displayName,
 			thumbnail: { url: 'https://i.gyazo.com/04aab0ce9c39bf995c7fc263d4059bd3.png' },
 			description: results
+				.slice(50)
 				.map(
 					({ id, createdAt, challengeName }) =>
 						`[\`${id}\`](https://join.btd6.com/Challenge/${id}) - <t:${Math.trunc(
@@ -92,6 +95,10 @@ const command: SlashCommand = [
 				)
 				.join('\n'),
 		};
+
+		if (results.length > 50) {
+			embed.footer = { text: `${results.length - 50} other challenges were omitted.` };
+		}
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

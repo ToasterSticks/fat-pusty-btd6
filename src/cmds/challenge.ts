@@ -22,6 +22,8 @@ const command: SlashCommand = [
 				name: 'code',
 				description: 'The challenge code',
 				type: ApplicationCommandOptionType.String,
+				min_length: 7,
+				max_length: 7,
 				required: true,
 			},
 		],
