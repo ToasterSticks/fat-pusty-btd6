@@ -17,8 +17,6 @@ const command: SlashCommand = [
 				name: 'user',
 				description: 'The user whose challenges to display',
 				type: ApplicationCommandOptionType.String,
-				min_length: 9,
-				max_length: 9,
 			},
 		],
 	},
