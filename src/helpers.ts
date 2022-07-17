@@ -57,7 +57,7 @@ export const generateChallengeEmbed = ({
 		const attempts = stats.plays + stats.restarts;
 
 		embed.fields?.push({
-			name: 'Stats',
+			name: 'Statistics',
 			value: [
 				`Attempts: ${addNumberSeparator(attempts)}`,
 				`Wins: ${addNumberSeparator(stats.wins)}`,
