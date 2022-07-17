@@ -12,12 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache modules
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: npm
-
       - name: Retrieve date
         run: echo ::set-output name=CURRENT_DATE::$(date '+%Y-%m-%d')
         id: date
