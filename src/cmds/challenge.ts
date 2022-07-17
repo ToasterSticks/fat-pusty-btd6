@@ -89,6 +89,8 @@ const command: SlashCommand = [
 						['latestWin', stats.latestWin.slice(3)],
 					] as const
 				).map(async ([key, value]) => {
+					if (!value) return;
+
 					const { users } = await fetch(
 						'https://api.ninjakiwi.com/user/search',
 						formRequestOptions(

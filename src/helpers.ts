@@ -66,9 +66,11 @@ export const generateChallengeEmbed = ({
 				`Victorious players: ${addNumberSeparator(stats.winsUnique)}`,
 				`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
 				`Win rate: ${Math.round((stats.wins / attempts) * 100)}%`,
-				`First winner: ${stats.firstWin}`,
-				`Recent winner: ${stats.latestWin}`,
-			].join('\n'),
+				stats.firstWin ? `First winner: ${stats.firstWin}` : undefined,
+				stats.latestWin ? `Recent winner: ${stats.latestWin}` : undefined,
+			]
+				.join('\n')
+				.trim(),
 		});
 	}
 
