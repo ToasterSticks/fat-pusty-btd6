@@ -5,6 +5,8 @@ import inviteCommand from './invite';
 import dailyChallengeCommand from './daily';
 import bossCommand from './boss';
 import setBossCommand from './set-boss';
+import saveProfileCommand from './save-profile';
+import userChallengesCommand from './user-challenges';
 
 export const commands = [
 	pingCommand,
@@ -14,8 +16,6 @@ export const commands = [
 	dailyChallengeCommand,
 	bossCommand,
 	setBossCommand,
+	saveProfileCommand,
+	userChallengesCommand,
 ];
-
-export const components = {
-	boss: bossCommand,
-};

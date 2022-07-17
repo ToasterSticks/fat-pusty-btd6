@@ -4,8 +4,6 @@ import {
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
-// @ts-expect-error No fucking types
-import nksku from 'nksku';
 
 import {
 	AuthorizedChallengeData,
@@ -13,7 +11,7 @@ import {
 	BloonsChallengeData,
 	SlashCommand,
 } from '../types';
-import { generateChallengeEmbed, getOption } from '../helpers';
+import { formRequestOptions, generateChallengeEmbed, getOption } from '../helpers';
 
 const command: SlashCommand = [
 	{
@@ -92,7 +90,7 @@ const command: SlashCommand = [
 					if (!value) {
 						stats[key] = '';
 						return;
-					};
+					}
 
 					const { users } = await fetch(
 						'https://api.ninjakiwi.com/user/search',
@@ -123,25 +121,5 @@ const command: SlashCommand = [
 		};
 	},
 ];
-
-const formRequestOptions = (data: Record<string, unknown>, nonce: string) => {
-	const dataStr = JSON.stringify(data);
-
-	return {
-		method: 'POST',
-		body: JSON.stringify({
-			data: dataStr,
-			auth: {
-				session: null,
-				appID: 11,
-				skuID: 35,
-				device: null,
-			},
-			sig: nksku.signonce.sign(dataStr, nonce),
-			nonce,
-		}),
-		headers: { 'User-Agent': 'btd6-windowsplayer-31.2', 'Content-Type': 'application/json' },
-	};
-};
 
 export default command;

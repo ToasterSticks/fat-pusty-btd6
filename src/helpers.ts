@@ -1,6 +1,8 @@
 import { APIChatInputApplicationCommandInteractionData, APIEmbed } from 'discord-api-types/v10';
+// @ts-expect-error No fucking types
+import nksku from 'nksku';
 
-import { BloonsChallengeData, Stats, Tower } from './types';
+import { AuthorizedUserData, BloonsChallengeData, Profile, Stats, Tower } from './types';
 
 export const OWNERS = ['320546614857170945'];
 
@@ -18,6 +20,60 @@ export const getOption = (data: APIChatInputApplicationCommandInteractionData, n
 
 	return 'value' in option ? option.value : null;
 };
+
+export const raceNonNullish = <T>(values: Promise<T>[]): Promise<T | null> =>
+	Promise.all(
+		values.map((p) =>
+			p.then(
+				(val) => (val == null ? Promise.resolve(val) : Promise.reject(val)),
+				(err) => Promise.resolve(err)
+			)
+		)
+	).then(
+		() => Promise.resolve(null),
+		(val) => Promise.resolve(val)
+	);
+
+export const formRequestOptions = (data: Record<string, unknown>, nonce: string) => {
+	const dataStr = JSON.stringify(data);
+
+	return {
+		method: 'POST',
+		body: JSON.stringify({
+			data: dataStr,
+			auth: {
+				session: null,
+				appID: 11,
+				skuID: 35,
+				device: null,
+			},
+			sig: nksku.signonce.sign(dataStr, nonce),
+			nonce,
+		}),
+		headers: { 'User-Agent': 'btd6-windowsplayer-31.2', 'Content-Type': 'application/json' },
+	};
+};
+
+export const findUser = (query: string) =>
+	raceNonNullish(
+		['nkapiID', 'shortcode', 'displayName'].map((method): Promise<Profile | undefined> => {
+			const nonce = (Math.random() * Math.pow(2, 63)).toString();
+
+			return fetch(
+				'https://api.ninjakiwi.com/user/search',
+				formRequestOptions(
+					{
+						method,
+						keys: [query],
+						includeOnlineStatus: false,
+					},
+					nonce
+				)
+			)
+				.then((res) => res.json() as Promise<{ data: string }>)
+				.then(({ data }) => Object.values((JSON.parse(data) as AuthorizedUserData).users)[0]);
+		})
+	);
 
 export const generateChallengeEmbed = ({
 	data,
@@ -58,17 +114,21 @@ export const generateChallengeEmbed = ({
 
 		embed.fields?.push({
 			name: 'Statistics',
-			value: [
-				`Attempts: ${addNumberSeparator(attempts)}`,
-				`Wins: ${addNumberSeparator(stats.wins)}`,
-				`Fails: ${addNumberSeparator(attempts - stats.wins)}`,
-				`Unique players: ${addNumberSeparator(stats.playsUnique)}`,
-				`Victorious players: ${addNumberSeparator(stats.winsUnique)}`,
-				stats.playsUnique ? `Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%` : undefined,
-				attempts ? `Win rate: ${Math.round((stats.wins / attempts) * 100)}%` : undefined,
-				stats.firstWin ? `First winner: ${stats.firstWin}` : undefined,
-				stats.latestWin ? `Recent winner: ${stats.latestWin}` : undefined,
-			]
+			value: [`Attempts: ${addNumberSeparator(attempts)}`]
+				.concat(
+					attempts
+						? [
+								`Wins: ${addNumberSeparator(stats.wins)}`,
+								`Fails: ${addNumberSeparator(attempts - stats.wins)}`,
+								`Unique players: ${addNumberSeparator(stats.playsUnique)}`,
+								`Victorious players: ${addNumberSeparator(stats.winsUnique)}`,
+								`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
+								`Win rate: ${Math.round((stats.wins / attempts) * 100)}%`,
+								stats.firstWin ? `First winner: ${stats.firstWin}` : '',
+								stats.latestWin ? `Recent winner: ${stats.latestWin}` : '',
+						  ]
+						: []
+				)
 				.join('\n')
 				.trim(),
 		});
