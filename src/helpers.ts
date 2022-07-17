@@ -6,6 +6,11 @@ export const OWNERS = ['320546614857170945'];
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.substring(1);
 
+export const addNumberSeparator = (num: number) => {
+	const digits = (Math.log(num) * Math.LOG10E + 1) | 0;
+	return digits > 4 ? num.toLocaleString() : num.toString();
+};
+
 export const getOption = (data: APIChatInputApplicationCommandInteractionData, name: string) => {
 	const option = data.options?.find((option) => option.name === name);
 
@@ -54,11 +59,11 @@ export const generateChallengeEmbed = ({
 		embed.fields?.push({
 			name: 'Stats',
 			value: [
-				`Attempts: ${attempts}`,
-				`Wins: ${stats.wins}`,
-				`Fails: ${attempts - stats.wins}`,
-				`Unique players: ${stats.playsUnique}`,
-				`Victorious players: ${stats.winsUnique}`,
+				`Attempts: ${addNumberSeparator(attempts)}`,
+				`Wins: ${addNumberSeparator(stats.wins)}`,
+				`Fails: ${addNumberSeparator(attempts - stats.wins)}`,
+				`Unique players: ${addNumberSeparator(stats.playsUnique)}`,
+				`Victorious players: ${addNumberSeparator(stats.winsUnique)}`,
 				`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
 				`Win rate: ${Math.round((stats.wins / attempts) * 100)}%`,
 			].join('\n'),
@@ -76,7 +81,7 @@ export const generateChallengeEmbed = ({
 		modifiers.push(
 			`<:_:${
 				data.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
-			}> Bloon speed: ${Math.round(data.bloonModifiers.speedMultiplier * 100)}%`
+			}> Bloon speed: ${addNumberSeparator(Math.round(data.bloonModifiers.speedMultiplier * 100))}%`
 		);
 
 	if (data.bloonModifiers.moabSpeedMultiplier !== 1)
@@ -185,12 +190,12 @@ export const generateChallengeEmbed = ({
 	embed.fields?.push(
 		{
 			name: 'Lives',
-			value: `${startRules.lives}/${startRules.maxLives}`,
+			value: `${addNumberSeparator(startRules.lives)}/${addNumberSeparator(startRules.maxLives)}`,
 			inline: true,
 		},
 		{
 			name: 'Cash',
-			value: `$${startRules.cash}`,
+			value: `$${addNumberSeparator(startRules.cash)}`,
 			inline: true,
 		},
 		{
