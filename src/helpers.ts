@@ -126,8 +126,6 @@ export const generateChallengeEmbed = ({
 	};
 
 	if (info) {
-		embed.color = info.isUnwinable ? 6516351 : 5874422;
-
 		embed.fields?.push({
 			name: 'General Info',
 			value: [
