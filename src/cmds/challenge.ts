@@ -55,7 +55,7 @@ const command: SlashCommand = [
 				.then(({ data }) => JSON.parse(data) as AuthorizedChallengeData),
 		]);
 
-		const { stats, owner } = results[0] ?? {};
+		const { stats, owner, ...rest } = results[0] ?? {};
 
 		let decompressed: string;
 
@@ -112,7 +112,11 @@ const command: SlashCommand = [
 				})
 			);
 
-		const embed = generateChallengeEmbed({ data: challenge, id: code, stats });
+		const embed = generateChallengeEmbed({
+			data: challenge,
+			id: code,
+			info: { stats, owner, ...rest },
+		});
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

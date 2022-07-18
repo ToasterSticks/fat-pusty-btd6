@@ -86,13 +86,21 @@ const command: SlashCommand = [
 			};
 
 		const [challengeList, itemsLeft] = trimJoinedLength(
-			results.map(({ id, createdAt, challengeName, map }) => {
+			results.map(({ id, createdAt, challengeName, map, stats }) => {
 				if (map === 'Tutorial') map = 'MonkeyMeadow';
 				if (map === 'TownCentre') map = 'TownCenter';
 
-				return `[\`${id}\`](https://join.btd6.com/Challenge/${id} '${spacePascalCase(
-					map
-				)}') - <t:${Math.trunc(createdAt / 1000)}:R> - **${challengeName}**`;
+				const attempts = stats.plays + (stats.restarts ?? 0);
+
+				return `[\`${id}\`](https://join.btd6.com/Challenge/${id} '${[
+					`Map: ${spacePascalCase(map)}`,
+					attempts
+						? `Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`
+						: '',
+					attempts ? `Win rate: ${Math.round((stats.wins / attempts) * 100)}%` : '',
+				]
+					.join('\n')
+					.trim()}') - <t:${Math.trunc(createdAt / 1000)}:R> - **${challengeName}**`;
 			}),
 			4096,
 			'\n'

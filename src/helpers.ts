@@ -2,7 +2,7 @@ import { APIChatInputApplicationCommandInteractionData, APIEmbed } from 'discord
 // @ts-expect-error No fucking types
 import nksku from 'nksku';
 
-import { AuthorizedUserData, BloonsChallengeData, Profile, Stats, Tower } from './types';
+import { AuthorizedUserData, BloonsChallengeData, Profile, Result, Tower } from './types';
 
 export const OWNERS = ['320546614857170945'];
 
@@ -95,12 +95,12 @@ export const generateChallengeEmbed = ({
 	data,
 	id,
 	type,
-	stats,
+	info,
 }: {
 	data: BloonsChallengeData;
 	id?: string;
 	type?: 'Daily' | 'Advanced';
-	stats?: Stats;
+	info?: Result;
 }): APIEmbed => {
 	if (data.map === 'Tutorial') data.map = 'MonkeyMeadow';
 	if (data.map === 'TownCentre') data.map = 'TownCenter';
@@ -115,7 +115,7 @@ export const generateChallengeEmbed = ({
 		},
 		author: id
 			? {
-					name: type ? `${type} challenge #${id}` : `${id} ~${stats?.creator}`,
+					name: type ? `${type} challenge #${id}` : `${info?.stats.creator}`,
 					icon_url: `https://i.gyazo.com/${difficultyIcons[data.difficulty]}.png`,
 			  }
 			: undefined,
@@ -125,8 +125,17 @@ export const generateChallengeEmbed = ({
 		fields: [],
 	};
 
-	if (stats) {
-		const attempts = stats.plays + (stats.restarts ?? 0);
+	if (info) {
+		embed.fields?.push({
+			name: 'General Info',
+			value: [
+				`ID: ${id}`,
+				`Game version: ${info.gameVersion}`,
+				`Upvotes: ${info.stats.upvotes}`,
+			].join('\n'),
+		});
+
+		const attempts = info.stats.plays + (info.stats.restarts ?? 0);
 
 		embed.fields?.push({
 			name: 'Statistics',
@@ -134,14 +143,16 @@ export const generateChallengeEmbed = ({
 				.concat(
 					attempts
 						? [
-								`Wins: ${addNumberSeparator(stats.wins)}`,
-								`Fails: ${addNumberSeparator(attempts - stats.wins)}`,
-								`Unique players: ${addNumberSeparator(stats.playsUnique)}`,
-								`Victorious players: ${addNumberSeparator(stats.winsUnique)}`,
-								`Completion rate: ${Math.round((stats.winsUnique / stats.playsUnique) * 100)}%`,
-								`Win rate: ${Math.round((stats.wins / attempts) * 100)}%`,
-								stats.firstWin ? `First winner: ${stats.firstWin}` : '',
-								stats.latestWin ? `Recent winner: ${stats.latestWin}` : '',
+								`Wins: ${addNumberSeparator(info.stats.wins)}`,
+								`Fails: ${addNumberSeparator(attempts - info.stats.wins)}`,
+								`Unique players: ${addNumberSeparator(info.stats.playsUnique)}`,
+								`Victorious players: ${addNumberSeparator(info.stats.winsUnique)}`,
+								`Completion rate: ${Math.round(
+									(info.stats.winsUnique / info.stats.playsUnique) * 100
+								)}%`,
+								`Win rate: ${Math.round((info.stats.wins / attempts) * 100)}%`,
+								info.stats.firstWin ? `First winner: ${info.stats.firstWin}` : '',
+								info.stats.latestWin ? `Recent winner: ${info.stats.latestWin}` : '',
 						  ]
 						: []
 				)
@@ -214,10 +225,14 @@ export const generateChallengeEmbed = ({
 		);
 
 	if (data.leastCashUsed && data.leastCashUsed > -1)
-		modifiers.push(`<:_:964440130221928498> Cash limit: $${data.leastCashUsed}`);
+		modifiers.push(
+			`<:_:964440130221928498> Cash limit: $${addNumberSeparator(data.leastCashUsed)}`
+		);
 
 	if (data.leastTiersUsed && data.leastTiersUsed > -1)
-		modifiers.push(`<:_:964440130481963048> Tier limit: ${data.leastTiersUsed}`);
+		modifiers.push(
+			`<:_:964440130481963048> Tier limit: ${addNumberSeparator(data.leastTiersUsed)}`
+		);
 
 	if (data.maxTowers !== -1)
 		modifiers.push(`<:_:948162885694148608> Max towers: ${data.maxTowers}`);
