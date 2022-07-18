@@ -150,7 +150,6 @@ export interface Stats {
 	restarts?: number;
 	firstWin?: string;
 	latestWin?: string;
-	creator: string;
 }
 
 export interface AuthorizedUserData {

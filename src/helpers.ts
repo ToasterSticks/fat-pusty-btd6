@@ -115,7 +115,7 @@ export const generateChallengeEmbed = ({
 		},
 		author: id
 			? {
-					name: type ? `${type} challenge #${id}` : `${info?.stats.creator}`,
+					name: type ? `${type} challenge #${id}` : id,
 					icon_url: `https://i.gyazo.com/${difficultyIcons[data.difficulty]}.png`,
 			  }
 			: undefined,
@@ -129,9 +129,10 @@ export const generateChallengeEmbed = ({
 		embed.fields?.push({
 			name: 'General Info',
 			value: [
-				`ID: ${id}`,
-				`Game version: ${info.gameVersion}`,
+				`Creator: ${info.owner}`,
 				`Upvotes: ${info.stats.upvotes}`,
+				`Game version: ${info.gameVersion}`,
+				info.isUnlosable ? 'Unlosable' : '',
 			].join('\n'),
 		});
 

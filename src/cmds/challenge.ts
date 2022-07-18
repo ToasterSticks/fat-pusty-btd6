@@ -55,7 +55,7 @@ const command: SlashCommand = [
 				.then(({ data }) => JSON.parse(data) as AuthorizedChallengeData),
 		]);
 
-		const { stats, owner, ...rest } = results[0] ?? {};
+		const info = results[0] ?? {};
 
 		let decompressed: string;
 
@@ -80,17 +80,17 @@ const command: SlashCommand = [
 
 		const challenge: BloonsChallengeData = JSON.parse(decompressed);
 
-		if (stats)
+		if (info)
 			await Promise.all(
 				(
 					[
-						['creator', owner],
-						['firstWin', stats.firstWin?.slice(3)],
-						['latestWin', stats.latestWin?.slice(3)],
+						['owner', info.owner],
+						['firstWin', info.stats.firstWin?.slice(3)],
+						['latestWin', info.stats.latestWin?.slice(3)],
 					] as const
 				).map(async ([key, value]) => {
-					if (!value) {
-						stats[key] = '';
+					if (!value && key !== 'owner') {
+						info.stats[key] = '';
 						return;
 					}
 
@@ -108,14 +108,15 @@ const command: SlashCommand = [
 						.then((res) => res.json() as Promise<{ data: string }>)
 						.then(({ data }) => JSON.parse(data) as AuthorizedUserData);
 
-					stats[key] = Object.values(users)[0].displayName;
+					if (key === 'owner') info[key] = Object.values(users)[0].displayName;
+					else info.stats[key] = Object.values(users)[0].displayName;
 				})
 			);
 
 		const embed = generateChallengeEmbed({
 			data: challenge,
 			id: code,
-			info: { stats, owner, ...rest },
+			info: info,
 		});
 
 		return {
