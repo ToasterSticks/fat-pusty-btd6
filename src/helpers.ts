@@ -242,7 +242,7 @@ export const generateChallengeEmbed = ({
 	if (startRules.lives === -1) {
 		if (data.difficulty === 'Easy') startRules.lives = 200;
 		if (data.difficulty === 'Medium') startRules.lives = 150;
-		if (data.difficulty === 'Hard') startRules.lives = 50;
+		if (data.difficulty === 'Hard') startRules.lives = 100;
 		if (data.mode === 'Chimps' || data.mode === 'Impoppable') startRules.lives = 1;
 	}
 
