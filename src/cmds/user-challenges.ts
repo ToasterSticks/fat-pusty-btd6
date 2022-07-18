@@ -114,11 +114,9 @@ const command: SlashCommand = [
 			footer: {
 				text: `${
 					itemsLeft ? `${itemsLeft} other challenges were omitted. ` : ''
-				}Tip: hover over the codes`,
+				}Tip: hover over the code`,
 			},
 		};
-
-		if (itemsLeft) embed.footer = { text: `${itemsLeft} other challenges were omitted.` };
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
