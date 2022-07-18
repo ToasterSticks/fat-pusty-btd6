@@ -111,6 +111,11 @@ const command: SlashCommand = [
 			title: btdUser.displayName,
 			thumbnail: { url: 'https://i.gyazo.com/04aab0ce9c39bf995c7fc263d4059bd3.png' },
 			description: challengeList.join('\n'),
+			footer: {
+				text: `${
+					itemsLeft ? `${itemsLeft} other challenges were omitted. ` : ''
+				}Tip: hover over the codes`,
+			},
 		};
 
 		if (itemsLeft) embed.footer = { text: `${itemsLeft} other challenges were omitted.` };
