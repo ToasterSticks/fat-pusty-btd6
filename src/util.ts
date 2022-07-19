@@ -154,7 +154,6 @@ export const generateChallengeEmbed = ({
 				`Upvotes: ${info.stats.upvotes}`,
 				`Game version: ${info.gameVersion}`,
 				`Created <t:${Math.trunc(info.createdAt / 1000)}:R>`,
-				info.isUnlosable ? 'Unlosable' : '',
 			].join('\n'),
 		});
 
