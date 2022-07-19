@@ -5,7 +5,7 @@ import {
 } from 'discord-api-types/v10';
 
 import { AuthorizedUserData, SlashCommand } from '../types';
-import { formRequestOptions, getOption } from '../helpers';
+import { formRequestOptions, getOption } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -22,8 +22,8 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({ data, member: { user } }) => {
-		const code = (getOption(data, 'code') as string).toUpperCase();
+	async ({ data: { options }, member: { user } }) => {
+		const code = getOption<string>(options, 'code')!.toUpperCase();
 
 		const nonce = (Math.random() * Math.pow(2, 63)).toString();
 

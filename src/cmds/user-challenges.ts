@@ -12,7 +12,7 @@ import {
 	getOption,
 	spacePascalCase,
 	trimJoinedLength,
-} from '../helpers';
+} from '../util';
 
 const command: SlashCommand = [
 	{
@@ -26,8 +26,8 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({ data, member: { user } }) => {
-		const code = getOption(data, 'user') as string | null;
+	async ({ data: { options }, member: { user } }) => {
+		const code = getOption<string>(options, 'user');
 		const query = code ?? (await KV.get(user.id));
 
 		if (!query)
@@ -39,7 +39,7 @@ const command: SlashCommand = [
 				},
 			};
 
-		const btdUser = await findUser(query).catch(console.error);
+		const btdUser = await findUser(query);
 
 		if (!btdUser)
 			return {

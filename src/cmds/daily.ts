@@ -1,8 +1,12 @@
-import { ApplicationCommandOptionType, InteractionResponseType } from 'discord-api-types/v10';
+import {
+	APIApplicationCommandInteractionDataSubcommandOption,
+	ApplicationCommandOptionType,
+	InteractionResponseType,
+} from 'discord-api-types/v10';
 
-import { getOption } from '../helpers';
+import { getOption } from '../util';
 import { BloonsChallengeData, SlashCommand } from '../types';
-import { generateChallengeEmbed } from '../helpers';
+import { generateChallengeEmbed } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -10,26 +14,53 @@ const command: SlashCommand = [
 		description: "Display the daily challenge's details",
 		options: [
 			{
-				name: 'advanced',
-				description: 'Whether to display the advanced challenge',
-				type: ApplicationCommandOptionType.Boolean,
+				name: 'normal',
+				description: "Display the normal daily challenge's details",
+				type: ApplicationCommandOptionType.Subcommand,
+				options: [
+					{
+						name: 'challenge',
+						description: 'The number of the daily challenge to display',
+						type: ApplicationCommandOptionType.Integer,
+					},
+				],
 			},
 			{
-				name: 'challenge',
-				description: 'The number of the daily challenge to display',
-				type: ApplicationCommandOptionType.Integer,
+				name: 'advanced',
+				description: "Display the advanced challenge's details",
+				type: ApplicationCommandOptionType.Subcommand,
+				options: [
+					{
+						name: 'challenge',
+						description: 'The number of the advanced challenge to display',
+						type: ApplicationCommandOptionType.Integer,
+					},
+				],
 			},
 		],
 	},
-	async ({ data }) => {
+	async ({ data: { options } }) => {
 		const normalId = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24);
 		const advancedId = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24);
-		const isAdvanced = getOption(data, 'advanced') as boolean | null;
-		const id = (getOption(data, 'challenge') || (isAdvanced ? advancedId : normalId)).toString();
+
+		const normSubOptions = getOption<APIApplicationCommandInteractionDataSubcommandOption[]>(
+			options,
+			'normal'
+		);
+
+		const advSubOptions = getOption<APIApplicationCommandInteractionDataSubcommandOption[]>(
+			options,
+			'advanced'
+		);
+
+		const id = (
+			getOption<string>(normSubOptions ?? advSubOptions, 'challenge') ??
+			(advSubOptions ? advancedId : normalId)
+		).toString();
 
 		const challenge = (await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallenges${
-				isAdvanced ? 'Advanced' : ''
+				advSubOptions ? 'Advanced' : ''
 			}/${id}`
 		)
 			.then((res) => res.json())
@@ -43,7 +74,7 @@ const command: SlashCommand = [
 
 		const embed = generateChallengeEmbed({
 			data: challenge,
-			type: isAdvanced ? 'Advanced' : 'Daily',
+			type: advSubOptions ? 'Advanced' : 'Daily',
 			id,
 		});
 

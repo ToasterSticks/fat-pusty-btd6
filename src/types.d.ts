@@ -171,3 +171,81 @@ export interface Profile {
 	shortcode: string;
 	safeName: string;
 }
+
+export interface PublicUserProfile {
+	playerId: string;
+	playerRank: number;
+	playerXp: number;
+	veteranRank?: number;
+	veteranXp?: number;
+	avatar: string;
+	banner: string;
+	gameCount?: number;
+	gamesWon?: number;
+	highestRound?: number;
+	monkeysPlaced?: number;
+	bloonsPopped?: number;
+	camosPopped?: number;
+	leadsPopped?: number;
+	purplesPopped?: number;
+	regrowsPopped?: number;
+	ceramicsPopped?: number;
+	moabsPopped?: number;
+	bfbsPopped?: number;
+	zomgsPopped?: number;
+	ddtsPopped?: number;
+	badsPopped?: number;
+	bloonsLeaked?: number;
+	cashEarned?: number;
+	instaMonkeysUsed?: number;
+	powersUsed?: number;
+	abilitiesUsed?: number;
+	coopBloonsPopped?: number;
+	coopCashGiven?: number;
+	achievementsClaimed?: number[];
+	achievements?: number[];
+	hiddenAchievements?: number[];
+	hiddenAchievementsClaimed?: number[];
+	heroesPlacedData: { [key: string]: number };
+	towersPlacedData: { [key: string]: number };
+	spMedals: { [key: string]: number };
+	coopMedals: { [key: string]: number };
+	raceMedals: Medals;
+	bossMedals: Medals;
+	bossEliteMedals: Medals;
+	bossBadges: { [key: string]: BossBadge };
+	dailyRewards?: number;
+	challengesCompleted?: number;
+	savedStats: { [key: string]: boolean };
+	totalOdysseysCompleted?: number;
+	totalOdysseyStars?: number;
+	totalTrophiesEarned?: number;
+	statsVersion: number;
+	necroBloonsReanimated?: number;
+	transformingTonicsUsed?: number;
+	mostExperiencedMonkey?: string;
+	mostExperiencedMonkeyXp?: number;
+	instaMonkeyCollection?: number;
+	collectionChestsOpened?: number;
+	goldenBloonsPopped?: number;
+	monkeyTeamsWins?: number;
+	highestRoundCHIMPS?: number;
+	highestRoundDeflation?: number;
+}
+
+export interface BossBadge {
+	normalBadges: number;
+	eliteBadges: number;
+}
+
+export interface Medals {
+	BlackDiamond?: number;
+	RedDiamond?: number;
+	Diamond?: number;
+	GoldDiamond?: number;
+	Gold?: number;
+	GoldSilver?: number;
+	DoubleSilver?: number;
+	Silver?: number;
+	Bronze?: number;
+}

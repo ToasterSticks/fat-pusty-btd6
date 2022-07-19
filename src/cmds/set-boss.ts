@@ -5,7 +5,7 @@ import {
 } from 'discord-api-types/v10';
 
 import { SlashCommand } from '../types';
-import { getOption, OWNERS } from '../helpers';
+import { getOption, OWNERS } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -31,7 +31,7 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({ data, member: { user } }) => {
+	async ({ data: { options }, member: { user } }) => {
 		if (!OWNERS.includes(user.id))
 			return {
 				type: InteractionResponseType.ChannelMessageWithSource,
@@ -41,8 +41,8 @@ const command: SlashCommand = [
 				},
 			};
 
-		const type = getOption(data, 'type') as string;
-		const number = getOption(data, 'number') as number;
+		const type = getOption<string>(options, 'type')!;
+		const number = getOption<number>(options, 'number')!;
 
 		await KV.put('boss', type + number);
 

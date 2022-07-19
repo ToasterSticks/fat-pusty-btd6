@@ -7,6 +7,7 @@ import bossCommand from './boss';
 import setBossCommand from './set-boss';
 import saveProfileCommand from './save-profile';
 import userChallengesCommand from './user-challenges';
+import profileCommand from './profile';
 
 export const commands = [
 	pingCommand,
@@ -18,4 +19,5 @@ export const commands = [
 	setBossCommand,
 	saveProfileCommand,
 	userChallengesCommand,
+	profileCommand,
 ];

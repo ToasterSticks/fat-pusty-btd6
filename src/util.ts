@@ -1,4 +1,9 @@
-import { APIChatInputApplicationCommandInteractionData, APIEmbed } from 'discord-api-types/v10';
+import {
+	APIApplicationCommandInteractionDataBasicOption,
+	APIApplicationCommandInteractionDataOption,
+	APIApplicationCommandInteractionDataSubcommandOption,
+	APIEmbed,
+} from 'discord-api-types/v10';
 // @ts-expect-error No fucking types
 import nksku from 'nksku';
 
@@ -29,12 +34,21 @@ export const trimJoinedLength = (
 	return [newArr, arr.length - newArr.length];
 };
 
-export const getOption = (data: APIChatInputApplicationCommandInteractionData, name: string) => {
-	const option = data.options?.find((option) => option.name === name);
+export const getOption = <
+	T extends
+		| string
+		| number
+		| boolean
+		| APIApplicationCommandInteractionDataBasicOption[]
+		| APIApplicationCommandInteractionDataSubcommandOption[]
+>(
+	options: APIApplicationCommandInteractionDataOption[] | undefined,
+	name: string
+): T | undefined => {
+	const option = options?.find((option) => option.name === name);
 
-	if (!option) return null;
-
-	return 'value' in option ? option.value : null;
+	// @ts-expect-error Make this work
+	return option && ('value' in option ? option.value : option.options);
 };
 
 export const raceNonNullish = <T>(values: Promise<T>[]): Promise<T | null> =>
@@ -66,7 +80,10 @@ export const formRequestOptions = (data: Record<string, unknown>, nonce: string)
 			sig: nksku.signonce.sign(dataStr, nonce),
 			nonce,
 		}),
-		headers: { 'User-Agent': 'btd6-windowsplayer-31.2', 'Content-Type': 'application/json' },
+		headers: {
+			'User-Agent': `btd6-windowsplayer-${Constants.GAME_VERSION}`,
+			'Content-Type': 'application/json',
+		},
 	};
 };
 
@@ -126,6 +143,10 @@ export const generateChallengeEmbed = ({
 	};
 
 	if (info) {
+		const [majorVer, minorVer] = Constants.GAME_VERSION.split('.');
+		embed.color =
+			info.latestVersionBeaten < Number(`${majorVer}0${minorVer}00`) ? 6516351 : 5874422;
+
 		embed.fields?.push({
 			name: 'General Info',
 			value: [
@@ -416,3 +437,8 @@ const difficultyIcons: Record<string, string> = {
 	Medium: '08e5b02e88d6d4c50e75d6e433db359d',
 	Hard: '6e6137d23ad90d5df01ddd4baf1ac36e',
 };
+
+export const Constants = {
+	EMBED_COLOR: 13296619,
+	GAME_VERSION: '31.2',
+} as const;

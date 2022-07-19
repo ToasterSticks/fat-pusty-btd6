@@ -5,7 +5,7 @@ import {
 } from 'discord-api-types/v10';
 
 import { BloonsBossData, SlashCommand } from '../types';
-import { capitalize, generateChallengeEmbed, getOption } from '../helpers';
+import { capitalize, generateChallengeEmbed, getOption } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -19,7 +19,7 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({ data }) => {
+	async ({ data: { options } }) => {
 		const id = await KV.get('boss');
 
 		const { normalDcm, eliteDcm, bossType } = (await fetch(
@@ -40,7 +40,7 @@ const command: SlashCommand = [
 		normalDcm.name = `${capitalize(bossType)} Normal`;
 		eliteDcm.name = `${capitalize(bossType)} Elite`;
 
-		const isElite = getOption(data, 'elite') as boolean | null;
+		const isElite = getOption<boolean>(options, 'elite');
 
 		const embed = generateChallengeEmbed({ data: isElite ? eliteDcm : normalDcm });
 

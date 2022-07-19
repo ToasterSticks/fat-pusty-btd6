@@ -11,7 +11,7 @@ import {
 	BloonsChallengeData,
 	SlashCommand,
 } from '../types';
-import { formRequestOptions, generateChallengeEmbed, getOption } from '../helpers';
+import { formRequestOptions, generateChallengeEmbed, getOption } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -28,8 +28,8 @@ const command: SlashCommand = [
 			},
 		],
 	},
-	async ({ data }) => {
-		const code = (getOption(data, 'code') as string).toUpperCase();
+	async ({ data: { options } }) => {
+		const code = getOption<string>(options, 'code')!.toUpperCase();
 
 		const nonce = (Math.random() * Math.pow(2, 63)).toString();
 
