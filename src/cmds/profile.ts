@@ -77,8 +77,48 @@ const command: SlashCommand = [
 							)} XP)`,
 							icon_url: 'https://i.gyazo.com/77b67f0ab4ab75ab36eb31e090f3630b.png',
 					  },
-			title: `${btdUser.displayName}'s Profile`,
+			title: btdUser.displayName,
 			footer: { text: `ID: ${btdUser.nkapiID}` },
+			fields: [
+				{
+					name: 'General Info',
+					value: [
+						`Games played: ${addNumberSeparator(profile.gameCount)}`,
+						`Games won: ${addNumberSeparator(profile.gamesWon)}`,
+						`Highest round: ${addNumberSeparator(profile.highestRound)}`,
+						`Bloons popped: ${addNumberSeparator(profile.bloonsPopped)}`,
+						`Cash earned: ${addNumberSeparator(profile.cashEarned)}`,
+						`Powers used: ${profile.powersUsed ?? 0}`,
+						`Achievements completed: ${profile.achievements?.length ?? 0}/128`,
+						`Hidden achievements: ${profile.achievements?.length ?? 0}/12`,
+						`Monkey team wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
+						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped ?? 0)}`,
+					]
+						.filter((x) => x)
+						.join('\n'),
+				},
+				{
+					name: 'Towers',
+					value: [
+						`Most experienced tower: ${
+							profile.mostExperiencedMonkey
+								? `${profile.mostExperiencedMonkey} (${addNumberSeparator(
+										profile.mostExperiencedMonkeyXp!
+								  )} XP)`
+								: 'None'
+						}`,
+						`Instas used: ${addNumberSeparator(profile.instaMonkeysUsed ?? 0)}`,
+						`Insta collection: ${addNumberSeparator(profile.instaMonkeyCollection ?? 0)}`,
+						`Collection chests opened: ${addNumberSeparator(profile.collectionChestsOpened ?? 0)}`,
+					]
+						.filter((x) => x)
+						.join('\n'),
+				},
+				{
+					name: 'Medals',
+					value: [`Solo: Looool coming soon`].filter((x) => x).join('\n'),
+				},
+			],
 		};
 
 		return {

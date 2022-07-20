@@ -147,7 +147,7 @@ export const generateChallengeEmbed = ({
 		embed.color =
 			info.latestVersionBeaten < Number(`${majorVer}0${minorVer}00`) ? 6516351 : 5874422;
 
-		embed.fields?.push({
+		embed.fields!.push({
 			name: 'General Info',
 			value: [
 				`Creator: ${info.owner}`,
@@ -159,7 +159,7 @@ export const generateChallengeEmbed = ({
 
 		const attempts = info.stats.plays + (info.stats.restarts ?? 0);
 
-		embed.fields?.push({
+		embed.fields!.push({
 			name: 'Statistics',
 			value: [`Attempts: ${addNumberSeparator(attempts)}`]
 				.concat(
@@ -299,12 +299,12 @@ export const generateChallengeEmbed = ({
 	const isSingleRound = startRules.round === startRules.endRound;
 
 	if (modifiers.length)
-		embed.fields?.push({
+		embed.fields!.push({
 			name: `Modifier${modifiers.length > 1 ? 's' : ''}`,
 			value: modifiers.join('\n'),
 		});
 
-	embed.fields?.push(
+	embed.fields!.push(
 		{
 			name: 'Lives',
 			value: `${addNumberSeparator(startRules.lives)}/${addNumberSeparator(startRules.maxLives)}`,
@@ -327,7 +327,7 @@ export const generateChallengeEmbed = ({
 	getTowers(data.towers).forEach(
 		([category, towers]) =>
 			towers &&
-			embed.fields?.push({
+			embed.fields!.push({
 				name: category,
 				value: towers,
 			})

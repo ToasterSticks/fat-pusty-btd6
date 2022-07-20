@@ -180,11 +180,11 @@ export interface PublicUserProfile {
 	veteranXp?: number;
 	avatar: string;
 	banner: string;
-	gameCount?: number;
-	gamesWon?: number;
-	highestRound?: number;
-	monkeysPlaced?: number;
-	bloonsPopped?: number;
+	gameCount: number;
+	gamesWon: number;
+	highestRound: number;
+	monkeysPlaced: number;
+	bloonsPopped: number;
 	camosPopped?: number;
 	leadsPopped?: number;
 	purplesPopped?: number;
@@ -196,7 +196,7 @@ export interface PublicUserProfile {
 	ddtsPopped?: number;
 	badsPopped?: number;
 	bloonsLeaked?: number;
-	cashEarned?: number;
+	cashEarned: number;
 	instaMonkeysUsed?: number;
 	powersUsed?: number;
 	abilitiesUsed?: number;
