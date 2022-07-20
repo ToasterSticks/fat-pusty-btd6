@@ -6,7 +6,7 @@ import {
 } from 'discord-api-types/v10';
 
 import { PublicUserProfile, SlashCommand } from '../types';
-import { findUser, getOption, addNumberSeparator } from '../util';
+import { findUser, getOption, addNumberSeparator, spacePascalCase } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -90,7 +90,7 @@ const command: SlashCommand = [
 						`Cash earned: ${addNumberSeparator(profile.cashEarned)}`,
 						`Powers used: ${profile.powersUsed ?? 0}`,
 						`Achievements completed: ${profile.achievements?.length ?? 0}/128`,
-						`Hidden achievements: ${profile.achievements?.length ?? 0}/12`,
+						`Hidden achievements: ${profile.hiddenAchievements?.length ?? 0}/12`,
 						`Monkey team wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
 						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped ?? 0)}`,
 					]
@@ -100,9 +100,9 @@ const command: SlashCommand = [
 				{
 					name: 'Towers',
 					value: [
-						`Most experienced tower: ${
+						`Most experienced: ${
 							profile.mostExperiencedMonkey
-								? `${profile.mostExperiencedMonkey} (${addNumberSeparator(
+								? `${spacePascalCase(profile.mostExperiencedMonkey)} (${addNumberSeparator(
 										profile.mostExperiencedMonkeyXp!
 								  )} XP)`
 								: 'None'
