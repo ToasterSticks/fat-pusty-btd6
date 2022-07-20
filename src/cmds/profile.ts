@@ -93,6 +93,7 @@ const command: SlashCommand = [
 							profile.achievementsClaimed.length - profile.hiddenAchievementsClaimed.length
 						}/${profile.achievements.length}`,
 						`Hidden achievements: ${profile.hiddenAchievementsClaimed.length}/${profile.hiddenAchievements.length}`,
+						`Challenges completed: ${addNumberSeparator(profile.challengesCompleted ?? 0)}`,
 						`Monkey Teams wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
 						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped ?? 0)}`,
 					]
