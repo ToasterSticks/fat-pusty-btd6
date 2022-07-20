@@ -79,6 +79,7 @@ const command: SlashCommand = [
 		}
 
 		const challenge: BloonsChallengeData = JSON.parse(decompressed);
+		const creatorID = info.owner;
 
 		if (info)
 			await Promise.all(
@@ -118,6 +119,8 @@ const command: SlashCommand = [
 			id: code,
 			info: info,
 		});
+
+		embed.footer = { text: `User ID: ${creatorID}` };
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
