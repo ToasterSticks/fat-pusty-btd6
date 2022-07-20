@@ -2,11 +2,11 @@ import {
 	APIApplicationCommandInteractionDataSubcommandOption,
 	ApplicationCommandOptionType,
 	InteractionResponseType,
+	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { getOption } from '../util';
+import { getOption, generateChallengeEmbed } from '../util';
 import { BloonsChallengeData, SlashCommand } from '../types';
-import { generateChallengeEmbed } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -69,7 +69,10 @@ const command: SlashCommand = [
 		if (!challenge)
 			return {
 				type: InteractionResponseType.ChannelMessageWithSource,
-				data: { content: 'There is no data for the provided challenge number.' },
+				data: {
+					content: 'There is no data for the provided challenge number.',
+					flags: MessageFlags.Ephemeral,
+				},
 			};
 
 		const embed = generateChallengeEmbed({
