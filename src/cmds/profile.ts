@@ -11,7 +11,7 @@ import { findUser, getOption, addNumberSeparator, spacePascalCase } from '../uti
 const command: SlashCommand = [
 	{
 		name: 'profile',
-		description: "Display a user's profile (WIP)",
+		description: "Display a user's profile",
 		options: [
 			{
 				name: 'user',
@@ -96,9 +96,7 @@ const command: SlashCommand = [
 						`Challenges completed: ${addNumberSeparator(profile.challengesCompleted ?? 0)}`,
 						`Monkey Teams wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
 						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped ?? 0)}`,
-					]
-						.filter((x) => x)
-						.join('\n'),
+					].join('\n'),
 				},
 				{
 					name: 'Towers',
@@ -113,13 +111,32 @@ const command: SlashCommand = [
 						`Instas used: ${addNumberSeparator(profile.instaMonkeysUsed ?? 0)}`,
 						`Insta collection: ${addNumberSeparator(profile.instaMonkeyCollection ?? 0)}`,
 						`Collection chests opened: ${addNumberSeparator(profile.collectionChestsOpened ?? 0)}`,
-					]
-						.filter((x) => x)
-						.join('\n'),
+					].join('\n'),
 				},
 				{
 					name: 'Medals',
-					value: [`Solo: Looool coming soon`].filter((x) => x).join('\n'),
+					value: [
+						`Solo:\u2800<:_:999431047286628494> - (${profile.spMedals['CHIMPS-BLACK']})\u2800<:_:999431048217767946> - (${profile.spMedals.Clicks})`,
+						`Coop:\u2800<:_:999431041997611149> - (${profile.coopMedals['CHIMPS-BLACK']})\u2800<:_:999431043025227888> - (${profile.coopMedals.Clicks})`,
+
+						`Race:\u2800<:_:999431043931197480> - (${
+							profile.raceMedals.BlackDiamond ?? 0
+						})\u2800<:_:999431045764104203> - (${
+							profile.raceMedals.RedDiamond ?? 0
+						})\u2800<:_:999431045260783686> - (${profile.raceMedals.Diamond ?? 0})`,
+
+						`Boss:\u2800<:_:999432157850251314> - (${
+							profile.bossMedals.BlackDiamond ?? 0
+						})\u2800<:_:999432160119369759> - (${
+							profile.bossMedals.RedDiamond ?? 0
+						})\u2800<:_:999432158978527312> - (${profile.bossMedals.Diamond ?? 0})`,
+
+						`Elite boss:\u2800<:_:999432161348305026> - (${
+							profile.bossEliteMedals.BlackDiamond ?? 0
+						})\u2800<:_:999432165655859290> - (${
+							profile.bossEliteMedals.RedDiamond ?? 0
+						})\u2800<:_:999432164057817138> - (${profile.bossEliteMedals.Diamond ?? 0})`,
+					].join('\n'),
 				},
 			],
 		};
