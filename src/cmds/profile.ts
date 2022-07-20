@@ -126,16 +126,16 @@ const command: SlashCommand = [
 						})\u2800<:_:999431045260783686> - (${profile.raceMedals.Diamond ?? 0})`,
 
 						`Boss:\u2800<:_:999432157850251314> - (${
-							profile.bossMedals.BlackDiamond ?? 0
+							profile.bossMedals?.BlackDiamond ?? 0
 						})\u2800<:_:999432160119369759> - (${
-							profile.bossMedals.RedDiamond ?? 0
-						})\u2800<:_:999432158978527312> - (${profile.bossMedals.Diamond ?? 0})`,
+							profile.bossMedals?.RedDiamond ?? 0
+						})\u2800<:_:999432158978527312> - (${profile.bossMedals?.Diamond ?? 0})`,
 
 						`Elite boss:\u2800<:_:999432161348305026> - (${
-							profile.bossEliteMedals.BlackDiamond ?? 0
+							profile.bossEliteMedals?.BlackDiamond ?? 0
 						})\u2800<:_:999432165655859290> - (${
-							profile.bossEliteMedals.RedDiamond ?? 0
-						})\u2800<:_:999432164057817138> - (${profile.bossEliteMedals.Diamond ?? 0})`,
+							profile.bossEliteMedals?.RedDiamond ?? 0
+						})\u2800<:_:999432164057817138> - (${profile.bossEliteMedals?.Diamond ?? 0})`,
 					].join('\n'),
 				},
 			],
