@@ -117,7 +117,7 @@ const command: SlashCommand = [
 					name: 'Medals',
 					value: [
 						`Solo:\u2800<:_:999431047286628494> - (${profile.spMedals['CHIMPS-BLACK']})\u2800<:_:999431048217767946> - (${profile.spMedals.Clicks})`,
-						`Coop:\u2800<:_:999431041997611149> - (${profile.coopMedals['CHIMPS-BLACK']})\u2800<:_:999431043025227888> - (${profile.coopMedals.Clicks})`,
+						`Co-Op:\u2800<:_:999431041997611149> - (${profile.coopMedals['CHIMPS-BLACK']})\u2800<:_:999431043025227888> - (${profile.coopMedals.Clicks})`,
 
 						`Race:\u2800<:_:999431043931197480> - (${
 							profile.raceMedals.BlackDiamond ?? 0
