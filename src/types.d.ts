@@ -211,8 +211,8 @@ export interface PublicUserProfile {
 	spMedals: { [key: string]: number };
 	coopMedals: { [key: string]: number };
 	raceMedals: Medals;
-	bossMedals: Medals;
-	bossEliteMedals: Medals;
+	bossMedals?: Medals;
+	bossEliteMedals?: Medals;
 	bossBadges: { [key: string]: BossBadge };
 	dailyRewards?: number;
 	challengesCompleted?: number;
