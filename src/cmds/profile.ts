@@ -91,7 +91,7 @@ const command: SlashCommand = [
 						`Powers used: ${profile.powersUsed ?? 0}`,
 						`Achievements completed: ${profile.achievements?.length ?? 0}/128`,
 						`Hidden achievements: ${profile.hiddenAchievements?.length ?? 0}/12`,
-						`Monkey team wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
+						`Monkey Teams wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
 						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped ?? 0)}`,
 					]
 						.filter((x) => x)
