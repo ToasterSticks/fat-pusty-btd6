@@ -93,9 +93,9 @@ const command: SlashCommand = [
 							profile.achievementsClaimed.length - profile.hiddenAchievementsClaimed.length
 						}/${profile.achievements.length}`,
 						`Hidden achievements: ${profile.hiddenAchievementsClaimed.length}/${profile.hiddenAchievements.length}`,
-						`Challenges completed: ${addNumberSeparator(profile.challengesCompleted ?? 0)}`,
-						`Monkey Teams wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
-						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped ?? 0)}`,
+						`Challenges completed: ${addNumberSeparator(profile.challengesCompleted)}`,
+						`Monkey Teams wins: ${addNumberSeparator(profile.monkeyTeamsWins)}`,
+						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped)}`,
 					].join('\n'),
 				},
 				{
@@ -108,9 +108,9 @@ const command: SlashCommand = [
 								  )} XP)`
 								: 'None'
 						}`,
-						`Instas used: ${addNumberSeparator(profile.instaMonkeysUsed ?? 0)}`,
-						`Insta collection: ${addNumberSeparator(profile.instaMonkeyCollection ?? 0)}`,
-						`Collection chests opened: ${addNumberSeparator(profile.collectionChestsOpened ?? 0)}`,
+						`Instas used: ${addNumberSeparator(profile.instaMonkeysUsed)}`,
+						`Insta collection: ${addNumberSeparator(profile.instaMonkeyCollection)}`,
+						`Collection chests opened: ${addNumberSeparator(profile.collectionChestsOpened)}`,
 					].join('\n'),
 				},
 				{

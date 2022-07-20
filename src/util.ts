@@ -13,7 +13,9 @@ export const OWNERS = ['320546614857170945'];
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.substring(1);
 
-export const addNumberSeparator = (num: number) => {
+export const addNumberSeparator = (num?: number) => {
+	if (!num) return '0';
+
 	const digits = (Math.log(num) * Math.LOG10E + 1) | 0;
 	return digits > 4 ? num.toLocaleString() : num.toString();
 };
