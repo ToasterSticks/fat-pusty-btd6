@@ -78,6 +78,7 @@ const command: SlashCommand = [
 							icon_url: 'https://i.gyazo.com/77b67f0ab4ab75ab36eb31e090f3630b.png',
 					  },
 			title: `${btdUser.displayName}'s Profile`,
+			footer: { text: `ID: ${btdUser.nkapiID}` },
 		};
 
 		return {
