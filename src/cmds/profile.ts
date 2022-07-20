@@ -89,8 +89,8 @@ const command: SlashCommand = [
 						`Bloons popped: ${addNumberSeparator(profile.bloonsPopped)}`,
 						`Cash earned: ${addNumberSeparator(profile.cashEarned)}`,
 						`Powers used: ${profile.powersUsed ?? 0}`,
-						`Achievements completed: ${profile.achievements?.length ?? 0}/128`,
-						`Hidden achievements: ${profile.hiddenAchievements?.length ?? 0}/12`,
+						`Achievements completed: ${profile.achievementsClaimed.length}/${profile.achievements.length}`,
+						`Hidden achievements: ${profile.hiddenAchievementsClaimed.length}/${profile.hiddenAchievements.length}`,
 						`Monkey Teams wins: ${addNumberSeparator(profile.monkeyTeamsWins ?? 0)}`,
 						`Golden Bloons popped: ${addNumberSeparator(profile.goldenBloonsPopped ?? 0)}`,
 					]

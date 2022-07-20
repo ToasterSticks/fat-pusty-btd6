@@ -202,10 +202,10 @@ export interface PublicUserProfile {
 	abilitiesUsed?: number;
 	coopBloonsPopped?: number;
 	coopCashGiven?: number;
-	achievementsClaimed?: number[];
-	achievements?: number[];
-	hiddenAchievements?: number[];
-	hiddenAchievementsClaimed?: number[];
+	achievementsClaimed: number[];
+	achievements: number[];
+	hiddenAchievements: number[];
+	hiddenAchievementsClaimed: number[];
 	heroesPlacedData: { [key: string]: number };
 	towersPlacedData: { [key: string]: number };
 	spMedals: { [key: string]: number };
