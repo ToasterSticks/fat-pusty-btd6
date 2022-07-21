@@ -122,6 +122,7 @@ const command: SlashCommand = [
 						`<:_:999431043931197480> - ${raceMedals.BlackDiamond ?? 0}`,
 						`<:_:999431045764104203> - ${raceMedals.RedDiamond ?? 0}`,
 						`<:_:999431045260783686> - ${raceMedals.Diamond ?? 0}`,
+						`<:_:999715100694945813> - ${raceMedals.Diamond ?? 0}`,
 					].join('\n'),
 				},
 				{
@@ -131,6 +132,7 @@ const command: SlashCommand = [
 						`<:_:999432157850251314> - ${bossMedals?.BlackDiamond ?? 0}`,
 						`<:_:999432160119369759> - ${bossMedals?.RedDiamond ?? 0}`,
 						`<:_:999432158978527312> - ${bossMedals?.Diamond ?? 0}`,
+						`<:_:999715099575075017> - ${bossMedals?.Diamond ?? 0}`,
 					].join('\n'),
 				},
 				{
@@ -140,6 +142,7 @@ const command: SlashCommand = [
 						`<:_:999432161348305026> - ${bossEliteMedals?.BlackDiamond ?? 0}`,
 						`<:_:999432165655859290> - ${bossEliteMedals?.RedDiamond ?? 0}`,
 						`<:_:999432164057817138> - ${bossEliteMedals?.Diamond ?? 0}`,
+						`<:_:999714137909235724> - ${bossEliteMedals?.Diamond ?? 0}`,
 					].join('\n'),
 				},
 				{
