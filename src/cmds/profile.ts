@@ -44,11 +44,12 @@ const command: SlashCommand = [
 				},
 			};
 
-		const profile = (await fetch(
-			`https://fast-static-api.nkstatic.com/storage/static/11/${btdUser.nkapiID}/public-stats`
-		)
-			.then((res) => res.json())
-			.catch(() => null)) as PublicUserProfile;
+		const { spMedals, coopMedals, raceMedals, bossMedals, bossEliteMedals, ...profile } =
+			(await fetch(
+				`https://fast-static-api.nkstatic.com/storage/static/11/${btdUser.nkapiID}/public-stats`
+			)
+				.then((res) => res.json())
+				.catch(() => null)) as PublicUserProfile;
 
 		if (!profile)
 			return {
@@ -114,28 +115,46 @@ const command: SlashCommand = [
 					].join('\n'),
 				},
 				{
-					name: 'Medals',
+					name: 'Race',
+					inline: true,
 					value: [
-						`Solo:\u2800<:_:999431047286628494> - (${profile.spMedals['CHIMPS-BLACK']})\u2800<:_:999431048217767946> - (${profile.spMedals.Clicks})`,
-						`Co-Op:\u2800<:_:999431041997611149> - (${profile.coopMedals['CHIMPS-BLACK']})\u2800<:_:999431043025227888> - (${profile.coopMedals.Clicks})`,
-
-						`Race:\u2800<:_:999431043931197480> - (${
-							profile.raceMedals.BlackDiamond ?? 0
-						})\u2800<:_:999431045764104203> - (${
-							profile.raceMedals.RedDiamond ?? 0
-						})\u2800<:_:999431045260783686> - (${profile.raceMedals.Diamond ?? 0})`,
-
-						`Boss:\u2800<:_:999432157850251314> - (${
-							profile.bossMedals?.BlackDiamond ?? 0
-						})\u2800<:_:999432160119369759> - (${
-							profile.bossMedals?.RedDiamond ?? 0
-						})\u2800<:_:999432158978527312> - (${profile.bossMedals?.Diamond ?? 0})`,
-
-						`Elite boss:\u2800<:_:999432161348305026> - (${
-							profile.bossEliteMedals?.BlackDiamond ?? 0
-						})\u2800<:_:999432165655859290> - (${
-							profile.bossEliteMedals?.RedDiamond ?? 0
-						})\u2800<:_:999432164057817138> - (${profile.bossEliteMedals?.Diamond ?? 0})`,
+						`<:_:999431043931197480> - ${raceMedals.BlackDiamond ?? 0}`,
+						`<:_:999431045764104203> - ${raceMedals.RedDiamond ?? 0}`,
+						`<:_:999431045260783686> - ${raceMedals.Diamond ?? 0}`,
+					].join('\n'),
+				},
+				{
+					name: 'Boss',
+					inline: true,
+					value: [
+						`<:_:999432157850251314> - ${bossMedals?.BlackDiamond ?? 0}`,
+						`<:_:999432160119369759> - ${bossMedals?.RedDiamond ?? 0}`,
+						`<:_:999432158978527312> - ${bossMedals?.Diamond ?? 0}`,
+					].join('\n'),
+				},
+				{
+					name: 'Elite Boss',
+					inline: true,
+					value: [
+						`<:_:999432161348305026> - ${bossEliteMedals?.BlackDiamond ?? 0}`,
+						`<:_:999432165655859290> - ${bossEliteMedals?.RedDiamond ?? 0}`,
+						`<:_:999432164057817138> - ${bossEliteMedals?.Diamond ?? 0}`,
+					].join('\n'),
+				},
+				{
+					name: 'Solo',
+					inline: true,
+					value: [
+						`<:_:999431048217767946> - ${spMedals.Clicks}`,
+						`<:_:999431047286628494> - ${spMedals['CHIMPS-BLACK']}`,
+					].join('\n'),
+				},
+				{
+					name: 'Co-Op',
+					inline: true,
+					value: [
+						`<:_:999431043025227888> - ${coopMedals.Clicks}`,
+						`<:_:999431041997611149> - ${coopMedals['CHIMPS-BLACK']}`,
 					].join('\n'),
 				},
 			],
