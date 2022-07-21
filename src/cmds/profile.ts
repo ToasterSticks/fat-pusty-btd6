@@ -44,12 +44,11 @@ const command: SlashCommand = [
 				},
 			};
 
-		const { spMedals, coopMedals, raceMedals, bossMedals, bossEliteMedals, ...profile } =
-			(await fetch(
-				`https://fast-static-api.nkstatic.com/storage/static/11/${btdUser.nkapiID}/public-stats`
-			)
-				.then((res) => res.json())
-				.catch(() => null)) as PublicUserProfile;
+		const profile = (await fetch(
+			`https://fast-static-api.nkstatic.com/storage/static/11/${btdUser.nkapiID}/public-stats`
+		)
+			.then((res) => res.json())
+			.catch(() => null)) as PublicUserProfile;
 
 		if (!profile)
 			return {
@@ -59,6 +58,8 @@ const command: SlashCommand = [
 					flags: MessageFlags.Ephemeral,
 				},
 			};
+
+		const { spMedals, coopMedals, raceMedals, bossMedals, bossEliteMedals } = profile;
 
 		const embed: APIEmbed = {
 			color: 13296619,
