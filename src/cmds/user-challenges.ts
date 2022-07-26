@@ -104,7 +104,7 @@ const command: SlashCommand = [
 		const embed: APIEmbed = {
 			color: 13296619,
 			title: btdUser.displayName,
-			thumbnail: { url: 'https://i.gyazo.com/04aab0ce9c39bf995c7fc263d4059bd3.png' },
+			thumbnail: { url: 'https://i.gyazo.com/1a2e98dd6d3809a1d09fcb34f7a78649.png' },
 			description: challengeList.join('\n'),
 			footer: {
 				text: `${
