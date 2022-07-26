@@ -50,28 +50,23 @@ const command: SlashCommand = [
 				},
 			};
 
-		const nonce = (Math.random() * Math.pow(2, 63)).toString();
-
 		const { results } = await fetch(
 			'https://api.ninjakiwi.com/utility/es/search/full',
-			formRequestOptions(
-				{
-					index: 'challenges',
-					query: {
-						bool: {
-							must_not: [{ match: { isDeleted: true } }],
-							should: [{ match: { owner: btdUser.nkapiID } }],
-						},
+			formRequestOptions({
+				index: 'challenges',
+				query: {
+					bool: {
+						must_not: [{ match: { isDeleted: true } }],
+						should: [{ match: { owner: btdUser.nkapiID } }],
 					},
-					options: {
-						sort: [{ createdAt: 'desc' }],
-						search_type: 'query_then_fetch',
-					},
-					limit: 9999,
-					offset: 0,
 				},
-				nonce
-			)
+				options: {
+					sort: [{ createdAt: 'desc' }],
+					search_type: 'query_then_fetch',
+				},
+				limit: 9999,
+				offset: 0,
+			})
 		)
 			.then((res) => res.json() as Promise<{ data: string }>)
 			.then(({ data }) => JSON.parse(data) as AuthorizedChallengeData);

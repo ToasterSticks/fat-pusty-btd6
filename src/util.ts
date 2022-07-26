@@ -66,8 +66,9 @@ export const raceNonNullish = <T>(values: Promise<T>[]): Promise<T | null> =>
 		(val) => Promise.resolve(val)
 	);
 
-export const formRequestOptions = (data: Record<string, unknown>, nonce: string) => {
+export const formRequestOptions = (data: Record<string, unknown>) => {
 	const dataStr = JSON.stringify(data);
+	const nonce = (Math.random() * Math.pow(2, 63)).toString();
 
 	return {
 		method: 'POST',
@@ -92,18 +93,13 @@ export const formRequestOptions = (data: Record<string, unknown>, nonce: string)
 export const findUser = (query: string) =>
 	raceNonNullish(
 		['nkapiID', 'shortcode', 'displayName'].map((method): Promise<Profile | undefined> => {
-			const nonce = (Math.random() * Math.pow(2, 63)).toString();
-
 			return fetch(
 				'https://api.ninjakiwi.com/user/search',
-				formRequestOptions(
-					{
-						method,
-						keys: [query],
-						includeOnlineStatus: false,
-					},
-					nonce
-				)
+				formRequestOptions({
+					method,
+					keys: [query],
+					includeOnlineStatus: false,
+				})
 			)
 				.then((res) => res.json() as Promise<{ data: string }>)
 				.then(({ data }) => Object.values((JSON.parse(data) as AuthorizedUserData).users)[0]);

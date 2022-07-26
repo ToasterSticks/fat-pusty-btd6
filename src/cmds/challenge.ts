@@ -31,25 +31,20 @@ const command: SlashCommand = [
 	async ({ data: { options } }) => {
 		const code = getOption<string>(options, 'code')!.toUpperCase();
 
-		const nonce = (Math.random() * Math.pow(2, 63)).toString();
-
 		const [b64Str, { results }] = await Promise.all([
 			fetch(`https://static-api.nkstatic.com/appdocs/11/es/challenges/${code}`).then((res) =>
 				res.text()
 			),
 			fetch(
 				'https://api.ninjakiwi.com/utility/es/search',
-				formRequestOptions(
-					{
-						index: 'challenges',
-						query: `id:${code}`,
-						limit: 1,
-						offset: 0,
-						hint: 'single_challenge',
-						options: {},
-					},
-					nonce
-				)
+				formRequestOptions({
+					index: 'challenges',
+					query: `id:${code}`,
+					limit: 1,
+					offset: 0,
+					hint: 'single_challenge',
+					options: {},
+				})
 			)
 				.then((res) => res.json() as Promise<{ data: string }>)
 				.then(({ data }) => JSON.parse(data) as AuthorizedChallengeData),
@@ -97,14 +92,11 @@ const command: SlashCommand = [
 
 					const { users } = await fetch(
 						'https://api.ninjakiwi.com/user/search',
-						formRequestOptions(
-							{
-								method: 'nkapiID',
-								keys: [value],
-								includeOnlineStatus: false,
-							},
-							nonce
-						)
+						formRequestOptions({
+							method: 'nkapiID',
+							keys: [value],
+							includeOnlineStatus: false,
+						})
 					)
 						.then((res) => res.json() as Promise<{ data: string }>)
 						.then(({ data }) => JSON.parse(data) as AuthorizedUserData);

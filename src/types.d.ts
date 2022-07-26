@@ -249,3 +249,18 @@ export interface Medals {
 	Silver?: number;
 	Bronze?: number;
 }
+
+export interface UserWallets {
+	wallets: {
+		NK_ACCDATA: {
+			nkapiID: string;
+			walletName: string;
+			currencies: Currencies;
+			appID: number;
+		};
+	};
+}
+
+export interface Currencies {
+	'0x0A'?: number;
+}

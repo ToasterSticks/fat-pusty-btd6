@@ -25,18 +25,13 @@ const command: SlashCommand = [
 	async ({ data: { options }, member: { user } }) => {
 		const code = getOption<string>(options, 'code')!.toUpperCase();
 
-		const nonce = (Math.random() * Math.pow(2, 63)).toString();
-
 		const { users } = await fetch(
 			'https://api.ninjakiwi.com/user/search',
-			formRequestOptions(
-				{
-					method: 'shortcode',
-					keys: [code],
-					includeOnlineStatus: false,
-				},
-				nonce
-			)
+			formRequestOptions({
+				method: 'shortcode',
+				keys: [code],
+				includeOnlineStatus: false,
+			})
 		)
 			.then((res) => res.json() as Promise<{ data: string }>)
 			.then(({ data }) => JSON.parse(data) as AuthorizedUserData);

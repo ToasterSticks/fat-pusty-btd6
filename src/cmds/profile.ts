@@ -5,8 +5,14 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { PublicUserProfile, SlashCommand } from '../types';
-import { findUser, getOption, addNumberSeparator, spacePascalCase } from '../util';
+import { PublicUserProfile, SlashCommand, UserWallets } from '../types';
+import {
+	findUser,
+	getOption,
+	addNumberSeparator,
+	spacePascalCase,
+	formRequestOptions,
+} from '../util';
 
 const command: SlashCommand = [
 	{
@@ -44,11 +50,19 @@ const command: SlashCommand = [
 				},
 			};
 
-		const profile = (await fetch(
-			`https://fast-static-api.nkstatic.com/storage/static/11/${btdUser.nkapiID}/public-stats`
-		)
-			.then((res) => res.json())
-			.catch(() => null)) as PublicUserProfile;
+		const [profile, { wallets }] = await Promise.all([
+			fetch(
+				`https://fast-static-api.nkstatic.com/storage/static/11/${btdUser.nkapiID}/public-stats`
+			)
+				.then((res) => res.json() as Promise<PublicUserProfile>)
+				.catch(() => null),
+			fetch(
+				'https://api.ninjakiwi.com/bank/balances',
+				formRequestOptions({ accountHolder: btdUser.nkapiID, wallets: ['NK_ACCDATA'] })
+			)
+				.then((res) => res.json() as Promise<{ data: string }>)
+				.then(({ data }) => JSON.parse(data) as UserWallets),
+		]);
 
 		if (!profile)
 			return {
@@ -80,7 +94,12 @@ const command: SlashCommand = [
 							icon_url: 'https://i.gyazo.com/77b67f0ab4ab75ab36eb31e090f3630b.png',
 					  },
 			title: btdUser.displayName,
-			footer: { text: `User ID: ${btdUser.nkapiID}` },
+			footer: {
+				icon_url: wallets.NK_ACCDATA.currencies['0x0A']
+					? 'https://i.gyazo.com/b2c29384187f986dee27f40665194393.png'
+					: undefined,
+				text: `User ID: ${btdUser.nkapiID}`,
+			},
 			fields: [
 				{
 					name: 'General Info',
