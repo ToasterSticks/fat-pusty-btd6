@@ -185,6 +185,9 @@ export const generateChallengeEmbed = ({
 
 	if (data.disableSelling) modifiers.push('<:_:947206526018387999> Selling disabled');
 	if (data.disableMK) modifiers.push('<:_:947206527721291786> Knowledge disabled');
+	if (data.disablePowers) modifiers.push('<:_:947206527905845338> Powers disabled');
+	if (data.noContinues) modifiers.push('<:_:947206501423009872> Continues disabled');
+	if (data.disableDoubleCash) modifiers.push('<:_:1001962075360329891> Double cash disabled');
 	if (data.bloonModifiers.allCamo) modifiers.push('<:_:947206526765002843> All camo');
 	if (data.bloonModifiers.allRegen) modifiers.push('<:_:947206530162376804> All regrow ');
 
