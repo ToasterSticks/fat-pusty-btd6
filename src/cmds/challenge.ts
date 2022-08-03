@@ -109,7 +109,7 @@ const command: SlashCommand = [
 		const embed = generateChallengeEmbed({
 			data: challenge,
 			id: code,
-			info: info,
+			info,
 		});
 
 		embed.footer = { text: `User ID: ${creatorID}` };
