@@ -130,7 +130,7 @@ export const generateChallengeEmbed = ({
 		},
 		author: id
 			? {
-					name: type ? `${type} challenge #${id}` : id,
+					name: type ? `${type} challenge #${id}` : id + (info?.isDeleted ? ' (Deleted)' : ''),
 					icon_url: `https://i.gyazo.com/${difficultyIcons[data.difficulty]}.png`,
 			  }
 			: undefined,
@@ -152,7 +152,6 @@ export const generateChallengeEmbed = ({
 				`Upvotes: ${info.stats.upvotes}`,
 				`Game version: ${info.gameVersion}`,
 				`Created <t:${Math.trunc(info.createdAt / 1000)}:R>`,
-				info.isDeleted ? 'Deleted' : '',
 			].join('\n'),
 		});
 
