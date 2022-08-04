@@ -439,5 +439,5 @@ const difficultyIcons: Record<string, string> = {
 
 export const Constants = {
 	EMBED_COLOR: 13296619,
-	GAME_VERSION: '31.2',
+	GAME_VERSION: '32.0',
 } as const;
