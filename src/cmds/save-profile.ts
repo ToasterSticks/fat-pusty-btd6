@@ -4,8 +4,8 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { AuthorizedUserData, SlashCommand } from '../types';
-import { formRequestOptions, getOption } from '../util';
+import { SlashCommand } from '../types';
+import { findUser, getOption } from '../util';
 
 const command: SlashCommand = [
 	{
@@ -17,32 +17,20 @@ const command: SlashCommand = [
 				description: 'The user id (found in BTD6 settings next to version)',
 				type: ApplicationCommandOptionType.String,
 				min_length: 9,
-				max_length: 9,
+				max_length: 24,
 				required: true,
 			},
 		],
 	},
 	async ({ data: { options }, member: { user } }) => {
 		const code = getOption<string>(options, 'code')!.toUpperCase();
+		const btdUser = await findUser(code);
 
-		const { users } = await fetch(
-			'https://api.ninjakiwi.com/user/search',
-			formRequestOptions({
-				method: 'shortcode',
-				keys: [code],
-				includeOnlineStatus: false,
-			})
-		)
-			.then((res) => res.json() as Promise<{ data: string }>)
-			.then(({ data }) => JSON.parse(data) as AuthorizedUserData);
-
-		const userArr = Object.values(users);
-
-		if (!userArr.length)
+		if (!btdUser)
 			return {
 				type: InteractionResponseType.ChannelMessageWithSource,
 				data: {
-					content: 'The user ID provided is invalid.',
+					content: 'The provided user is invalid.',
 					flags: MessageFlags.Ephemeral,
 				},
 			};
@@ -52,7 +40,7 @@ const command: SlashCommand = [
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
-				content: `The profile with the name \`${userArr[0].displayName}\` has been linked to your Discord account.`,
+				content: `The profile with the name \`${btdUser.displayName}\` has been linked to your Discord account.`,
 				flags: MessageFlags.Ephemeral,
 			},
 		};
