@@ -16,8 +16,6 @@ const command: SlashCommand = [
 				name: 'code',
 				description: 'The user id (found in BTD6 settings next to version)',
 				type: ApplicationCommandOptionType.String,
-				min_length: 9,
-				max_length: 24,
 				required: true,
 			},
 		],
