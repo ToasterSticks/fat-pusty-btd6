@@ -145,6 +145,10 @@ export const generateChallengeEmbed = ({
 		embed.color =
 			info.latestVersionBeaten < Number(`${majorVer}0${minorVer}00`) ? 6516351 : 5874422;
 
+		const attempts = info.stats.plays + (info.stats.restarts ?? 0);
+		const winRate = attempts ? (info.stats.wins / attempts) * 100 : 0;
+		const completionRate = attempts ? (info.stats.winsUnique / info.stats.playsUnique) * 100 : 0;
+
 		embed.fields!.push({
 			name: 'General Info',
 			value: [
@@ -152,10 +156,12 @@ export const generateChallengeEmbed = ({
 				`Upvotes: ${info.stats.upvotes}`,
 				`Game version: ${info.gameVersion}`,
 				`Created <t:${Math.trunc(info.createdAt / 1000)}:R>`,
+				`Completion rate: ${
+					completionRate > 0 && completionRate < 1 ? '<1' : Math.round(completionRate)
+				}%`,
+				`Win rate: ${winRate > 0 && winRate < 1 ? '<1' : Math.round(winRate)}%`,
 			].join('\n'),
 		});
-
-		const attempts = info.stats.plays + (info.stats.restarts ?? 0);
 
 		embed.fields!.push({
 			name: 'Statistics',
@@ -167,10 +173,6 @@ export const generateChallengeEmbed = ({
 								`Fails: ${addNumberSeparator(attempts - info.stats.wins)}`,
 								`Unique players: ${addNumberSeparator(info.stats.playsUnique)}`,
 								`Victorious players: ${addNumberSeparator(info.stats.winsUnique)}`,
-								`Completion rate: ${Math.round(
-									(info.stats.winsUnique / info.stats.playsUnique) * 100
-								)}%`,
-								`Win rate: ${Math.round((info.stats.wins / attempts) * 100)}%`,
 								info.stats.firstWin ? `First winner: ${info.stats.firstWin}` : '',
 								info.stats.latestWin ? `Recent winner: ${info.stats.latestWin}` : '',
 						  ]
