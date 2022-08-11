@@ -2,12 +2,10 @@ import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
 
 import { SlashCommand } from '../types';
 
-const command: SlashCommand = [
-	{
-		name: 'ping',
-		description: 'Reply with pong',
-	},
-	({ member: { user } }) => {
+const command: SlashCommand = {
+	name: 'ping',
+	description: 'Reply with pong',
+	handler: ({ member: { user } }) => {
 		const userID = user.id;
 
 		return {
@@ -19,6 +17,6 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 export default command;

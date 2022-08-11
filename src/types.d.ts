@@ -12,12 +12,11 @@ declare global {
 	const KV: KVNamespace;
 }
 
-export type SlashCommand = [
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
-	(
+export type SlashCommand = RESTPostAPIChatInputApplicationCommandsJSONBody & {
+	handler: (
 		interaction: APIChatInputApplicationCommandGuildInteraction
-	) => Promise<APIInteractionResponse> | APIInteractionResponse
-];
+	) => Promise<APIInteractionResponse> | APIInteractionResponse;
+};
 
 export interface BloonsBossData {
 	normalDcm: BloonsChallengeData;

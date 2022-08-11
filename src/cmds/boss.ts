@@ -7,19 +7,17 @@ import {
 import { BloonsBossData, SlashCommand } from '../types';
 import { capitalize, generateChallengeEmbed, getOption } from '../util';
 
-const command: SlashCommand = [
-	{
-		name: 'boss',
-		description: 'Display the current boss event details',
-		options: [
-			{
-				name: 'elite',
-				description: 'Whether to display the elite boss',
-				type: ApplicationCommandOptionType.Boolean,
-			},
-		],
-	},
-	async ({ data: { options } }) => {
+const command: SlashCommand = {
+	name: 'boss',
+	description: 'Display the current boss event details',
+	options: [
+		{
+			name: 'elite',
+			description: 'Whether to display the elite boss',
+			type: ApplicationCommandOptionType.Boolean,
+		},
+	],
+	handler: async ({ data: { options } }) => {
 		const id = await KV.get('boss');
 
 		const { normalDcm, eliteDcm, bossType } = (await fetch(
@@ -52,6 +50,6 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 export default command;

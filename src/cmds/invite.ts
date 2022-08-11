@@ -2,12 +2,10 @@ import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
 
 import { SlashCommand } from '../types';
 
-const command: SlashCommand = [
-	{
-		name: 'invite',
-		description: 'Add the application to your server',
-	},
-	() => {
+const command: SlashCommand = {
+	name: 'invite',
+	description: 'Add the application to your server',
+	handler: () => {
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
@@ -16,7 +14,7 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 const INVITE_URL = `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&scope=applications.commands`;
 

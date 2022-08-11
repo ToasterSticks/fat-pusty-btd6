@@ -2,12 +2,11 @@ import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
 
 import { RedditResponse, SlashCommand } from '../types';
 
-const command: SlashCommand = [
-	{
-		name: 'reddit',
-		description: 'Fetch the hottest BTD6 posts',
-	},
-	async () => {
+const command: SlashCommand = {
+	name: 'reddit',
+	description: 'Fetch the hottest BTD6 posts',
+
+	handler: async () => {
 		const { data } = await fetch(`https://www.reddit.com/r/btd6/hot.json`)
 			.then((res) => res.json() as Promise<RedditResponse>)
 			.catch(() => ({ data: null }));
@@ -41,6 +40,6 @@ const command: SlashCommand = [
 			data: { content: randomPost },
 		};
 	},
-];
+};
 
 export default command;

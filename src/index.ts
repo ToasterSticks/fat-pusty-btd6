@@ -1,4 +1,4 @@
-import { createApplicationCommandHandler, Permissions } from 'cloudflare-discord-bot';
+import { createApplicationCommandHandler } from 'cloudflare-discord-bot';
 
 import { commands } from './cmds';
 
@@ -6,8 +6,7 @@ const applicationCommandHandler = createApplicationCommandHandler({
 	applicationId: CLIENT_ID,
 	applicationSecret: CLIENT_SECRET,
 	publicKey: PUBLIC_KEY,
-	permissions: new Permissions([]),
-	// @ts-expect-error I want my types
+	// @ts-expect-error Handler interaction types
 	commands,
 });
 

@@ -8,38 +8,36 @@ import {
 import { getOption, generateChallengeEmbed } from '../util';
 import { BloonsChallengeData, SlashCommand } from '../types';
 
-const command: SlashCommand = [
-	{
-		name: 'daily-challenge',
-		description: "Display the daily challenge's details",
-		options: [
-			{
-				name: 'normal',
-				description: "Display the normal daily challenge's details",
-				type: ApplicationCommandOptionType.Subcommand,
-				options: [
-					{
-						name: 'challenge',
-						description: 'The number of the daily challenge to display',
-						type: ApplicationCommandOptionType.Integer,
-					},
-				],
-			},
-			{
-				name: 'advanced',
-				description: "Display the advanced challenge's details",
-				type: ApplicationCommandOptionType.Subcommand,
-				options: [
-					{
-						name: 'challenge',
-						description: 'The number of the advanced challenge to display',
-						type: ApplicationCommandOptionType.Integer,
-					},
-				],
-			},
-		],
-	},
-	async ({ data: { options } }) => {
+const command: SlashCommand = {
+	name: 'daily-challenge',
+	description: "Display the daily challenge's details",
+	options: [
+		{
+			name: 'normal',
+			description: "Display the normal daily challenge's details",
+			type: ApplicationCommandOptionType.Subcommand,
+			options: [
+				{
+					name: 'challenge',
+					description: 'The number of the daily challenge to display',
+					type: ApplicationCommandOptionType.Integer,
+				},
+			],
+		},
+		{
+			name: 'advanced',
+			description: "Display the advanced challenge's details",
+			type: ApplicationCommandOptionType.Subcommand,
+			options: [
+				{
+					name: 'challenge',
+					description: 'The number of the advanced challenge to display',
+					type: ApplicationCommandOptionType.Integer,
+				},
+			],
+		},
+	],
+	handler: async ({ data: { options } }) => {
 		const normalId = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24);
 		const advancedId = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24);
 
@@ -89,6 +87,6 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 export default command;

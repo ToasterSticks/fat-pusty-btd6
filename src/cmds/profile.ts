@@ -14,19 +14,18 @@ import {
 	formRequestOptions,
 } from '../util';
 
-const command: SlashCommand = [
-	{
-		name: 'profile',
-		description: "Display a user's profile",
-		options: [
-			{
-				name: 'user',
-				description: 'The user whose profile to display',
-				type: ApplicationCommandOptionType.String,
-			},
-		],
-	},
-	async ({ data: { options }, member: { user } }) => {
+const command: SlashCommand = {
+	name: 'profile',
+	description: "Display a user's profile",
+	options: [
+		{
+			name: 'user',
+			description: 'The user whose profile to display',
+			type: ApplicationCommandOptionType.String,
+		},
+	],
+
+	handler: async ({ data: { options }, member: { user } }) => {
 		const code = getOption<string>(options, 'user');
 		const query = code ?? (await KV.get(user.id));
 
@@ -194,7 +193,7 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 const TOTAL_XP_REQUIRED = [
 	0, 280, 900, 1780, 3350, 5850, 8850, 12350, 15850, 19850, 24100, 28600, 33100, 38000, 45000,

@@ -7,20 +7,19 @@ import {
 import { SlashCommand } from '../types';
 import { findUser, getOption } from '../util';
 
-const command: SlashCommand = [
-	{
-		name: 'save-profile',
-		description: 'Save your BTD6 profile',
-		options: [
-			{
-				name: 'code',
-				description: 'The user id (found in BTD6 settings next to version)',
-				type: ApplicationCommandOptionType.String,
-				required: true,
-			},
-		],
-	},
-	async ({ data: { options }, member: { user } }) => {
+const command: SlashCommand = {
+	name: 'save-profile',
+	description: 'Save your BTD6 profile',
+	options: [
+		{
+			name: 'code',
+			description: 'The user id (found in BTD6 settings next to version)',
+			type: ApplicationCommandOptionType.String,
+			required: true,
+		},
+	],
+
+	handler: async ({ data: { options }, member: { user } }) => {
 		const code = getOption<string>(options, 'code')!.toUpperCase();
 		const btdUser = await findUser(code);
 
@@ -43,6 +42,6 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 export default command;

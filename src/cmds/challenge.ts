@@ -13,22 +13,20 @@ import {
 } from '../types';
 import { formRequestOptions, generateChallengeEmbed, getOption } from '../util';
 
-const command: SlashCommand = [
-	{
-		name: 'challenge',
-		description: "Display a challenge's details",
-		options: [
-			{
-				name: 'code',
-				description: 'The challenge code',
-				type: ApplicationCommandOptionType.String,
-				min_length: 7,
-				max_length: 7,
-				required: true,
-			},
-		],
-	},
-	async ({ data: { options } }) => {
+const command: SlashCommand = {
+	name: 'challenge',
+	description: "Display a challenge's details",
+	options: [
+		{
+			name: 'code',
+			description: 'The challenge code',
+			type: ApplicationCommandOptionType.String,
+			min_length: 7,
+			max_length: 7,
+			required: true,
+		},
+	],
+	handler: async ({ data: { options } }) => {
 		const code = getOption<string>(options, 'code')!.toUpperCase();
 
 		const [b64Str, { results }] = await Promise.all([
@@ -122,6 +120,6 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 export default command;

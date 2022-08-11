@@ -14,19 +14,17 @@ import {
 	trimJoinedLength,
 } from '../util';
 
-const command: SlashCommand = [
-	{
-		name: 'user-challenges',
-		description: "Display a user's challenges",
-		options: [
-			{
-				name: 'user',
-				description: 'The user whose challenges to display',
-				type: ApplicationCommandOptionType.String,
-			},
-		],
-	},
-	async ({ data: { options }, member: { user } }) => {
+const command: SlashCommand = {
+	name: 'user-challenges',
+	description: "Display a user's challenges",
+	options: [
+		{
+			name: 'user',
+			description: 'The user whose challenges to display',
+			type: ApplicationCommandOptionType.String,
+		},
+	],
+	handler: async ({ data: { options }, member: { user } }) => {
 		const code = getOption<string>(options, 'user');
 		const query = code ?? (await KV.get(user.id));
 
@@ -121,6 +119,6 @@ const command: SlashCommand = [
 			},
 		};
 	},
-];
+};
 
 export default command;

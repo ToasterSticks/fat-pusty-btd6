@@ -7,31 +7,29 @@ import {
 import { SlashCommand } from '../types';
 import { getOption, OWNERS } from '../util';
 
-const command: SlashCommand = [
-	{
-		name: 'set-boss',
-		description: 'Set the current boss event',
-		options: [
-			{
-				name: 'type',
-				description: 'The boss type to set',
-				type: ApplicationCommandOptionType.String,
-				choices: [
-					{ name: 'Bloonarius', value: 'Bloonarius' },
-					{ name: 'Lych', value: 'Lych' },
-					{ name: 'Vortex', value: 'Vortex' },
-				],
-				required: true,
-			},
-			{
-				name: 'number',
-				description: 'The upcoming number of the boss',
-				type: ApplicationCommandOptionType.Integer,
-				required: true,
-			},
-		],
-	},
-	async ({ data: { options }, member: { user } }) => {
+const command: SlashCommand = {
+	name: 'set-boss',
+	description: 'Set the current boss event',
+	options: [
+		{
+			name: 'type',
+			description: 'The boss type to set',
+			type: ApplicationCommandOptionType.String,
+			choices: [
+				{ name: 'Bloonarius', value: 'Bloonarius' },
+				{ name: 'Lych', value: 'Lych' },
+				{ name: 'Vortex', value: 'Vortex' },
+			],
+			required: true,
+		},
+		{
+			name: 'number',
+			description: 'The upcoming number of the boss',
+			type: ApplicationCommandOptionType.Integer,
+			required: true,
+		},
+	],
+	handler: async ({ data: { options }, member: { user } }) => {
 		if (!OWNERS.includes(user.id))
 			return {
 				type: InteractionResponseType.ChannelMessageWithSource,
@@ -51,6 +49,6 @@ const command: SlashCommand = [
 			data: { content: `The boss event has been set to \`${type} - ${number}\`.` },
 		};
 	},
-];
+};
 
 export default command;
