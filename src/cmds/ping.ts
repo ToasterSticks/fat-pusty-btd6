@@ -11,7 +11,7 @@ export const command: SlashCommand = {
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
-				content: `Pong! <@${userID}>!`,
+				content: `<@${userID}>, Pong!`,
 				allowed_mentions: { users: [userID] },
 				flags: MessageFlags.Ephemeral,
 			},
