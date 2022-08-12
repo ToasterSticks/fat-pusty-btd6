@@ -13,7 +13,7 @@ import {
 } from '../types';
 import { formRequestOptions, generateChallengeEmbed, getOption } from '../util';
 
-const command: SlashCommand = {
+export const command: SlashCommand = {
 	name: 'challenge',
 	description: "Display a challenge's details",
 	options: [
@@ -121,5 +121,3 @@ const command: SlashCommand = {
 		};
 	},
 };
-
-export default command;

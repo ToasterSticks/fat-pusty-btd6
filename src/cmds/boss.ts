@@ -7,7 +7,7 @@ import {
 import { BloonsBossData, SlashCommand } from '../types';
 import { capitalize, generateChallengeEmbed, getOption } from '../util';
 
-const command: SlashCommand = {
+export const command: SlashCommand = {
 	name: 'boss',
 	description: 'Display the current boss event details',
 	options: [
@@ -51,5 +51,3 @@ const command: SlashCommand = {
 		};
 	},
 };
-
-export default command;

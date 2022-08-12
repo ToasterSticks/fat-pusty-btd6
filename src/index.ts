@@ -1,15 +1,13 @@
-import { createApplicationCommandHandler } from 'cloudflare-discord-bot';
+import { createApplicationCommandHandler, Command } from 'cloudflare-discord-bot';
+import { mapFiles } from './util';
 
-import { commands } from './cmds';
+const commands = mapFiles<Command>(require.context('./cmds', true, /\.ts$/));
 
 const applicationCommandHandler = createApplicationCommandHandler({
 	applicationId: CLIENT_ID,
 	applicationSecret: CLIENT_SECRET,
 	publicKey: PUBLIC_KEY,
-	// @ts-expect-error Handler interaction types
 	commands,
 });
 
-addEventListener('fetch', (event) => {
-	event.respondWith(applicationCommandHandler(event.request));
-});
+addEventListener('fetch', (event) => event.respondWith(applicationCommandHandler(event.request)));

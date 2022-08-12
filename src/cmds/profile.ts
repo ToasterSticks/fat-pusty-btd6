@@ -14,7 +14,7 @@ import {
 	formRequestOptions,
 } from '../util';
 
-const command: SlashCommand = {
+export const command: SlashCommand = {
 	name: 'profile',
 	description: "Display a user's profile",
 	options: [
@@ -212,5 +212,3 @@ const TOTAL_XP_REQUIRED = [
 	80930000, 83480000, 86080000, 88730000, 91430000, 94180000, 96980000, 99830000, 102730000,
 	105680000, 108680000, 111730000, 120001000, 130001000, 141001000, 153001000, 166001000,
 ];
-
-export default command;

@@ -9,6 +9,9 @@ import nksku from 'nksku';
 
 import { AuthorizedUserData, BloonsChallengeData, Profile, Result, Tower } from './types';
 
+export const mapFiles = <T>(context: __WebpackModuleApi.RequireContext) =>
+	context.keys().map<T>((path) => context(path).command);
+
 export const OWNERS = ['320546614857170945'];
 
 export const capitalize = (str: string) => str[0].toUpperCase() + str.substring(1);

@@ -8,7 +8,7 @@ import {
 import { getOption, generateChallengeEmbed } from '../util';
 import { BloonsChallengeData, SlashCommand } from '../types';
 
-const command: SlashCommand = {
+export const command: SlashCommand = {
 	name: 'daily-challenge',
 	description: "Display the daily challenge's details",
 	options: [
@@ -88,5 +88,3 @@ const command: SlashCommand = {
 		};
 	},
 };
-
-export default command;

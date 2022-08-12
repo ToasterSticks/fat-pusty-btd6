@@ -7,7 +7,7 @@ import {
 import { SlashCommand } from '../types';
 import { getOption, OWNERS } from '../util';
 
-const command: SlashCommand = {
+export const command: SlashCommand = {
 	name: 'set-boss',
 	description: 'Set the current boss event',
 	options: [
@@ -50,5 +50,3 @@ const command: SlashCommand = {
 		};
 	},
 };
-
-export default command;

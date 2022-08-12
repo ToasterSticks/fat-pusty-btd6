@@ -14,7 +14,7 @@ import {
 	trimJoinedLength,
 } from '../util';
 
-const command: SlashCommand = {
+export const command: SlashCommand = {
 	name: 'user-challenges',
 	description: "Display a user's challenges",
 	options: [
@@ -120,5 +120,3 @@ const command: SlashCommand = {
 		};
 	},
 };
-
-export default command;

@@ -7,7 +7,7 @@ import {
 import { SlashCommand } from '../types';
 import { findUser, getOption } from '../util';
 
-const command: SlashCommand = {
+export const command: SlashCommand = {
 	name: 'save-profile',
 	description: 'Save your BTD6 profile',
 	options: [
@@ -43,5 +43,3 @@ const command: SlashCommand = {
 		};
 	},
 };
-
-export default command;
