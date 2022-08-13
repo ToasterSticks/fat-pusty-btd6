@@ -23,6 +23,9 @@ export const addNumberSeparator = (num?: number) => {
 	return digits > 4 ? num.toLocaleString() : num.toString();
 };
 
+export const discordTimestamp = (timestamp: number, format: string) =>
+	`<t:${Math.trunc(timestamp / 1000)}:${format}>`;
+
 export const trimJoinedLength = (
 	arr: string[],
 	length: number,
@@ -396,24 +399,21 @@ const getTowers = (towers: Tower[]) => {
 	const heroes = towers.filter((tower) => tower.isHero);
 
 	return [
-		[`Hero${heroes.length !== 1 ? 'es' : ''}`, heroes.map((t) => t.tower).join(', ')],
-		['Primary', primary.map(stringifyCrosspath).join('\n')],
-		['Military', military.map(stringifyCrosspath).join('\n')],
-		['Magic', magic.map(stringifyCrosspath).join('\n')],
-		['Support', support.map(stringifyCrosspath).join('\n')],
+		[`Hero${heroes.length !== 1 ? 'es' : ''}`, heroes.reduce((a, t) => `${a}${t.tower}\n`, '')],
+		['Primary', primary.reduce(stringifyCrosspath, '')],
+		['Military', military.reduce(stringifyCrosspath, '')],
+		['Magic', magic.reduce(stringifyCrosspath, '')],
+		['Support', support.reduce(stringifyCrosspath, '')],
 	];
 };
 
-const stringifyCrosspath = ({
-	tower,
-	max,
-	path1NumBlockedTiers,
-	path2NumBlockedTiers,
-	path3NumBlockedTiers,
-}: Tower) =>
-	`${
+const stringifyCrosspath = (
+	acc: string,
+	{ tower, max, path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers }: Tower
+) =>
+	`${acc}${
 		max > 0 ? `${max}x ` : ''
-	}${tower} \`(${`${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers}`})\``;
+	}${tower} \`(${`${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers}`})\`\n`;
 
 const bossIcons: Record<string, string> = {
 	'Bloonarius Normal': 'd7c187d0b125443079d5b41e822e7214',

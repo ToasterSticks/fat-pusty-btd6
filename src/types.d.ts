@@ -263,3 +263,81 @@ export interface UserWallets {
 export interface Currencies {
 	'0x0A'?: number;
 }
+
+export interface Event {
+	id: string;
+	name: string;
+	start: number;
+	end: number;
+	type: EventType;
+	frequency: string;
+	priority: number;
+	rewards: string[];
+	metadata: Metadata;
+	description: string;
+	rewardType: string;
+	icon: string;
+}
+
+export interface Metadata {
+	enabled?: string[];
+	featured?: string[];
+	onSale?: string[];
+	productIDs?: Record<string, boolean>;
+	banner?: Record<string, string>;
+	bannerPriority?: number;
+	showTimer?: boolean;
+	action?: string;
+	url?: string;
+	newsPanelBackground?: Record<string, string>;
+	canStartUpTo?: string;
+	rewards?: string[];
+	skin?: string;
+	mapBonusActive?: boolean;
+	featuredInstas?: Record<string, boolean>;
+	useLocs?: UseLocs;
+	title?: Description;
+	description?: Description;
+	isUpdatePopup?: boolean;
+}
+
+export interface Description {
+	English: string;
+	ChineseSimplified: string;
+	ChineseTraditional: string;
+	German: string;
+	French: string;
+	Spanish: string;
+	Italian: string;
+	Portuguese: string;
+	Finnish: string;
+	Russian: string;
+	Norwegian: string;
+	Swedish: string;
+	Danish: string;
+	Turkish: string;
+	Japanese: string;
+	Korean: string;
+}
+
+export interface UseLocs {
+	title: boolean;
+	description: boolean;
+}
+
+type EventType =
+	| 'trophyStore'
+	| 'knowledgeSale'
+	| 'newsbanner'
+	| 'monkeyTeam'
+	| 'instaTowerSale'
+	| 'odysseyEvent'
+	| 'mmSale'
+	| 'raceEvent'
+	| 'bossBloon'
+	| 'coopChallenge'
+	| 'holidaySkin'
+	| 'collectableEvent'
+	| 'goldenBloon'
+	| 'updatePopup'
+	| 'ct';
