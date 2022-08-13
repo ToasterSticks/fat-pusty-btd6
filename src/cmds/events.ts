@@ -1,4 +1,8 @@
-import { ApplicationCommandOptionType, InteractionResponseType } from 'discord-api-types/v10';
+import {
+	ApplicationCommandOptionType,
+	InteractionResponseType,
+	MessageFlags,
+} from 'discord-api-types/v10';
 
 import { SlashCommand } from '../types';
 import { discordTimestamp, buildEmoji, getOption, getEvents } from '../util';
@@ -37,23 +41,30 @@ export const command: SlashCommand = {
 
 		const events = await getEvents(type);
 
+		if (!events.length)
+			return {
+				type: InteractionResponseType.ChannelMessageWithSource,
+				data: {
+					content: 'There are no events matching the specified type.',
+					flags: MessageFlags.Ephemeral,
+				},
+			};
+
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
-				content: events.length
-					? events
-							.slice(0, 6)
-							.reduce(
-								(a, { name, type, start, end }) =>
-									`${a}${name.replaceAll('_', ' ')} (${
-										eventTypes.find(({ value }) => value === type)?.name
-									})\n${buildEmoji('875985515357282316')} ${discordTimestamp(
-										start,
-										'D'
-									)} → ${discordTimestamp(end, 'D')} (ending in ${discordTimestamp(end, 'R')})\n\n`,
-								''
-							)
-					: `No events found matching the specified type.`,
+				content: events
+					.slice(0, 6)
+					.reduce(
+						(a, { name, type, start, end }) =>
+							`${a}**${name.replaceAll('_', ' ')}** (${
+								eventTypes.find(({ value }) => value === type)?.name
+							})\n${buildEmoji('875985515357282316')} ${discordTimestamp(
+								start,
+								'D'
+							)} → ${discordTimestamp(end, 'D')} (ending in ${discordTimestamp(end, 'R')})\n\n`,
+						''
+					),
 			},
 		};
 	},
