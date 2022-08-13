@@ -41,13 +41,18 @@ export const command: SlashCommand = {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
 				content: events.length
-					? events.reduce((a, { name, type, start, end }) => {
-							const fmtType = eventTypes.find(({ value }) => value === type)?.name;
-
-							return `${a}${name.replaceAll('_', ' ')} (${fmtType})\n${buildEmoji(
-								'875985515357282316'
-							)} ${discordTimestamp(start, 'd')} → ${discordTimestamp(end, 'd')}\n`;
-					  }, '')
+					? events
+							.slice(0, 6)
+							.reduce(
+								(a, { name, type, start, end }) =>
+									`${a}${name.replaceAll('_', ' ')} (${
+										eventTypes.find(({ value }) => value === type)?.name
+									})\n${buildEmoji('875985515357282316')} ${discordTimestamp(
+										start,
+										'D'
+									)} → ${discordTimestamp(end, 'D')} (ending in ${discordTimestamp(end, 'R')})\n\n`,
+								''
+							)
 					: `No events found matching the specified type.`,
 			},
 		};

@@ -113,7 +113,7 @@ export const getEvents = async (type?: string) => {
 
 	if (type) events = events.filter((event) => event.type === type);
 
-	events = events.filter((event) => Date.now() < event.end).slice(0, 10);
+	events = events.filter((event) => Date.now() < event.end);
 	events.sort((a, b) => (a.start === b.start ? a.end - b.end : a.start - b.start));
 
 	return events;
