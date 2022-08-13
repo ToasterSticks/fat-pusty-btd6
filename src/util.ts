@@ -26,6 +26,8 @@ export const addNumberSeparator = (num?: number) => {
 export const discordTimestamp = (timestamp: number, format: string) =>
 	`<t:${Math.trunc(timestamp / 1000)}:${format}>`;
 
+export const buildEmoji = (id: string) => `<:_:${id}>`;
+
 export const trimJoinedLength = (
 	arr: string[],
 	length: number,
@@ -190,82 +192,85 @@ export const generateChallengeEmbed = ({
 
 	const modifiers: string[] = [];
 
-	if (data.disableSelling) modifiers.push('<:_:947206526018387999> Selling disabled');
-	if (data.disableMK) modifiers.push('<:_:947206527721291786> Knowledge disabled');
-	if (data.disablePowers) modifiers.push('<:_:947206527905845338> Powers disabled');
-	if (data.noContinues) modifiers.push('<:_:947206501423009872> Continues disabled');
-	if (data.disableDoubleCash) modifiers.push('<:_:1001962075360329891> Double cash disabled');
-	if (data.bloonModifiers.allCamo) modifiers.push('<:_:947206526765002843> All camo');
-	if (data.bloonModifiers.allRegen) modifiers.push('<:_:947206530162376804> All regrow ');
+	if (data.disableSelling) modifiers.push(`${buildEmoji('947206526018387999')} Selling disabled`);
+	if (data.disableMK) modifiers.push(`${buildEmoji('947206527721291786')} Knowledge disabled`);
+	if (data.disablePowers) modifiers.push(`${buildEmoji('947206527905845338')} Powers disabled`);
+	if (data.noContinues) modifiers.push(`${buildEmoji('947206501423009872')} Continues disabled`);
+	if (data.disableDoubleCash)
+		modifiers.push(`${buildEmoji('1001962075360329891')} Double cash disabled`);
+	if (data.bloonModifiers.allCamo) modifiers.push(`${buildEmoji('947206526765002843')} All camo`);
+	if (data.bloonModifiers.allRegen)
+		modifiers.push(`${buildEmoji('947206530162376804')} All regrow`);
 
 	if (data.bloonModifiers.speedMultiplier !== 1)
 		modifiers.push(
-			`<:_:${
+			`${buildEmoji(
 				data.bloonModifiers.speedMultiplier < 1 ? '947454221903613982' : '947454217566715944'
-			}> Bloon speed: ${addNumberSeparator(Math.round(data.bloonModifiers.speedMultiplier * 100))}%`
+			)} Bloon speed: ${addNumberSeparator(Math.round(data.bloonModifiers.speedMultiplier * 100))}%`
 		);
 
 	if (data.bloonModifiers.moabSpeedMultiplier !== 1)
 		modifiers.push(
-			`<:_:${
+			`${buildEmoji(
 				data.bloonModifiers.moabSpeedMultiplier < 1 ? '947454215587000340' : '947454219907125258'
-			}> Moab speed: ${Math.round(data.bloonModifiers.moabSpeedMultiplier * 100)}%`
+			)} Moab speed: ${Math.round(data.bloonModifiers.moabSpeedMultiplier * 100)}%`
 		);
 
 	if (data.bloonModifiers.healthMultipliers.bloons !== 1)
 		modifiers.push(
-			`<:_:${
+			`${buildEmoji(
 				data.bloonModifiers.healthMultipliers.bloons < 1
 					? '947456989150199859'
 					: '947456989208932382'
-			}> Ceramic health: ${Math.round(data.bloonModifiers.healthMultipliers.bloons * 100)}%`
+			)} Ceramic health: ${Math.round(data.bloonModifiers.healthMultipliers.bloons * 100)}%`
 		);
 
 	if (data.bloonModifiers.healthMultipliers.moabs !== 1)
 		modifiers.push(
-			`<:_:${
+			`${buildEmoji(
 				data.bloonModifiers.healthMultipliers.moabs < 1
 					? '947459371154178098'
 					: '947459368473989130'
-			}> Moab health: ${Math.round(data.bloonModifiers.healthMultipliers.moabs * 100)}%`
+			)} Moab health: ${Math.round(data.bloonModifiers.healthMultipliers.moabs * 100)}%`
 		);
 
 	if (data.bloonModifiers.regrowRateMultiplier && data.bloonModifiers.regrowRateMultiplier !== 1)
 		modifiers.push(
-			`<:_:${
+			`${buildEmoji(
 				data.bloonModifiers.regrowRateMultiplier < 1 ? '947460169372143686' : '947460169699307520'
-			}> Regrow rate: ${Math.round(data.bloonModifiers.regrowRateMultiplier * 100)}%`
+			)} Regrow rate: ${Math.round(data.bloonModifiers.regrowRateMultiplier * 100)}%`
 		);
 
 	if (data.abilityCooldownReductionMultiplier && data.abilityCooldownReductionMultiplier !== 1)
 		modifiers.push(
-			`<:_:${
+			`${buildEmoji(
 				data.abilityCooldownReductionMultiplier < 1 ? '947462092661862420' : '947462070721454160'
-			}> Ability cooldown: ${Math.round(data.abilityCooldownReductionMultiplier * 100)}%`
+			)} Ability cooldown: ${Math.round(data.abilityCooldownReductionMultiplier * 100)}%`
 		);
 
-	if (data.removeableCostMultiplier === 0) modifiers.push(`<:_:947462619835535451> Free removal`);
+	if (data.removeableCostMultiplier === 0)
+		modifiers.push(`${buildEmoji('947462619835535451')} Free removal`);
 	else if (data.removeableCostMultiplier === 12)
-		modifiers.push(`<:_:947462621060280330> Removal disabled`);
+		modifiers.push(`${buildEmoji('947462621060280330')} Removal disabled`);
 	else if (data.removeableCostMultiplier && data.removeableCostMultiplier !== 1)
 		modifiers.push(
-			`<:_:${
+			`${buildEmoji(
 				data.removeableCostMultiplier < 1 ? '947462621060280330' : '947462619835535451'
-			}> Removal cost: ${Math.round(data.removeableCostMultiplier * 100)}%`
+			)} Removal cost: ${Math.round(data.removeableCostMultiplier * 100)}%`
 		);
 
 	if (data.leastCashUsed && data.leastCashUsed > -1)
 		modifiers.push(
-			`<:_:964440130221928498> Cash limit: $${addNumberSeparator(data.leastCashUsed)}`
+			`${buildEmoji('964440130221928498')} Cash limit: $${addNumberSeparator(data.leastCashUsed)}`
 		);
 
 	if (data.leastTiersUsed && data.leastTiersUsed > -1)
 		modifiers.push(
-			`<:_:964440130481963048> Tier limit: ${addNumberSeparator(data.leastTiersUsed)}`
+			`${buildEmoji('964440130481963048')} Tier limit: ${addNumberSeparator(data.leastTiersUsed)}`
 		);
 
 	if (data.maxTowers !== -1)
-		modifiers.push(`<:_:948162885694148608> Max towers: ${data.maxTowers}`);
+		modifiers.push(`${buildEmoji('948162885694148608')} Max towers: ${data.maxTowers}`);
 
 	const startRules = { ...data.startRules };
 

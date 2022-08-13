@@ -1,11 +1,7 @@
-import {
-	ApplicationCommandOptionType,
-	InteractionResponseType,
-	MessageFlags,
-} from 'discord-api-types/v10';
+import { ApplicationCommandOptionType, InteractionResponseType } from 'discord-api-types/v10';
 
 import { Event, SlashCommand } from '../types';
-import { discordTimestamp, getOption } from '../util';
+import { discordTimestamp, buildEmoji, getOption } from '../util';
 
 const eventTypes = [
 	{ name: 'Trophy Store', value: 'trophyStore' },
@@ -36,7 +32,7 @@ export const command: SlashCommand = {
 			choices: eventTypes,
 		},
 	],
-	handler: async ({ data: { options }, member: { user } }) => {
+	handler: async ({ data: { options } }) => {
 		const type = getOption<string>(options, 'type');
 
 		const body = await fetch(
@@ -61,15 +57,15 @@ export const command: SlashCommand = {
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
-				content: events.reduce((a, { name, type, start, end }) => {
-					name = name.replaceAll('_', '\\_');
-					const fmtType = eventTypes.find(({ value }) => value === type)?.name;
-					const emoji = '<:_:875985515357282316>';
-					return `${a}${name} (${fmtType})\n${emoji} ${discordTimestamp(
-						start,
-						'd'
-					)} → ${discordTimestamp(end, 'd')}\n`;
-				}, ''),
+				content: events.length
+					? events.reduce((a, { name, type, start, end }) => {
+							const fmtType = eventTypes.find(({ value }) => value === type)?.name;
+
+							return `${a}${name.replaceAll('_', '\\_')} (${fmtType})\n${buildEmoji(
+								'875985515357282316'
+							)} ${discordTimestamp(start, 'd')} → ${discordTimestamp(end, 'd')}\n`;
+					  }, '')
+					: `No events found matching the specified type.`,
 			},
 		};
 	},

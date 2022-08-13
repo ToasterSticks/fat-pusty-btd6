@@ -12,6 +12,7 @@ import {
 	addNumberSeparator,
 	spacePascalCase,
 	formRequestOptions,
+	buildEmoji,
 } from '../util';
 
 export const command: SlashCommand = {
@@ -140,46 +141,46 @@ export const command: SlashCommand = {
 					name: 'Race',
 					inline: true,
 					value: [
-						`<:_:999431043931197480> - ${raceMedals.BlackDiamond ?? 0}`,
-						`<:_:999431045764104203> - ${raceMedals.RedDiamond ?? 0}`,
-						`<:_:999431045260783686> - ${raceMedals.Diamond ?? 0}`,
-						`<:_:999715100694945813> - ${raceMedals.GoldDiamond ?? 0}`,
+						`${buildEmoji('999431043931197480')} - ${raceMedals.BlackDiamond ?? 0}`,
+						`${buildEmoji('999431045764104203')} - ${raceMedals.RedDiamond ?? 0}`,
+						`${buildEmoji('999431045260783686')} - ${raceMedals.Diamond ?? 0}`,
+						`${buildEmoji('999715100694945813')} - ${raceMedals.GoldDiamond ?? 0}`,
 					].join('\n'),
 				},
 				{
 					name: 'Boss',
 					inline: true,
 					value: [
-						`<:_:999432157850251314> - ${bossMedals?.BlackDiamond ?? 0}`,
-						`<:_:999432160119369759> - ${bossMedals?.RedDiamond ?? 0}`,
-						`<:_:999432158978527312> - ${bossMedals?.Diamond ?? 0}`,
-						`<:_:999715099575075017> - ${bossMedals?.GoldDiamond ?? 0}`,
+						`${buildEmoji('999432157850251314')} - ${bossMedals?.BlackDiamond ?? 0}`,
+						`${buildEmoji('999432160119369759')} - ${bossMedals?.RedDiamond ?? 0}`,
+						`${buildEmoji('999432158978527312')} - ${bossMedals?.Diamond ?? 0}`,
+						`${buildEmoji('999715099575075017')} - ${bossMedals?.GoldDiamond ?? 0}`,
 					].join('\n'),
 				},
 				{
 					name: 'Elite Boss',
 					inline: true,
 					value: [
-						`<:_:999432161348305026> - ${bossEliteMedals?.BlackDiamond ?? 0}`,
-						`<:_:999432165655859290> - ${bossEliteMedals?.RedDiamond ?? 0}`,
-						`<:_:999432164057817138> - ${bossEliteMedals?.Diamond ?? 0}`,
-						`<:_:999714137909235724> - ${bossEliteMedals?.GoldDiamond ?? 0}`,
+						`${buildEmoji('999432161348305026')} - ${bossEliteMedals?.BlackDiamond ?? 0}`,
+						`${buildEmoji('999432165655859290')} - ${bossEliteMedals?.RedDiamond ?? 0}`,
+						`${buildEmoji('999432164057817138')} - ${bossEliteMedals?.Diamond ?? 0}`,
+						`${buildEmoji('999714137909235724')} - ${bossEliteMedals?.GoldDiamond ?? 0}`,
 					].join('\n'),
 				},
 				{
 					name: 'Solo',
 					inline: true,
 					value: [
-						`<:_:999431048217767946> - ${spMedals.Clicks}`,
-						`<:_:999431047286628494> - ${spMedals['CHIMPS-BLACK']}`,
+						`${buildEmoji('999431048217767946')} - ${spMedals.Clicks}`,
+						`${buildEmoji('999431047286628494')} - ${spMedals['CHIMPS-BLACK']}`,
 					].join('\n'),
 				},
 				{
 					name: 'Co-Op',
 					inline: true,
 					value: [
-						`<:_:999431043025227888> - ${coopMedals.Clicks}`,
-						`<:_:999431041997611149> - ${coopMedals['CHIMPS-BLACK']}`,
+						`${buildEmoji('999431043025227888')} - ${coopMedals.Clicks}`,
+						`${buildEmoji('999431041997611149')} - ${coopMedals['CHIMPS-BLACK']}`,
 					].join('\n'),
 				},
 			],
