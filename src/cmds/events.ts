@@ -22,7 +22,7 @@ const eventTypes = [
 	{ name: 'Collectable Event', value: 'collectableEvent' },
 	{ name: 'Golden Bloon', value: 'goldenBloon' },
 	{ name: 'Update Popup', value: 'updatePopup' },
-	{ name: 'CT', value: 'ct' },
+	{ name: 'Contested Territory', value: 'ct' },
 ];
 
 export const command: SlashCommand = {
