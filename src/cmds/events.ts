@@ -53,18 +53,17 @@ export const command: SlashCommand = {
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
-				content: events
-					.slice(0, 6)
-					.reduce(
-						(a, { name, type, start, end }) =>
-							`${a}**${name.replaceAll('_', ' ')}** (${
-								eventTypes.find(({ value }) => value === type)?.name
-							})\n${buildEmoji('875985515357282316')} ${discordTimestamp(
-								start,
-								'D'
-							)} → ${discordTimestamp(end, 'D')} (ending in ${discordTimestamp(end, 'R')})\n\n`,
-						''
-					),
+				content: events.slice(0, 6).reduce((a, { name, type, start, end }) => {
+					name = name.replaceAll('_', ' ');
+					const hasStarted = Date.now() >= start;
+					const fmtType = eventTypes.find(({ value }) => value === type)?.name;
+
+					return `${a}**${name}** (${fmtType})\n${buildEmoji(
+						'875985515357282316'
+					)} ${discordTimestamp(start, 'D')} → ${discordTimestamp(end, 'D')} (${
+						hasStarted ? 'ending' : 'starting'
+					} ${discordTimestamp(hasStarted ? end : start, 'R')})\n\n`;
+				}, ''),
 			},
 		};
 	},
