@@ -7,7 +7,7 @@ import {
 // @ts-expect-error No fucking types
 import nksku from 'nksku';
 
-import { AuthorizedUserData, BloonsChallengeData, Profile, Result, Tower } from './types';
+import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
 export const mapFiles = <T>(context: __WebpackModuleApi.RequireContext) =>
 	context.keys().map<T>((path) => context(path).command);
@@ -96,6 +96,27 @@ export const formRequestOptions = (data: Record<string, unknown>) => {
 			'Content-Type': 'application/json',
 		},
 	};
+};
+
+export const getEvents = async (type?: string) => {
+	const body = await fetch(
+		'https://static-api.nkstatic.com/nkapi/skusettings/7e6e7a76e92ea636c1e257459bba8181.json'
+	)
+		.then((res) => res.arrayBuffer())
+		.then((buffer) => new Uint8Array(buffer));
+
+	let events: Event[] = JSON.parse(
+		JSON.parse(
+			body.slice(14).reduce((a, curr, i) => a + String.fromCharCode(curr - 21 - (i % 6)), '')
+		).data
+	).settings.events;
+
+	if (type) events = events.filter((event) => event.type === type);
+
+	events = events.filter((event) => Date.now() < event.end).slice(0, 10);
+	events.sort((a, b) => (a.start === b.start ? a.end - b.end : a.start - b.start));
+
+	return events;
 };
 
 export const findUser = (query: string) =>

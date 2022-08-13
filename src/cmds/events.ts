@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType, InteractionResponseType } from 'discord-api-types/v10';
 
-import { Event, SlashCommand } from '../types';
-import { discordTimestamp, buildEmoji, getOption } from '../util';
+import { SlashCommand } from '../types';
+import { discordTimestamp, buildEmoji, getOption, getEvents } from '../util';
 
 const eventTypes = [
 	{ name: 'Trophy Store', value: 'trophyStore' },
@@ -35,24 +35,7 @@ export const command: SlashCommand = {
 	handler: async ({ data: { options } }) => {
 		const type = getOption<string>(options, 'type');
 
-		const body = await fetch(
-			'https://static-api.nkstatic.com/nkapi/skusettings/7e6e7a76e92ea636c1e257459bba8181.json'
-		)
-			.then((res) => res.arrayBuffer())
-			.then((buffer) => new Uint8Array(buffer));
-
-		let {
-			settings: { events },
-		}: { settings: { events: Event[] } } = JSON.parse(
-			JSON.parse(
-				body.slice(14).reduce((a, curr, i) => a + String.fromCharCode(curr - 21 - (i % 6)), '')
-			).data
-		);
-
-		if (type) events = events.filter((event) => event.type === type);
-
-		events = events.filter((event) => Date.now() < event.end).slice(0, 10);
-		events.sort((a, b) => (a.start === b.start ? a.end - b.end : a.start - b.start));
+		const events = await getEvents(type);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

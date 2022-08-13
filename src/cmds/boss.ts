@@ -5,7 +5,7 @@ import {
 } from 'discord-api-types/v10';
 
 import { BloonsBossData, SlashCommand } from '../types';
-import { capitalize, generateChallengeEmbed, getOption } from '../util';
+import { capitalize, generateChallengeEmbed, getEvents, getOption } from '../util';
 
 export const command: SlashCommand = {
 	name: 'boss',
@@ -18,10 +18,10 @@ export const command: SlashCommand = {
 		},
 	],
 	handler: async ({ data: { options } }) => {
-		const id = await KV.get('boss');
+		const [boss] = await getEvents('bossBloon');
 
 		const { normalDcm, eliteDcm, bossType } = (await fetch(
-			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${id}`
+			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${boss?.name}`
 		)
 			.then((res) => res.json())
 			.catch(() => ({}))) as BloonsBossData;
