@@ -87,7 +87,7 @@ export const formRequestOptions = (data: Record<string, unknown>) => {
 			nonce,
 		}),
 		headers: {
-			'User-Agent': `btd6-windowsplayer-${Constants.GAME_VERSION}`,
+			'User-Agent': `btd6-`,
 			'Content-Type': 'application/json',
 		},
 	};
