@@ -61,7 +61,7 @@ export const command: SlashCommand = {
 					? events.reduce((a, { name, type, start, end }) => {
 							const fmtType = eventTypes.find(({ value }) => value === type)?.name;
 
-							return `${a}${name.replaceAll('_', '\\_')} (${fmtType})\n${buildEmoji(
+							return `${a}${name.replaceAll('_', ' ')} (${fmtType})\n${buildEmoji(
 								'875985515357282316'
 							)} ${discordTimestamp(start, 'd')} → ${discordTimestamp(end, 'd')}\n`;
 					  }, '')
