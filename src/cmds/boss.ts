@@ -73,7 +73,7 @@ export const command: CommandBody = {
 				return deferUpdate();
 
 			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');
-			const content = await command.handler(await getCachedInteraction(interaction), !isElite);
+			const content = await command.handler(getCachedInteraction(interaction), !isElite);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;
