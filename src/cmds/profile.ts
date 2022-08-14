@@ -5,7 +5,7 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { PublicUserProfile, SlashCommand, UserWallets } from '../types';
+import { PublicUserProfile, CommandBody, UserWallets } from '../types';
 import {
 	findUser,
 	getOption,
@@ -15,7 +15,7 @@ import {
 	buildEmoji,
 } from '../util';
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'profile',
 	description: "Display a user's profile",
 	options: [
@@ -188,10 +188,7 @@ export const command: SlashCommand = {
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: {
-				content: '',
-				embeds: [embed],
-			},
+			data: { embeds: [embed] },
 		};
 	},
 };

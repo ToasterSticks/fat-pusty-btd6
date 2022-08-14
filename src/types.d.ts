@@ -1,6 +1,7 @@
 import {
 	APIChatInputApplicationCommandGuildInteraction,
 	APIInteractionResponse,
+	APIMessageComponentGuildInteraction,
 	RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from 'discord-api-types/v10';
 
@@ -12,11 +13,19 @@ declare global {
 	const KV: KVNamespace;
 }
 
-export type SlashCommand = RESTPostAPIChatInputApplicationCommandsJSONBody & {
+export interface CommandBody extends RESTPostAPIChatInputApplicationCommandsJSONBody {
 	handler: (
-		interaction: APIChatInputApplicationCommandGuildInteraction
+		interaction: APIChatInputApplicationCommandGuildInteraction,
+		// eslint-disable-next-line
+		...extra: any[]
 	) => Promise<APIInteractionResponse> | APIInteractionResponse;
-};
+	components?: Record<
+		string,
+		(
+			interaction: APIMessageComponentGuildInteraction
+		) => Promise<APIInteractionResponse> | APIInteractionResponse
+	>;
+}
 
 export interface BloonsBossData {
 	normalDcm: BloonsChallengeData;

@@ -9,11 +9,11 @@ import {
 	AuthorizedChallengeData,
 	AuthorizedUserData,
 	BloonsChallengeData,
-	SlashCommand,
+	CommandBody,
 } from '../types';
 import { formRequestOptions, generateChallengeEmbed, getOption } from '../util';
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'challenge',
 	description: "Display a challenge's details",
 	options: [
@@ -114,10 +114,7 @@ export const command: SlashCommand = {
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: {
-				content: '',
-				embeds: [embed],
-			},
+			data: { embeds: [embed] },
 		};
 	},
 };

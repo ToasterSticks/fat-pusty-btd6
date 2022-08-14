@@ -4,7 +4,7 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { SlashCommand } from '../types';
+import { CommandBody } from '../types';
 import { discordTimestamp, buildEmoji, getOption, getEvents } from '../util';
 
 const eventTypes = [
@@ -25,7 +25,7 @@ const eventTypes = [
 	{ name: 'Contested Territory', value: 'ct' },
 ];
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'events',
 	description: 'Display ongoing and upcoming events',
 	options: [

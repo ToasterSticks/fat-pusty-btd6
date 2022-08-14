@@ -4,10 +4,10 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { SlashCommand } from '../types';
+import { CommandBody } from '../types';
 import { findUser, getOption } from '../util';
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'save-profile',
 	description: 'Save your BTD6 profile',
 	options: [

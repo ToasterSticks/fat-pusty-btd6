@@ -1,8 +1,8 @@
 import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
 
-import { SlashCommand } from '../types';
+import { CommandBody } from '../types';
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'invite',
 	description: 'Add the application to your server',
 	handler: () => {

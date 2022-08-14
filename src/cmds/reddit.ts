@@ -1,8 +1,8 @@
 import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
 
-import { RedditResponse, SlashCommand } from '../types';
+import { RedditResponse, CommandBody } from '../types';
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'reddit',
 	description: 'Fetch the hottest BTD6 posts',
 

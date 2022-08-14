@@ -6,9 +6,9 @@ import {
 } from 'discord-api-types/v10';
 
 import { getOption, generateChallengeEmbed } from '../util';
-import { BloonsChallengeData, SlashCommand } from '../types';
+import { BloonsChallengeData, CommandBody } from '../types';
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'daily-challenge',
 	description: "Display the daily challenge's details",
 	options: [
@@ -81,10 +81,7 @@ export const command: SlashCommand = {
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: {
-				content: '',
-				embeds: [embed],
-			},
+			data: { embeds: [embed] },
 		};
 	},
 };

@@ -5,7 +5,7 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { AuthorizedChallengeData, SlashCommand } from '../types';
+import { AuthorizedChallengeData, CommandBody } from '../types';
 import {
 	findUser,
 	formRequestOptions,
@@ -14,7 +14,7 @@ import {
 	trimJoinedLength,
 } from '../util';
 
-export const command: SlashCommand = {
+export const command: CommandBody = {
 	name: 'user-challenges',
 	description: "Display a user's challenges",
 	options: [
@@ -113,10 +113,7 @@ export const command: SlashCommand = {
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: {
-				content: '',
-				embeds: [embed],
-			},
+			data: { embeds: [embed] },
 		};
 	},
 };
