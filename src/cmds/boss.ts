@@ -10,8 +10,9 @@ import {
 import { BloonsBossData, CommandBody } from '../types';
 import {
 	capitalize,
-	createInteractionPlaceholder,
+	deferUpdate,
 	generateChallengeEmbed,
+	getCachedInteraction,
 	getEvents,
 	getOption,
 } from '../util';
@@ -69,13 +70,10 @@ export const command: CommandBody = {
 	components: {
 		'toggle-mode': async (interaction) => {
 			if (interaction.member.user.id !== interaction.message.interaction?.user.id)
-				return {
-					type: InteractionResponseType.DeferredMessageUpdate,
-				};
+				return deferUpdate();
 
 			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');
-			const content = await command.handler(createInteractionPlaceholder(interaction), !isElite);
-
+			const content = await command.handler(getCachedInteraction(interaction), !isElite);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;

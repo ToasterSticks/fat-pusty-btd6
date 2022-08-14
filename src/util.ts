@@ -5,18 +5,38 @@ import {
 	APIChatInputApplicationCommandGuildInteraction,
 	APIEmbed,
 	APIInteraction,
+	APIInteractionResponse,
+	APIMessageComponentGuildInteraction,
+	InteractionResponseType,
 } from 'discord-api-types/v10';
 // @ts-expect-error No fucking types
 import nksku from 'nksku';
 
 import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
+export const interactionDataCache = new Map<
+	string,
+	APIChatInputApplicationCommandGuildInteraction
+>();
+
+export const getCachedInteraction = (interaction: APIInteraction) =>
+	interactionDataCache.get(interaction.message?.interaction?.id ?? '') ??
+	(interaction as APIChatInputApplicationCommandGuildInteraction);
+
+export const cacheInteraction = (interaction: APIChatInputApplicationCommandGuildInteraction) =>
+	interactionDataCache.set(interaction.id, interaction);
+
 export const mapFiles = <T>(context: __WebpackModuleApi.RequireContext) =>
 	context.keys().map<T>((path) => context(path).command);
 
-export const OWNERS = ['320546614857170945'];
-
 export const capitalize = (str: string) => str[0].toUpperCase() + str.substring(1);
+
+export const deferUpdate = (): APIInteractionResponse => ({
+	type: InteractionResponseType.DeferredMessageUpdate,
+});
+
+export const getPage = (interaction: APIMessageComponentGuildInteraction) =>
+	Number(interaction.message.embeds[0]?.footer?.text.match(/(\d+)\/(\d+)/)![1]);
 
 export const addNumberSeparator = (num?: number) => {
 	if (!num) return '0';
@@ -45,9 +65,6 @@ export const trimJoinedLength = (
 
 	return [newArr, arr.length - newArr.length];
 };
-
-export const createInteractionPlaceholder = (interaction: APIInteraction) =>
-	interaction as APIChatInputApplicationCommandGuildInteraction;
 
 export const getOption = <
 	T extends
