@@ -1,6 +1,5 @@
 import {
 	APIButtonComponent,
-	APIChatInputApplicationCommandGuildInteraction,
 	ApplicationCommandOptionType,
 	ButtonStyle,
 	ComponentType,
@@ -9,7 +8,13 @@ import {
 } from 'discord-api-types/v10';
 
 import { BloonsBossData, CommandBody } from '../types';
-import { capitalize, generateChallengeEmbed, getEvents, getOption } from '../util';
+import {
+	capitalize,
+	createInteractionPlaceholder,
+	generateChallengeEmbed,
+	getEvents,
+	getOption,
+} from '../util';
 
 export const command: CommandBody = {
 	name: 'boss',
@@ -23,7 +28,6 @@ export const command: CommandBody = {
 	],
 	handler: async ({ data: { options } }, isElite?: boolean) => {
 		const [boss] = await getEvents('bossBloon');
-		console.log(isElite);
 
 		const { normalDcm, eliteDcm, bossType } = (await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${boss?.name}`
@@ -64,12 +68,13 @@ export const command: CommandBody = {
 	},
 	components: {
 		'toggle-mode': async (interaction) => {
-			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');
+			if (interaction.member.user.id !== interaction.message.interaction?.user.id)
+				return {
+					type: InteractionResponseType.DeferredMessageUpdate,
+				};
 
-			const content = await command.handler(
-				{ data: {} } as APIChatInputApplicationCommandGuildInteraction,
-				!isElite
-			);
+			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');
+			const content = await command.handler(createInteractionPlaceholder(interaction), !isElite);
 
 			content.type = InteractionResponseType.UpdateMessage;
 

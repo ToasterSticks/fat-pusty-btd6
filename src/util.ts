@@ -2,7 +2,9 @@ import {
 	APIApplicationCommandInteractionDataBasicOption,
 	APIApplicationCommandInteractionDataOption,
 	APIApplicationCommandInteractionDataSubcommandOption,
+	APIChatInputApplicationCommandGuildInteraction,
 	APIEmbed,
+	APIInteraction,
 } from 'discord-api-types/v10';
 // @ts-expect-error No fucking types
 import nksku from 'nksku';
@@ -43,6 +45,9 @@ export const trimJoinedLength = (
 
 	return [newArr, arr.length - newArr.length];
 };
+
+export const createInteractionPlaceholder = (interaction: APIInteraction) =>
+	interaction as APIChatInputApplicationCommandGuildInteraction;
 
 export const getOption = <
 	T extends
