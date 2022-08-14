@@ -99,10 +99,11 @@ export const command: CommandBody = {
 				},
 			};
 
-		const endIndex = page * 5;
 		const pages = Math.ceil(results.length / 5);
 
 		if (page > pages) page = pages;
+
+		const endIndex = page * 5;
 
 		const list = results
 			.slice(endIndex - 5, endIndex)

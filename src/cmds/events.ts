@@ -74,10 +74,11 @@ export const command: CommandBody = {
 				},
 			};
 
-		const endIndex = page * 5;
 		const pages = Math.ceil(events.length / 5);
 
 		if (page > pages) page = pages;
+
+		const endIndex = page * 5;
 
 		const leftButton: APIButtonComponent = {
 			type: ComponentType.Button,
