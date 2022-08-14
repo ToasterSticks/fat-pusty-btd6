@@ -10,7 +10,8 @@ declare global {
 	const CLIENT_SECRET: string;
 	const PUBLIC_KEY: string;
 
-	const KV: KVNamespace;
+	const PROFILES: KVNamespace;
+	const CACHE: KVNamespace;
 }
 
 export interface CommandBody extends RESTPostAPIChatInputApplicationCommandsJSONBody {

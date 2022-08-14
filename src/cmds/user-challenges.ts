@@ -45,7 +45,7 @@ export const command: CommandBody = {
 		} = interaction;
 
 		const code = getOption<string>(options, 'user');
-		const query = code ?? (await KV.get(user.id));
+		const query = code ?? (await PROFILES.get(user.id));
 
 		page ??= getOption<number>(options, 'page') ?? 1;
 
@@ -172,7 +172,7 @@ export const command: CommandBody = {
 
 			if (!page) return deferUpdate();
 
-			const content = await command.handler(getCachedInteraction(interaction), page - 1);
+			const content = await command.handler(await getCachedInteraction(interaction), page - 1);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;
@@ -185,7 +185,7 @@ export const command: CommandBody = {
 
 			if (!page) return deferUpdate();
 
-			const content = await command.handler(getCachedInteraction(interaction), page + 1);
+			const content = await command.handler(await getCachedInteraction(interaction), page + 1);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;

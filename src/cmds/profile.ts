@@ -28,7 +28,7 @@ export const command: CommandBody = {
 
 	handler: async ({ data: { options }, member: { user } }) => {
 		const code = getOption<string>(options, 'user');
-		const query = code ?? (await KV.get(user.id));
+		const query = code ?? (await PROFILES.get(user.id));
 
 		if (!query)
 			return {

@@ -32,7 +32,7 @@ export const command: CommandBody = {
 				},
 			};
 
-		await KV.put(user.id, code);
+		await PROFILES.put(user.id, btdUser.nkapiID);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
