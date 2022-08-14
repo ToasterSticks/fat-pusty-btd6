@@ -14,10 +14,8 @@ import {
 	buildEmoji,
 	getOption,
 	getEvents,
-	deferUpdate,
-	getPage,
-	getCachedInteraction,
 	cacheInteraction,
+	movePage,
 } from '../util';
 
 const eventTypes = [
@@ -61,6 +59,9 @@ export const command: CommandBody = {
 		} = interaction;
 
 		const type = getOption<string>(options, 'type');
+
+		const componentTrigger = page !== undefined;
+
 		page ??= getOption<number>(options, 'page') ?? 1;
 
 		const events = await getEvents(type);
@@ -113,7 +114,7 @@ export const command: CommandBody = {
 			footer: { text: `Page ${page}/${pages}` },
 		};
 
-		if (pages > 1) cacheInteraction(interaction);
+		if (pages > 1 && !componentTrigger) cacheInteraction(interaction);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
@@ -127,39 +128,7 @@ export const command: CommandBody = {
 		};
 	},
 	components: {
-		left: async (interaction) => {
-			if (interaction.member.user.id !== interaction.message.interaction?.user.id)
-				return deferUpdate();
-
-			const page = getPage(interaction);
-
-			if (!page) return deferUpdate();
-
-			const saved = await getCachedInteraction(interaction);
-
-			if (!saved) return deferUpdate();
-
-			const content = await command.handler(saved, page - 1);
-			content.type = InteractionResponseType.UpdateMessage;
-
-			return content;
-		},
-		right: async (interaction) => {
-			if (interaction.member.user.id !== interaction.message.interaction?.user.id)
-				return deferUpdate();
-
-			const page = getPage(interaction);
-
-			if (!page) return deferUpdate();
-
-			const saved = await getCachedInteraction(interaction);
-
-			if (!saved) return deferUpdate();
-
-			const content = await command.handler(saved, page + 1);
-			content.type = InteractionResponseType.UpdateMessage;
-
-			return content;
-		},
+		left: (interaction) => movePage(command, interaction, -1),
+		right: (interaction) => movePage(command, interaction, 1),
 	},
 };

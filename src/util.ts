@@ -12,7 +12,15 @@ import {
 // @ts-expect-error No fucking types
 import nksku from 'nksku';
 
-import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
+import {
+	AuthorizedUserData,
+	BloonsChallengeData,
+	CommandBody,
+	Event,
+	Profile,
+	Result,
+	Tower,
+} from './types';
 
 export const getCachedInteraction = (
 	interaction: APIInteraction
@@ -24,6 +32,27 @@ export const cacheInteraction = (interaction: APIChatInputApplicationCommandGuil
 
 export const castInteraction = (interaction: APIInteraction) =>
 	interaction as APIChatInputApplicationCommandGuildInteraction;
+
+export const movePage = async (
+	command: CommandBody,
+	interaction: APIMessageComponentGuildInteraction,
+	direction: number
+) => {
+	if (interaction.member.user.id !== interaction.message.interaction?.user.id) return deferUpdate();
+
+	const page = getPage(interaction);
+
+	if (!page) return deferUpdate();
+
+	const saved = await getCachedInteraction(interaction);
+
+	if (!saved) return deferUpdate();
+
+	const content = await command.handler(saved, page + direction);
+	content.type = InteractionResponseType.UpdateMessage;
+
+	return content;
+};
 
 export const mapFiles = <T>(context: __WebpackModuleApi.RequireContext) =>
 	context.keys().map<T>((path) => context(path).command);

@@ -12,13 +12,11 @@ import { AuthorizedChallengeData, CommandBody } from '../types';
 import {
 	buildEmoji,
 	cacheInteraction,
-	deferUpdate,
 	discordTimestamp,
 	findUser,
 	formRequestOptions,
-	getCachedInteraction,
 	getOption,
-	getPage,
+	movePage,
 	spacePascalCase,
 } from '../util';
 
@@ -46,6 +44,8 @@ export const command: CommandBody = {
 
 		const code = getOption<string>(options, 'user');
 		const query = code ?? (await PROFILES.get(user.id));
+
+		const componentTrigger = page !== undefined;
 
 		page ??= getOption<number>(options, 'page') ?? 1;
 
@@ -151,7 +151,7 @@ export const command: CommandBody = {
 			},
 		};
 
-		if (pages > 1) cacheInteraction(interaction);
+		if (pages > 1 && !componentTrigger) cacheInteraction(interaction);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
@@ -165,39 +165,7 @@ export const command: CommandBody = {
 		};
 	},
 	components: {
-		left: async (interaction) => {
-			if (interaction.member.user.id !== interaction.message.interaction?.user.id)
-				return deferUpdate();
-
-			const page = getPage(interaction);
-
-			if (!page) return deferUpdate();
-
-			const saved = await getCachedInteraction(interaction);
-
-			if (!saved) return deferUpdate();
-
-			const content = await command.handler(saved, page - 1);
-			content.type = InteractionResponseType.UpdateMessage;
-
-			return content;
-		},
-		right: async (interaction) => {
-			if (interaction.member.user.id !== interaction.message.interaction?.user.id)
-				return deferUpdate();
-
-			const page = getPage(interaction);
-
-			if (!page) return deferUpdate();
-
-			const saved = await getCachedInteraction(interaction);
-
-			if (!saved) return deferUpdate();
-
-			const content = await command.handler(saved, page + 1);
-			content.type = InteractionResponseType.UpdateMessage;
-
-			return content;
-		},
+		left: (interaction) => movePage(command, interaction, -1),
+		right: (interaction) => movePage(command, interaction, 1),
 	},
 };
