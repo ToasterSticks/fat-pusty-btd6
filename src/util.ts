@@ -14,19 +14,16 @@ import nksku from 'nksku';
 
 import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
-export const interactionDataCache = new Map<
-	string,
-	APIChatInputApplicationCommandGuildInteraction
->();
+export const getCachedInteraction = (
+	interaction: APIInteraction
+): Promise<APIChatInputApplicationCommandGuildInteraction | null> =>
+	CACHE.get(interaction.message?.interaction?.id ?? '', 'json');
 
-export const getCachedInteraction = (interaction: APIInteraction) =>
-	interactionDataCache.get(interaction.message?.interaction?.id ?? '') ??
-	(interaction as APIChatInputApplicationCommandGuildInteraction);
+export const cacheInteraction = (interaction: APIChatInputApplicationCommandGuildInteraction) =>
+	CACHE.put(interaction.id, JSON.stringify(interaction), { expirationTtl: 60 * 60 * 24 });
 
-export const cacheInteraction = (interaction: APIChatInputApplicationCommandGuildInteraction) => {
-	if (!interactionDataCache.has(interaction.id))
-		interactionDataCache.set(interaction.id, interaction);
-};
+export const castInteraction = (interaction: APIInteraction) =>
+	interaction as APIChatInputApplicationCommandGuildInteraction;
 
 export const mapFiles = <T>(context: __WebpackModuleApi.RequireContext) =>
 	context.keys().map<T>((path) => context(path).command);

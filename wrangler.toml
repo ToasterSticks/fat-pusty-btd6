@@ -4,6 +4,7 @@ account_id = "88e970e7c66a206dc1d32ad757af81c5"
 workers_dev = true
 
 kv_namespaces = [
+  { binding = "CACHE", id = "e10cdf97c8d940fd88ec1ee05657417a" },
   { binding = "PROFILES", id = "12a6d5b6242545168d5aa77786b93e3b" }
 ]
 

@@ -135,7 +135,11 @@ export const command: CommandBody = {
 
 			if (!page) return deferUpdate();
 
-			const content = await command.handler(getCachedInteraction(interaction), page - 1);
+			const saved = await getCachedInteraction(interaction);
+
+			if (!saved) return deferUpdate();
+
+			const content = await command.handler(saved, page - 1);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;
@@ -148,7 +152,11 @@ export const command: CommandBody = {
 
 			if (!page) return deferUpdate();
 
-			const content = await command.handler(getCachedInteraction(interaction), page + 1);
+			const saved = await getCachedInteraction(interaction);
+
+			if (!saved) return deferUpdate();
+
+			const content = await command.handler(saved, page + 1);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;

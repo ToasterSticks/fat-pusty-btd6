@@ -10,9 +10,9 @@ import {
 import { BloonsBossData, CommandBody } from '../types';
 import {
 	capitalize,
+	castInteraction,
 	deferUpdate,
 	generateChallengeEmbed,
-	getCachedInteraction,
 	getEvents,
 	getOption,
 } from '../util';
@@ -73,7 +73,7 @@ export const command: CommandBody = {
 				return deferUpdate();
 
 			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');
-			const content = await command.handler(getCachedInteraction(interaction), !isElite);
+			const content = await command.handler(castInteraction(interaction), !isElite);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;

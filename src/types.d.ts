@@ -11,6 +11,7 @@ declare global {
 	const PUBLIC_KEY: string;
 
 	const PROFILES: KVNamespace;
+	const CACHE: KVNamespace;
 }
 
 export interface CommandBody extends RESTPostAPIChatInputApplicationCommandsJSONBody {
