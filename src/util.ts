@@ -22,7 +22,7 @@ import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower 
 export const getCachedInteraction = (
 	interaction: APIInteraction
 ): Promise<APIChatInputApplicationCommandGuildInteraction | null> =>
-	CACHE.get(interaction.message?.interaction?.id ?? '', 'json');
+	CACHE.get(interaction.message?.interaction?.id ?? '', { type: 'json', cacheTtl: 60 * 60 * 24 });
 
 export const cacheInteraction = (interaction: APIChatInputApplicationCommandInteraction) =>
 	CACHE.put(interaction.id, JSON.stringify(interaction), { expirationTtl: 60 * 60 * 24 });
