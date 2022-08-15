@@ -1,8 +1,6 @@
 import {
-	APIButtonComponent,
 	APIEmbed,
 	ApplicationCommandOptionType,
-	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
 	MessageFlags,
@@ -16,6 +14,7 @@ import {
 	getEvents,
 	cacheInteraction,
 	movePage,
+	pageButtons,
 } from '../util';
 
 const eventTypes = [
@@ -78,24 +77,12 @@ export const command: CommandBody = {
 		const pages = Math.ceil(events.length / 5);
 
 		if (page > pages) page = pages;
+		if (page < 1) page = 1;
 
 		const endIndex = page * 5;
 
-		const leftButton: APIButtonComponent = {
-			type: ComponentType.Button,
-			style: ButtonStyle.Secondary,
-			label: '◀',
-			custom_id: 'left',
-			disabled: page === 1,
-		};
-
-		const rightButton: APIButtonComponent = {
-			type: ComponentType.Button,
-			style: ButtonStyle.Secondary,
-			label: '▶',
-			custom_id: 'right',
-			disabled: page === pages,
-		};
+		pageButtons[0].disabled = pageButtons[1].disabled = page === 1;
+		pageButtons[2].disabled = pageButtons[3].disabled = page === pages;
 
 		const embed: APIEmbed = {
 			color: 13296619,
@@ -120,15 +107,14 @@ export const command: CommandBody = {
 			type: InteractionResponseType.ChannelMessageWithSource,
 			data: {
 				embeds: [embed],
-				components:
-					pages > 1
-						? [{ type: ComponentType.ActionRow, components: [leftButton, rightButton] }]
-						: [],
+				components: pages > 1 ? [{ type: ComponentType.ActionRow, components: pageButtons }] : [],
 			},
 		};
 	},
 	components: {
+		first: (interaction) => movePage(command, interaction, -Number.MAX_SAFE_INTEGER),
 		left: (interaction) => movePage(command, interaction, -1),
 		right: (interaction) => movePage(command, interaction, 1),
+		last: (interaction) => movePage(command, interaction, Number.MAX_SAFE_INTEGER),
 	},
 };

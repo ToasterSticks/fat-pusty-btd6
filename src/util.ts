@@ -2,11 +2,14 @@ import {
 	APIApplicationCommandInteractionDataBasicOption,
 	APIApplicationCommandInteractionDataOption,
 	APIApplicationCommandInteractionDataSubcommandOption,
+	APIButtonComponent,
 	APIChatInputApplicationCommandGuildInteraction,
 	APIEmbed,
 	APIInteraction,
 	APIInteractionResponse,
 	APIMessageComponentGuildInteraction,
+	ButtonStyle,
+	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
 // @ts-expect-error No fucking types
@@ -522,3 +525,38 @@ export const Constants = {
 	EMBED_COLOR: 13296619,
 	GAME_VERSION: '32.0',
 } as const;
+
+export const pageButtons: [
+	APIButtonComponent,
+	APIButtonComponent,
+	APIButtonComponent,
+	APIButtonComponent
+] = [
+	{
+		type: ComponentType.Button,
+		style: ButtonStyle.Secondary,
+		emoji: { name: '⏪' },
+		custom_id: 'first',
+	},
+
+	{
+		type: ComponentType.Button,
+		style: ButtonStyle.Secondary,
+		emoji: { name: '◀️' },
+		custom_id: 'left',
+	},
+
+	{
+		type: ComponentType.Button,
+		style: ButtonStyle.Secondary,
+		emoji: { name: '▶️' },
+		custom_id: 'right',
+	},
+
+	{
+		type: ComponentType.Button,
+		style: ButtonStyle.Secondary,
+		emoji: { name: '⏩' },
+		custom_id: 'last',
+	},
+];
