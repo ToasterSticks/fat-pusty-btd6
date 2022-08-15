@@ -20,7 +20,7 @@ export const command: CommandBody = {
 	],
 
 	handler: async ({ data: { options }, member: { user } }) => {
-		const code = getOption<string>(options, 'code')!.toUpperCase();
+		const code = getOption<string>(options, 'code')!;
 		const btdUser = await findUser(code);
 
 		if (!btdUser)
