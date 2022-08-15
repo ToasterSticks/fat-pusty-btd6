@@ -1,8 +1,13 @@
-import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
+import { Command } from 'cloudflare-discord-bot';
+import {
+	ApplicationCommandType,
+	InteractionResponseType,
+	MessageFlags,
+} from 'discord-api-types/v10';
 
-import { RedditResponse, CommandBody } from '../types';
+import { RedditResponse } from '../types';
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'reddit',
 	description: 'Fetch the hottest BTD6 posts',
 

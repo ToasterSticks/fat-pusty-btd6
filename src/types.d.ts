@@ -1,10 +1,3 @@
-import {
-	APIChatInputApplicationCommandGuildInteraction,
-	APIInteractionResponse,
-	APIMessageComponentGuildInteraction,
-	RESTPostAPIChatInputApplicationCommandsJSONBody,
-} from 'discord-api-types/v10';
-
 declare global {
 	const CLIENT_ID: string;
 	const CLIENT_SECRET: string;
@@ -12,20 +5,6 @@ declare global {
 
 	const PROFILES: KVNamespace;
 	const CACHE: KVNamespace;
-}
-
-export interface CommandBody extends RESTPostAPIChatInputApplicationCommandsJSONBody {
-	handler: (
-		interaction: APIChatInputApplicationCommandGuildInteraction,
-		// eslint-disable-next-line
-		...extra: any[]
-	) => Promise<APIInteractionResponse> | APIInteractionResponse;
-	components?: Record<
-		string,
-		(
-			interaction: APIMessageComponentGuildInteraction
-		) => Promise<APIInteractionResponse> | APIInteractionResponse
-	>;
 }
 
 export interface BloonsBossData {

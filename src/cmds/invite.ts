@@ -1,8 +1,11 @@
-import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
+import { Command } from 'cloudflare-discord-bot';
+import {
+	ApplicationCommandType,
+	InteractionResponseType,
+	MessageFlags,
+} from 'discord-api-types/v10';
 
-import { CommandBody } from '../types';
-
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'invite',
 	description: 'Add the application to your server',
 	handler: () => {

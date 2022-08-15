@@ -1,12 +1,14 @@
+import { Command } from 'cloudflare-discord-bot';
 import {
 	APIEmbed,
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	ComponentType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { AuthorizedChallengeData, CommandBody } from '../types';
+import { AuthorizedChallengeData } from '../types';
 import {
 	buildEmoji,
 	cacheInteraction,
@@ -20,7 +22,7 @@ import {
 	spacePascalCase,
 } from '../util';
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'user-challenges',
 	description: "Display a user's challenges",
 	options: [
@@ -39,11 +41,11 @@ export const command: CommandBody = {
 	handler: async (interaction, page?: number) => {
 		const {
 			data: { options },
-			member: { user },
+			member,
 		} = interaction;
 
 		const code = getOption<string>(options, 'user');
-		const query = code ?? (await PROFILES.get(user.id));
+		const query = code ?? (await PROFILES.get(member!.user.id));
 
 		const componentTrigger = page !== undefined;
 

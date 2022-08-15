@@ -1,13 +1,14 @@
+import { Command } from 'cloudflare-discord-bot';
 import {
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { CommandBody } from '../types';
 import { findUser, getOption } from '../util';
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'save-profile',
 	description: 'Save your BTD6 profile',
 	options: [
@@ -19,7 +20,7 @@ export const command: CommandBody = {
 		},
 	],
 
-	handler: async ({ data: { options }, member: { user } }) => {
+	handler: async ({ data: { options }, member }) => {
 		const code = getOption<string>(options, 'code')!;
 		const btdUser = await findUser(code);
 
@@ -32,7 +33,7 @@ export const command: CommandBody = {
 				},
 			};
 
-		await PROFILES.put(user.id, btdUser.nkapiID);
+		await PROFILES.put(member!.user.id, btdUser.nkapiID);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

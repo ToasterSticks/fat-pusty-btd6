@@ -1,12 +1,13 @@
+import { Command } from 'cloudflare-discord-bot';
 import {
 	APIEmbed,
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	ComponentType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { CommandBody } from '../types';
 import {
 	discordTimestamp,
 	buildEmoji,
@@ -35,7 +36,7 @@ const eventTypes = [
 	{ name: 'Contested Territory', value: 'ct' },
 ];
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'events',
 	description: 'Display ongoing and upcoming events',
 	options: [

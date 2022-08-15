@@ -1,19 +1,16 @@
 import { inflate } from 'pako';
 import {
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import {
-	AuthorizedChallengeData,
-	AuthorizedUserData,
-	BloonsChallengeData,
-	CommandBody,
-} from '../types';
+import { AuthorizedChallengeData, AuthorizedUserData, BloonsChallengeData } from '../types';
 import { formRequestOptions, generateChallengeEmbed, getOption } from '../util';
+import { Command } from 'cloudflare-discord-bot';
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'challenge',
 	description: "Display a challenge's details",
 	options: [

@@ -1,14 +1,16 @@
 import {
 	APIApplicationCommandInteractionDataSubcommandOption,
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
 import { getOption, generateChallengeEmbed } from '../util';
-import { BloonsChallengeData, CommandBody } from '../types';
+import { BloonsChallengeData } from '../types';
+import { Command } from 'cloudflare-discord-bot';
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'daily-challenge',
 	description: "Display the daily challenge's details",
 	options: [

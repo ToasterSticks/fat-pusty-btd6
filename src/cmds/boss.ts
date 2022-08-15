@@ -1,13 +1,15 @@
+import { Command } from 'cloudflare-discord-bot';
 import {
 	APIButtonComponent,
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { BloonsBossData, CommandBody } from '../types';
+import { BloonsBossData } from '../types';
 import {
 	capitalize,
 	castInteraction,
@@ -17,7 +19,7 @@ import {
 	getOption,
 } from '../util';
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'boss',
 	description: 'Display the current boss event details',
 	options: [
@@ -69,7 +71,7 @@ export const command: CommandBody = {
 	},
 	components: {
 		'toggle-mode': async (interaction) => {
-			if (interaction.member.user.id !== interaction.message.interaction?.user.id)
+			if (interaction.member!.user.id !== interaction.message.interaction?.user.id)
 				return deferUpdate();
 
 			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');

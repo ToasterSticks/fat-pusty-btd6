@@ -1,11 +1,13 @@
+import { Command } from 'cloudflare-discord-bot';
 import {
 	APIEmbed,
 	ApplicationCommandOptionType,
+	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { PublicUserProfile, CommandBody, UserWallets } from '../types';
+import { PublicUserProfile, UserWallets } from '../types';
 import {
 	findUser,
 	getOption,
@@ -15,7 +17,7 @@ import {
 	buildEmoji,
 } from '../util';
 
-export const command: CommandBody = {
+export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'profile',
 	description: "Display a user's profile",
 	options: [
@@ -26,9 +28,9 @@ export const command: CommandBody = {
 		},
 	],
 
-	handler: async ({ data: { options }, member: { user } }) => {
+	handler: async ({ data: { options }, member }) => {
 		const code = getOption<string>(options, 'user');
-		const query = code ?? (await PROFILES.get(user.id));
+		const query = code ?? (await PROFILES.get(member!.user.id));
 
 		if (!query)
 			return {

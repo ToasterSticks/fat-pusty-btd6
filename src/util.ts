@@ -1,47 +1,42 @@
+import { Command } from 'cloudflare-discord-bot';
 import {
 	APIApplicationCommandInteractionDataBasicOption,
 	APIApplicationCommandInteractionDataOption,
 	APIApplicationCommandInteractionDataSubcommandOption,
 	APIButtonComponent,
 	APIChatInputApplicationCommandGuildInteraction,
+	APIChatInputApplicationCommandInteraction,
 	APIEmbed,
 	APIInteraction,
 	APIInteractionResponse,
-	APIMessageComponentGuildInteraction,
+	APIMessageComponentInteraction,
 	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
 } from 'discord-api-types/v10';
-// @ts-expect-error No fucking types
+// @ts-expect-error
 import nksku from 'nksku';
 
-import {
-	AuthorizedUserData,
-	BloonsChallengeData,
-	CommandBody,
-	Event,
-	Profile,
-	Result,
-	Tower,
-} from './types';
+import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
 export const getCachedInteraction = (
 	interaction: APIInteraction
 ): Promise<APIChatInputApplicationCommandGuildInteraction | null> =>
 	CACHE.get(interaction.message?.interaction?.id ?? '', 'json');
 
-export const cacheInteraction = (interaction: APIChatInputApplicationCommandGuildInteraction) =>
+export const cacheInteraction = (interaction: APIChatInputApplicationCommandInteraction) =>
 	CACHE.put(interaction.id, JSON.stringify(interaction), { expirationTtl: 60 * 60 * 24 });
 
 export const castInteraction = (interaction: APIInteraction) =>
 	interaction as APIChatInputApplicationCommandGuildInteraction;
 
 export const movePage = async (
-	command: CommandBody,
-	interaction: APIMessageComponentGuildInteraction,
+	command: Command,
+	interaction: APIMessageComponentInteraction,
 	direction: number
 ) => {
-	if (interaction.member.user.id !== interaction.message.interaction?.user.id) return deferUpdate();
+	if (interaction.member!.user.id !== interaction.message.interaction?.user.id)
+		return deferUpdate();
 
 	const page = getPage(interaction);
 
@@ -66,7 +61,7 @@ export const deferUpdate = (): APIInteractionResponse => ({
 	type: InteractionResponseType.DeferredMessageUpdate,
 });
 
-export const getPage = (interaction: APIMessageComponentGuildInteraction) =>
+export const getPage = (interaction: APIMessageComponentInteraction) =>
 	Number(interaction.message.embeds[0]?.footer?.text.match(/(\d+)\/(\d+)/)![1]);
 
 export const addNumberSeparator = (num?: number) => {
@@ -110,7 +105,7 @@ export const getOption = <
 ): T | undefined => {
 	const option = options?.find((option) => option.name === name);
 
-	// @ts-expect-error Make this work
+	// @ts-expect-error
 	return option && ('value' in option ? option.value : option.options);
 };
 
