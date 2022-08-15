@@ -87,7 +87,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 
 		const embed: APIEmbed = {
 			color: 13296619,
-			title: `${type ? eventTypes.find(({ value }) => value === type)?.name : 'All'} Events`,
+			title: type ? eventTypes.find(({ value }) => value === type)?.name : 'All Events',
 			description: events.slice(endIndex - 5, endIndex).reduce((a, { name, type, start, end }) => {
 				name = name.replaceAll('_', ' ');
 				const hasStarted = Date.now() >= start;
