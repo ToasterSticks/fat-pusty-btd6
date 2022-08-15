@@ -188,6 +188,11 @@ export const findUser = (query: string) =>
 		})
 	);
 
+export const isChallengeGray = (latestVersion: number) => {
+	const [majorVer, minorVer] = Constants.GAME_VERSION.split('.');
+	return latestVersion < Number(`${majorVer}0${minorVer}00`);
+};
+
 export const generateChallengeEmbed = ({
 	data,
 	id,
@@ -223,9 +228,7 @@ export const generateChallengeEmbed = ({
 	};
 
 	if (info) {
-		const [majorVer, minorVer] = Constants.GAME_VERSION.split('.');
-		embed.color =
-			info.latestVersionBeaten < Number(`${majorVer}0${minorVer}00`) ? 6516351 : 5874422;
+		embed.color = isChallengeGray(info.latestVersionBeaten) ? 6516351 : 5874422;
 
 		const attempts = info.stats.plays + (info.stats.restarts ?? 0);
 		const winRate = attempts ? (info.stats.wins / attempts) * 100 : 0;

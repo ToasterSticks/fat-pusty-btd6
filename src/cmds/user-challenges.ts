@@ -14,6 +14,7 @@ import {
 	findUser,
 	formRequestOptions,
 	getOption,
+	isChallengeGray,
 	movePage,
 	pageButtons,
 	spacePascalCase,
@@ -107,23 +108,30 @@ export const command: CommandBody = {
 
 		const list = results
 			.slice(endIndex - 5, endIndex)
-			.reduce((a, { id, createdAt, challengeName, map, stats }) => {
-				if (map === 'Tutorial') map = 'MonkeyMeadow';
-				if (map === 'TownCentre') map = 'TownCenter';
+			.reduce(
+				(a, { id, createdAt, challengeName, map, stats, latestVersionBeaten, gameVersion }) => {
+					if (map === 'Tutorial') map = 'MonkeyMeadow';
+					if (map === 'TownCentre') map = 'TownCenter';
 
-				const attempts = stats.plays + (stats.restarts ?? 0);
-				const winRate = attempts ? (stats.wins / attempts) * 100 : 0;
-				const completionRate = attempts ? (stats.winsUnique / stats.playsUnique) * 100 : 0;
+					const attempts = stats.plays + (stats.restarts ?? 0);
+					const winRate = attempts ? (stats.wins / attempts) * 100 : 0;
+					const completionRate = attempts ? (stats.winsUnique / stats.playsUnique) * 100 : 0;
 
-				return `${a}[\`${id}\`](https://join.btd6.com/Challenge/${id} 'Map: ${spacePascalCase(
-					map
-				)}') - **${challengeName}**\n${buildEmoji('875985515357282316')} ${discordTimestamp(
-					createdAt,
-					'R'
-				)} | CR: ${
-					completionRate > 0 && completionRate < 1 ? '<1' : Math.round(completionRate)
-				}% - WR: ${winRate > 0 && winRate < 1 ? '<1' : Math.round(winRate)}%\n\n`;
-			}, '');
+					return `${a}[\`${id}\`](https://join.btd6.com/Challenge/${id} 'Map: ${spacePascalCase(
+						map
+					)}\nUpvotes: ${stats.upvotes}\nGame version: ${gameVersion}${
+						isChallengeGray(latestVersionBeaten)
+							? `\n\nThis challenge may not be possible anymore.`
+							: ''
+					}') - **${challengeName}**\n${buildEmoji('875985515357282316')} ${discordTimestamp(
+						createdAt,
+						'R'
+					)} | CR: ${
+						completionRate > 0 && completionRate < 1 ? '<1' : Math.round(completionRate)
+					}% - WR: ${winRate > 0 && winRate < 1 ? '<1' : Math.round(winRate)}%\n\n`;
+				},
+				''
+			);
 
 		pageButtons[0].disabled = pageButtons[1].disabled = page === 1;
 		pageButtons[2].disabled = pageButtons[3].disabled = page === pages;
