@@ -19,10 +19,12 @@ import nksku from 'nksku';
 
 import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
-export const getCachedInteraction = (
+export const getCachedInteraction = async (
 	interaction: APIInteraction
-): Promise<APIChatInputApplicationCommandGuildInteraction | null> =>
-	CACHE.get(interaction.message?.interaction?.id ?? '', { type: 'json', cacheTtl: 60 * 60 * 24 });
+): Promise<APIChatInputApplicationCommandGuildInteraction | null> => {
+	const id = interaction.message?.interaction?.id;
+	return id ? CACHE.get(id, { type: 'json', cacheTtl: 60 * 60 * 24 }) : null;
+};
 
 export const cacheInteraction = (interaction: APIChatInputApplicationCommandInteraction) =>
 	CACHE.put(interaction.id, JSON.stringify(interaction), { expirationTtl: 60 * 60 * 24 });
