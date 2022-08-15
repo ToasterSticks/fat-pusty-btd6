@@ -148,7 +148,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			},
 		};
 
-		if (pages > 1 && !componentTrigger) cacheInteraction(interaction);
+		if (pages > 1 && !componentTrigger) await cacheInteraction(interaction);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

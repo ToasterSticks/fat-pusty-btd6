@@ -102,7 +102,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			footer: { text: `Page ${page}/${pages}` },
 		};
 
-		if (pages > 1 && !componentTrigger) cacheInteraction(interaction);
+		if (pages > 1 && !componentTrigger) await cacheInteraction(interaction);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
