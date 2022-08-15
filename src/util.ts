@@ -536,7 +536,7 @@ export const pageButtons: [
 		type: ComponentType.Button,
 		style: ButtonStyle.Secondary,
 		emoji: { name: '⏪' },
-		custom_id: 'first',
+		custom_id: 'bulk-left',
 	},
 
 	{
@@ -557,6 +557,6 @@ export const pageButtons: [
 		type: ComponentType.Button,
 		style: ButtonStyle.Secondary,
 		emoji: { name: '⏩' },
-		custom_id: 'last',
+		custom_id: 'bulk-right',
 	},
 ];

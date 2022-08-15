@@ -112,9 +112,9 @@ export const command: CommandBody = {
 		};
 	},
 	components: {
-		first: (interaction) => movePage(command, interaction, -Number.MAX_SAFE_INTEGER),
+		'bulk-left': (interaction) => movePage(command, interaction, -5),
 		left: (interaction) => movePage(command, interaction, -1),
 		right: (interaction) => movePage(command, interaction, 1),
-		last: (interaction) => movePage(command, interaction, Number.MAX_SAFE_INTEGER),
+		'bulk-right': (interaction) => movePage(command, interaction, 5),
 	},
 };
