@@ -201,10 +201,10 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					name: 'CHIMPS',
 					inline: false,
 					value: [
-						`Solo:\u3000${buildEmoji('999431048217767946')} - ${spMedals.Clicks}\u3000${buildEmoji(
+						`Solo: \u3000${buildEmoji('999431048217767946')} - ${spMedals.Clicks}\u3000${buildEmoji(
 							'999431047286628494'
 						)} - ${spMedals['CHIMPS-BLACK']}`,
-						`Co-Op:\u3000${buildEmoji('999431043025227888')} - ${
+						`Coop:\u3000${buildEmoji('999431043025227888')} - ${
 							coopMedals.Clicks
 						}\u3000${buildEmoji('999431041997611149')} - ${coopMedals['CHIMPS-BLACK']}`,
 					].join('\n'),
