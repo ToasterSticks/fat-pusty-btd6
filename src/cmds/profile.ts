@@ -75,7 +75,15 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 				},
 			};
 
-		const { spMedals, coopMedals, raceMedals, bossMedals, bossEliteMedals } = profile;
+		const {
+			spMedals,
+			coopMedals,
+			raceMedals,
+			bossMedals,
+			bossEliteMedals,
+			ctLocalMedals,
+			ctGlobalMedals,
+		} = profile;
 
 		const embed: APIEmbed = {
 			color: 13296619,
@@ -170,19 +178,35 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					].join('\n'),
 				},
 				{
-					name: 'Solo',
+					name: 'Local',
 					inline: true,
 					value: [
-						`${buildEmoji('999431048217767946')} - ${spMedals.Clicks}`,
-						`${buildEmoji('999431047286628494')} - ${spMedals['CHIMPS-BLACK']}`,
+						`${buildEmoji('1009162414983491584')} - ${ctLocalMedals?.BlackDiamond ?? 0}`,
+						`${buildEmoji('1009162418108239922')} - ${ctLocalMedals?.RedDiamond ?? 0}`,
+						`${buildEmoji('1009162416304685127')} - ${ctLocalMedals?.Diamond ?? 0}`,
+						`${buildEmoji('1009162034618830908')} - ${ctLocalMedals?.GoldDiamond ?? 0}`,
 					].join('\n'),
 				},
 				{
-					name: 'Co-Op',
+					name: 'Global',
 					inline: true,
 					value: [
-						`${buildEmoji('999431043025227888')} - ${coopMedals.Clicks}`,
-						`${buildEmoji('999431041997611149')} - ${coopMedals['CHIMPS-BLACK']}`,
+						`${buildEmoji('1009162410021621780')} - ${ctGlobalMedals?.Diamond ?? 0}`,
+						`${buildEmoji('1009162412638884040')} - ${ctGlobalMedals?.GoldDiamond ?? 0}`,
+						`${buildEmoji('1009162411267346565')} - ${ctGlobalMedals?.DoubleGold ?? 0}`,
+						`${buildEmoji('1009162413788114954')} - ${ctGlobalMedals?.GoldSilver ?? 0}`,
+					].join('\n'),
+				},
+				{
+					name: 'CHIMPS',
+					inline: false,
+					value: [
+						`Solo:\u3000${buildEmoji('999431048217767946')} - ${spMedals.Clicks}\u3000${buildEmoji(
+							'999431047286628494'
+						)} - ${spMedals['CHIMPS-BLACK']}`,
+						`Co-Op:\u3000${buildEmoji('999431043025227888')} - ${
+							coopMedals.Clicks
+						}\u3000${buildEmoji('999431041997611149')} - ${coopMedals['CHIMPS-BLACK']}`,
 					].join('\n'),
 				},
 			],

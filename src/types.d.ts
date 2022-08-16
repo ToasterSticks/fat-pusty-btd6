@@ -201,6 +201,8 @@ export interface PublicUserProfile {
 	raceMedals: Medals;
 	bossMedals?: Medals;
 	bossEliteMedals?: Medals;
+	ctLocalMedals?: Medals;
+	ctGlobalMedals?: Medals;
 	bossBadges: { [key: string]: BossBadge };
 	dailyRewards?: number;
 	challengesCompleted?: number;
@@ -231,7 +233,7 @@ export interface Medals {
 	RedDiamond?: number;
 	Diamond?: number;
 	GoldDiamond?: number;
-	Gold?: number;
+	DoubleGold?: number;
 	GoldSilver?: number;
 	DoubleSilver?: number;
 	Silver?: number;
