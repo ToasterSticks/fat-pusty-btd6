@@ -203,7 +203,7 @@ export interface PublicUserProfile {
 	bossEliteMedals?: Medals;
 	ctLocalMedals?: Medals;
 	ctGlobalMedals?: Medals;
-	bossBadges: { [key: string]: BossBadge };
+	bossBadges: Record<BossType, BossBadge>;
 	dailyRewards?: number;
 	challengesCompleted?: number;
 	savedStats: { [key: string]: boolean };
@@ -221,6 +221,12 @@ export interface PublicUserProfile {
 	monkeyTeamsWins?: number;
 	highestRoundCHIMPS?: number;
 	highestRoundDeflation?: number;
+}
+
+export enum BossType {
+	Bloonarius = '0',
+	Lych = '1',
+	Vortex = '2',
 }
 
 export interface BossBadge {

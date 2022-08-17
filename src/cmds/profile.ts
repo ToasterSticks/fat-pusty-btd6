@@ -7,7 +7,7 @@ import {
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { PublicUserProfile, UserWallets } from '../types';
+import { BossType, PublicUserProfile, UserWallets } from '../types';
 import {
 	findUser,
 	getOption,
@@ -79,6 +79,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			spMedals,
 			coopMedals,
 			raceMedals,
+			bossBadges,
 			bossMedals,
 			bossEliteMedals,
 			ctLocalMedals,
@@ -148,13 +149,24 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					].join('\n'),
 				},
 				{
-					name: 'Race',
+					name: 'Completions',
 					inline: true,
 					value: [
-						`${buildEmoji('999431043931197480')} - ${raceMedals.BlackDiamond ?? 0}`,
-						`${buildEmoji('999431045764104203')} - ${raceMedals.RedDiamond ?? 0}`,
-						`${buildEmoji('999431045260783686')} - ${raceMedals.Diamond ?? 0}`,
-						`${buildEmoji('999715100694945813')} - ${raceMedals.GoldDiamond ?? 0}`,
+						`${buildEmoji('1009433662451892264')} - ${
+							bossBadges[BossType.Bloonarius].normalBadges ?? 0
+						}\u3000${buildEmoji('1009433791196037180')} - ${
+							bossBadges[BossType.Bloonarius].eliteBadges ?? 0
+						}`,
+						`${buildEmoji('1009434031470952558')} - ${
+							bossBadges[BossType.Lych].normalBadges ?? 0
+						}\u3000${buildEmoji('1009434032817324125')} - ${
+							bossBadges[BossType.Lych].eliteBadges ?? 0
+						}`,
+						`${buildEmoji('1009434034348249130')} - ${
+							bossBadges[BossType.Vortex].normalBadges ?? 0
+						}\u3000${buildEmoji('1009434036449583166')} - ${
+							bossBadges[BossType.Vortex].eliteBadges ?? 0
+						}`,
 					].join('\n'),
 				},
 				{
@@ -178,6 +190,16 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					].join('\n'),
 				},
 				{
+					name: 'Race',
+					inline: true,
+					value: [
+						`${buildEmoji('999431043931197480')} - ${raceMedals.BlackDiamond ?? 0}`,
+						`${buildEmoji('999431045764104203')} - ${raceMedals.RedDiamond ?? 0}`,
+						`${buildEmoji('999431045260783686')} - ${raceMedals.Diamond ?? 0}`,
+						`${buildEmoji('999715100694945813')} - ${raceMedals.GoldDiamond ?? 0}`,
+					].join('\n'),
+				},
+				{
 					name: 'Local',
 					inline: true,
 					value: [
@@ -198,15 +220,19 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					].join('\n'),
 				},
 				{
-					name: 'CHIMPS',
-					inline: false,
+					name: 'Solo',
+					inline: true,
 					value: [
-						`Solo: \u3000${buildEmoji('999431048217767946')} - ${spMedals.Clicks}\u3000${buildEmoji(
-							'999431047286628494'
-						)} - ${spMedals['CHIMPS-BLACK']}`,
-						`Coop:\u3000${buildEmoji('999431043025227888')} - ${
-							coopMedals.Clicks
-						}\u3000${buildEmoji('999431041997611149')} - ${coopMedals['CHIMPS-BLACK']}`,
+						`${buildEmoji('999431048217767946')} - ${spMedals.Clicks}`,
+						`${buildEmoji('999431047286628494')} - ${spMedals['CHIMPS-BLACK']}`,
+					].join('\n'),
+				},
+				{
+					name: 'Co-Op',
+					inline: true,
+					value: [
+						`${buildEmoji('999431043025227888')} - ${coopMedals.Clicks}`,
+						`${buildEmoji('999431041997611149')} - ${coopMedals['CHIMPS-BLACK']}`,
 					].join('\n'),
 				},
 			],
