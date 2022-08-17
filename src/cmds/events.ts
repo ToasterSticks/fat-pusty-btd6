@@ -10,7 +10,7 @@ import {
 
 import {
 	discordTimestamp,
-	buildEmoji,
+	buildEmojis,
 	getOption,
 	getEvents,
 	cacheInteraction,
@@ -93,9 +93,10 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 				const hasStarted = Date.now() >= start;
 				const fmtType = eventTypes.find(({ value }) => value === type)?.name;
 
-				return `${a}**${name}** (${fmtType})\n${buildEmoji(
-					'875985515357282316'
-				)} ${discordTimestamp(start, 'D')} → ${discordTimestamp(end, 'D')} (${
+				return buildEmojis`${a}**${name}** (${fmtType})\n${'875985515357282316'} ${discordTimestamp(
+					start,
+					'D'
+				)} → ${discordTimestamp(end, 'D')} (${
 					hasStarted ? 'ending' : 'starting'
 				} ${discordTimestamp(hasStarted ? end : start, 'R')})\n\n`;
 			}, ''),

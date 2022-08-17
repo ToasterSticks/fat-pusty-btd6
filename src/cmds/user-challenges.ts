@@ -10,7 +10,7 @@ import {
 
 import { AuthorizedChallengeData } from '../types';
 import {
-	buildEmoji,
+	buildEmojis,
 	cacheInteraction,
 	discordTimestamp,
 	findUser,
@@ -119,13 +119,13 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					const winRate = attempts ? (stats.wins / attempts) * 100 : 0;
 					const completionRate = attempts ? (stats.winsUnique / stats.playsUnique) * 100 : 0;
 
-					return `${a}[\`${id}\`](https://join.btd6.com/Challenge/${id} 'Map: ${spacePascalCase(
+					return buildEmojis`${a}[\`${id}\`](https://join.btd6.com/Challenge/${id} 'Map: ${spacePascalCase(
 						map
 					)}\nUpvotes: ${stats.upvotes}\nGame version: ${gameVersion}${
 						isChallengeGray(latestVersionBeaten)
 							? `\n\nThis challenge may not be possible anymore.`
 							: ''
-					}') - **${challengeName}**\n${buildEmoji('875985515357282316')} ${discordTimestamp(
+					}') - **${challengeName}**\n${'875985515357282316'} ${discordTimestamp(
 						createdAt,
 						'R'
 					)} | CR: ${
