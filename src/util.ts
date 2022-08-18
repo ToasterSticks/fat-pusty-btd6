@@ -79,7 +79,7 @@ export const discordTimestamp = (timestamp: number, format: string) =>
 export const buildEmojis = (strArr: TemplateStringsArray, ...expArr: unknown[]) => {
 	const val = expArr.reduce(
 		(acc: string, exp, i) =>
-			acc + (/\d{17,19}/.test(`${exp}`) ? `<:_:${exp}>` : exp) + strArr[i + 1],
+			acc + (/^\d{17,19}$/.test(`${exp}`) ? `<:_:${exp}>` : exp) + strArr[i + 1],
 		strArr[0]
 	);
 	console.log(val);
