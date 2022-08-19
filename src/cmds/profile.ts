@@ -153,14 +153,14 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					inline: true,
 					value: [
 						buildEmojis`${'1009433662451892264'} - ${
-							bossBadges[BossType.Bloonarius].normalBadges ?? 0
-						}\u3000${'1009433791196037180'} - ${bossBadges[BossType.Bloonarius].eliteBadges ?? 0}`,
+							bossBadges[BossType.Bloonarius]?.normalBadges ?? 0
+						}\u3000${'1009433791196037180'} - ${bossBadges[BossType.Bloonarius]?.eliteBadges ?? 0}`,
 						buildEmojis`${'1009434031470952558'} - ${
-							bossBadges[BossType.Lych].normalBadges ?? 0
-						}\u3000${'1009434032817324125'} - ${bossBadges[BossType.Lych].eliteBadges ?? 0}`,
+							bossBadges[BossType.Lych]?.normalBadges ?? 0
+						}\u3000${'1009434032817324125'} - ${bossBadges[BossType.Lych]?.eliteBadges ?? 0}`,
 						buildEmojis`${'1009434034348249130'} - ${
-							bossBadges[BossType.Vortex].normalBadges ?? 0
-						}\u3000${'1009434036449583166'} - ${bossBadges[BossType.Vortex].eliteBadges ?? 0}`,
+							bossBadges[BossType.Vortex]?.normalBadges ?? 0
+						}\u3000${'1009434036449583166'} - ${bossBadges[BossType.Vortex]?.eliteBadges ?? 0}`,
 					].join('\n'),
 				},
 				{
