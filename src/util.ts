@@ -18,8 +18,12 @@ import nksku from 'nksku';
 
 import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
-export const castInteraction = (interaction: APIInteraction) =>
-	interaction as APIChatInputApplicationCommandGuildInteraction;
+export const castInteraction = (interaction: APIInteraction) => {
+	const casted = interaction as APIChatInputApplicationCommandGuildInteraction;
+	casted.data.options ??= [];
+
+	return casted;
+};
 
 export const movePage = async (
 	command: Command,
@@ -33,11 +37,7 @@ export const movePage = async (
 	if (!page) return deferUpdate();
 
 	const query = interaction.message.embeds[0].footer?.text.split(' | ')[1];
-
-	const clone = castInteraction(interaction);
-	clone.data.options = [];
-
-	const content = await command.handler(clone, page + direction, query);
+	const content = await command.handler(castInteraction(interaction), page + direction, query);
 
 	content.type = InteractionResponseType.UpdateMessage;
 
