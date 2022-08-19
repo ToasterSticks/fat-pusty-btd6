@@ -157,17 +157,13 @@ export const formRequestOptions = (data: Record<string, unknown>) => {
 };
 
 export const getEvents = async (type?: string) => {
-	const body = await fetch(
+	const data = await fetch(
 		'https://static-api.nkstatic.com/nkapi/skusettings/7e6e7a76e92ea636c1e257459bba8181.json'
 	)
 		.then((res) => res.arrayBuffer())
 		.then((buffer) => new Uint8Array(buffer));
 
-	let events: Event[] = JSON.parse(
-		JSON.parse(
-			body.slice(14).reduce((a, curr, i) => a + String.fromCharCode(curr - 21 - (i % 6)), '')
-		).data
-	).settings.events;
+	let events: Event[] = JSON.parse(JSON.parse(nksku.dgdata.decode(data)).data).settings.events;
 
 	if (type) events = events.filter((event) => event.type === type);
 
