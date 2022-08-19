@@ -107,7 +107,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			info,
 		});
 
-		embed.footer = { text: `User ID: ${creatorID}` };
+		embed.footer = { text: creatorID };
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

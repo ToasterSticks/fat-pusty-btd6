@@ -5,7 +5,6 @@ import {
 	APIApplicationCommandInteractionDataSubcommandOption,
 	APIButtonComponent,
 	APIChatInputApplicationCommandGuildInteraction,
-	APIChatInputApplicationCommandInteraction,
 	APIEmbed,
 	APIInteraction,
 	APIInteractionResponse,
@@ -19,16 +18,6 @@ import nksku from 'nksku';
 
 import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
-export const getCachedInteraction = async (
-	interaction: APIInteraction
-): Promise<APIChatInputApplicationCommandGuildInteraction | null> => {
-	const id = interaction.message?.interaction?.id;
-	return id ? CACHE.get(id, { type: 'json', cacheTtl: 60 * 60 * 24 }) : null;
-};
-
-export const cacheInteraction = (interaction: APIChatInputApplicationCommandInteraction) =>
-	CACHE.put(interaction.id, JSON.stringify(interaction), { expirationTtl: 60 * 60 * 24 });
-
 export const castInteraction = (interaction: APIInteraction) =>
 	interaction as APIChatInputApplicationCommandGuildInteraction;
 
@@ -41,14 +30,15 @@ export const movePage = async (
 		return deferUpdate();
 
 	const page = getPage(interaction);
-
 	if (!page) return deferUpdate();
 
-	const saved = await getCachedInteraction(interaction);
+	const query = interaction.message.embeds[0].footer?.text.split(' | ')[1];
 
-	if (!saved) return deferUpdate();
+	const clone = castInteraction(interaction);
+	clone.data.options = [];
 
-	const content = await command.handler(saved, page + direction);
+	const content = await command.handler(clone, page + direction, query);
+
 	content.type = InteractionResponseType.UpdateMessage;
 
 	return content;

@@ -11,7 +11,6 @@ import {
 import { AuthorizedChallengeData } from '../types';
 import {
 	buildEmojis,
-	cacheInteraction,
 	discordTimestamp,
 	findUser,
 	formRequestOptions,
@@ -38,17 +37,14 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			min_value: 1,
 		},
 	],
-	handler: async (interaction, page?: number) => {
+	handler: async (interaction, page?: number, code?: string) => {
 		const {
 			data: { options },
 			member,
 		} = interaction;
 
-		const code = getOption<string>(options, 'user');
+		code ??= getOption<string>(options, 'user');
 		const query = code ?? (await PROFILES.get(member!.user.id));
-
-		const componentTrigger = page !== undefined;
-
 		page ??= getOption<number>(options, 'page') ?? 1;
 
 		if (!query)
@@ -144,11 +140,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			thumbnail: { url: 'https://i.gyazo.com/1a2e98dd6d3809a1d09fcb34f7a78649.png' },
 			description: list,
 			footer: {
-				text: `Page ${page}/${pages} | Tip: hover over the code`,
+				text: `Page ${page}/${pages} | ${btdUser.nkapiID}`,
 			},
 		};
-
-		if (pages > 1 && !componentTrigger) await cacheInteraction(interaction);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

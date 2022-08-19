@@ -13,7 +13,6 @@ import {
 	buildEmojis,
 	getOption,
 	getEvents,
-	cacheInteraction,
 	movePage,
 	pageButtons,
 } from '../util';
@@ -53,15 +52,12 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			min_value: 1,
 		},
 	],
-	handler: async (interaction, page?: number) => {
+	handler: async (interaction, page?: number, type?: string) => {
 		const {
 			data: { options },
 		} = interaction;
 
-		const type = getOption<string>(options, 'type');
-
-		const componentTrigger = page !== undefined;
-
+		type ??= getOption<string>(options, 'type');
 		page ??= getOption<number>(options, 'page') ?? 1;
 
 		const events = await getEvents(type);
@@ -100,10 +96,8 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					hasStarted ? 'ending' : 'starting'
 				} ${discordTimestamp(hasStarted ? end : start, 'R')})\n\n`;
 			}, ''),
-			footer: { text: `Page ${page}/${pages}` },
+			footer: { text: `Page ${page}/${pages}${type ? ` | ${type}` : ''}` },
 		};
-
-		if (pages > 1 && !componentTrigger) await cacheInteraction(interaction);
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

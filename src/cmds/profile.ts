@@ -109,7 +109,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 				icon_url: wallets.NK_ACCDATA.currencies['0x0A']
 					? 'https://i.gyazo.com/b2c29384187f986dee27f40665194393.png'
 					: undefined,
-				text: `User ID: ${btdUser.nkapiID}`,
+				text: btdUser.nkapiID,
 			},
 			fields: [
 				{
@@ -249,7 +249,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 	},
 	components: {
 		raw: async (interaction) => {
-			const nkApiID = interaction.message.embeds[0].footer!.text.slice('User ID: '.length);
+			const nkApiID = interaction.message.embeds[0].footer!.text;
 			const stats = await getPlayerStats(nkApiID);
 			const stringified = stringify(stats as object as JsonMap);
 
