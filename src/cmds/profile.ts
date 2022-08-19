@@ -1,8 +1,12 @@
+import { JsonMap, stringify } from '@iarna/toml';
 import { Command } from 'cloudflare-discord-bot';
 import {
+	APIButtonComponent,
 	APIEmbed,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
+	ButtonStyle,
+	ComponentType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
@@ -53,11 +57,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			};
 
 		const [profile, { wallets }] = await Promise.all([
-			fetch(
-				`https://fast-static-api.nkstatic.com/storage/static/11/${btdUser.nkapiID}/public-stats`
-			)
-				.then((res) => res.json() as Promise<PublicUserProfile>)
-				.catch(() => null),
+			getPlayerStats(btdUser.nkapiID),
 			fetch(
 				'https://api.ninjakiwi.com/bank/balances',
 				formRequestOptions({ accountHolder: btdUser.nkapiID, wallets: ['NK_ACCDATA'] })
@@ -232,12 +232,42 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			],
 		};
 
+		const button: APIButtonComponent = {
+			type: ComponentType.Button,
+			style: ButtonStyle.Secondary,
+			label: 'View raw',
+			custom_id: 'raw',
+		};
+
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
-			data: { embeds: [embed] },
+			data: {
+				embeds: [embed],
+				components: [{ type: ComponentType.ActionRow, components: [button] }],
+			},
 		};
 	},
+	components: {
+		raw: async (interaction) => {
+			const nkApiID = interaction.message.embeds[0].footer!.text.slice('User ID: '.length);
+			const stats = await getPlayerStats(nkApiID);
+			const stringified = stringify(stats as object as JsonMap);
+
+			return {
+				type: InteractionResponseType.ChannelMessageWithSource,
+				files: [{ name: 'Profile_RAW.toml', data: stringified }],
+				data: {
+					flags: MessageFlags.Ephemeral,
+				},
+			};
+		},
+	},
 };
+
+const getPlayerStats = (nkApiID: string) =>
+	fetch(`https://fast-static-api.nkstatic.com/storage/static/11/${nkApiID}/public-stats`)
+		.then((res) => res.json() as Promise<PublicUserProfile>)
+		.catch(() => null);
 
 const TOTAL_XP_REQUIRED = [
 	0, 280, 900, 1780, 3350, 5850, 8850, 12350, 15850, 19850, 24100, 28600, 33100, 38000, 45000,
