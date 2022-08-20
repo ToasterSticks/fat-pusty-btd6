@@ -232,10 +232,8 @@ export const generateChallengeEmbed = ({
 				`Upvotes: ${info.stats.upvotes}`,
 				`Game version: ${info.gameVersion}`,
 				`Created <t:${Math.trunc(info.createdAt / 1000)}:R>`,
-				`Completion rate: ${
-					completionRate > 0 && completionRate < 1 ? '<1' : Math.round(completionRate)
-				}%`,
-				`Win rate: ${winRate > 0 && winRate < 1 ? '<1' : Math.round(winRate)}%`,
+				`Completion rate: ${convertRate(completionRate)}%`,
+				`Win rate: ${convertRate(winRate)}%`,
 			].join('\n'),
 		});
 
@@ -415,6 +413,9 @@ export const generateChallengeEmbed = ({
 
 	return embed;
 };
+
+export const convertRate = (rate: number) =>
+	rate >= 0.5 && rate < 1 ? '<1' : Math.round(rate).toString();
 
 export const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').trim();
 

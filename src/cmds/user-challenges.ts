@@ -11,6 +11,7 @@ import {
 import { AuthorizedChallengeData } from '../types';
 import {
 	buildEmojis,
+	convertRate,
 	discordTimestamp,
 	findUser,
 	formRequestOptions,
@@ -124,9 +125,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					}') - **${challengeName}**\n${'875985515357282316'} ${discordTimestamp(
 						createdAt,
 						'R'
-					)} | CR: ${
-						completionRate > 0 && completionRate < 1 ? '<1' : Math.round(completionRate)
-					}% - WR: ${winRate > 0 && winRate < 1 ? '<1' : Math.round(winRate)}%\n\n`;
+					)} | CR: ${convertRate(completionRate)}% - WR: ${convertRate(winRate)}%\n\n`;
 				},
 				''
 			);
