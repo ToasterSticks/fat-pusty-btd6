@@ -415,7 +415,7 @@ export const generateChallengeEmbed = ({
 };
 
 export const convertRate = (rate: number) =>
-	rate >= 0.5 && rate < 1 ? '<1' : Math.round(rate).toString();
+	rate > 0 && rate < 0.5 ? '<1' : Math.round(rate).toString();
 
 export const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').trim();
 
