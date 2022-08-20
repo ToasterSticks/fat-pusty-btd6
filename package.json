@@ -27,7 +27,7 @@
 		"@cloudflare/workers-types": "3.14.1",
 		"@types/common-tags": "1.8.1",
 		"@types/iarna__toml": "2.0.2",
-		"@types/jest": "28.1.6",
+		"@types/jest": "28.1.7",
 		"@types/pako": "2.0.0",
 		"@types/service-worker-mock": "2.0.1",
 		"@types/webpack-env": "1.17.0",
