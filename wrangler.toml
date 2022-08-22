@@ -1,11 +1,11 @@
-name = "fat-pusty-btd6"
-main = "dist/worker.js"
-account_id = "88e970e7c66a206dc1d32ad757af81c5"
+account_id  = "88e970e7c66a206dc1d32ad757af81c5"
+main        = "dist/worker.js"
+name        = "fat-pusty-btd6"
 workers_dev = true
 
 kv_namespaces = [
-  { binding = "PROFILES", id = "12a6d5b6242545168d5aa77786b93e3b" }
+  { binding = "PROFILES", id = "12a6d5b6242545168d5aa77786b93e3b" },
 ]
 
 [build]
-command = "npm install && npm run build"
+  command = "npm install && npm run build"
