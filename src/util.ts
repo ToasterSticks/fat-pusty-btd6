@@ -72,7 +72,7 @@ export const buildEmojis = (strArr: TemplateStringsArray, ...expArr: unknown[]) 
 			acc + (/^\d{17,19}$/.test(`${exp}`) ? `<:_:${exp}>` : exp) + strArr[i + 1],
 		strArr[0]
 	);
-	console.log(val);
+
 	return val;
 };
 
