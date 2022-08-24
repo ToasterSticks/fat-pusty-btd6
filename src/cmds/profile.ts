@@ -235,7 +235,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 		const button: APIButtonComponent = {
 			type: ComponentType.Button,
 			style: ButtonStyle.Secondary,
-			label: 'View raw',
+			label: 'View Raw',
 			custom_id: 'raw',
 		};
 

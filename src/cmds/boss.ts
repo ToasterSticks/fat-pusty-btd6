@@ -57,7 +57,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 		const button: APIButtonComponent = {
 			type: ComponentType.Button,
 			style: ButtonStyle.Secondary,
-			label: `${isElite ? 'Normal' : 'Elite'} mode`,
+			label: `${isElite ? 'Normal' : 'Elite'} Mode`,
 			custom_id: 'toggle-mode',
 		};
 
