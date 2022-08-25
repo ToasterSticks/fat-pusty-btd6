@@ -8,7 +8,7 @@ import {
 
 import { getOption, generateChallengeEmbed } from '../util';
 import { BloonsChallengeData } from '../types';
-import { Command } from 'cloudflare-discord-bot';
+import { Command } from '../http-interactions';
 
 export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'daily-challenge',

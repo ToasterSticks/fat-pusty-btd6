@@ -8,7 +8,7 @@ import {
 
 import { AuthorizedChallengeData, AuthorizedUserData, BloonsChallengeData } from '../types';
 import { formRequestOptions, generateChallengeEmbed, getOption } from '../util';
-import { Command } from 'cloudflare-discord-bot';
+import { Command } from '../http-interactions';
 
 export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'challenge',

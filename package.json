@@ -11,10 +11,12 @@
 		"lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'"
 	},
 	"dependencies": {
+		"buffer": "^6.0.3",
+		"itty-router": "^2.6.1",
+		"tweetnacl": "^1.0.3",
 		"@iarna/toml": "^2.2.5",
 		"assert": "^2.0.0",
 		"browserify-zlib": "^0.2.0",
-		"cloudflare-discord-bot": "github:ToasterSticks/cloudflare-discord-bot",
 		"common-tags": "^1.8.2",
 		"nksku": "^1.0.7",
 		"pako": "^2.0.4",

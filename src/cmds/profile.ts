@@ -1,5 +1,5 @@
 import { JsonMap, stringify } from '@iarna/toml';
-import { Command } from 'cloudflare-discord-bot';
+import { Command } from '../http-interactions';
 import {
 	APIButtonComponent,
 	APIEmbed,
