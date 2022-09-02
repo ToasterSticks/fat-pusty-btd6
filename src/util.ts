@@ -9,6 +9,7 @@ import {
 	APIInteraction,
 	APIInteractionResponse,
 	APIMessageComponentInteraction,
+	ApplicationCommandType,
 	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
@@ -22,11 +23,14 @@ export const castInteraction = (interaction: APIInteraction) => {
 	const casted = interaction as APIChatInputApplicationCommandGuildInteraction;
 	casted.data.options ??= [];
 
-	return casted;
+	return casted as any;
 };
 
 export const movePage = async (
-	command: Command,
+	command:
+		| Command<ApplicationCommandType.ChatInput>
+		| Command<ApplicationCommandType.User>
+		| Command<ApplicationCommandType.Message>,
 	interaction: APIMessageComponentInteraction,
 	direction: number
 ) => {
