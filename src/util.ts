@@ -406,14 +406,13 @@ export const generateChallengeEmbed = ({
 		}
 	);
 
-	getTowers(data.towers).forEach(
-		([category, towers]) =>
-			towers &&
+	for (const [category, towers] of getTowers(data.towers)) {
+		if (towers)
 			embed.fields!.push({
 				name: category,
 				value: towers,
-			})
-	);
+			});
+	}
 
 	return embed;
 };
@@ -426,7 +425,7 @@ export const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').t
 const getTowers = (towers: Tower[]) => {
 	towers = towers.filter((tower) => tower.max !== 0);
 
-	towers.forEach((tower) => {
+	for (const tower of towers) {
 		tower.tower = spacePascalCase(tower.tower.replace(/Monkey|Shooter|Pilot|Gunner|Banana/g, ''));
 
 		tower.path1NumBlockedTiers = 5 - tower.path1NumBlockedTiers;
@@ -440,7 +439,7 @@ const getTowers = (towers: Tower[]) => {
 		if (isNaN(tower.path1NumBlockedTiers)) tower.path1NumBlockedTiers = 5;
 		if (isNaN(tower.path2NumBlockedTiers)) tower.path2NumBlockedTiers = 5;
 		if (isNaN(tower.path3NumBlockedTiers)) tower.path3NumBlockedTiers = 5;
-	});
+	}
 
 	const heroOrder = [
 		'Quincy',
