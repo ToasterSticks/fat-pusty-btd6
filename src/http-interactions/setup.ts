@@ -7,9 +7,9 @@ import {
 } from 'discord-api-types/v10';
 import type { Application } from './handler';
 
-const btoa = (value: string) => Buffer.from(value, 'binary').toString('base64');
+const btoa = (value: string) => Buffer.from(value, 'binary').toString('base64'),
 
-const getAuthorizationCode = async (authedFetch: any) => {
+ getAuthorizationCode = async (authedFetch: any) => {
 	const request = new Request(OAuth2Routes.tokenURL, {
 		method: 'POST',
 		body: new URLSearchParams({
@@ -20,9 +20,9 @@ const getAuthorizationCode = async (authedFetch: any) => {
 			...authedFetch,
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
-	});
+	}),
 
-	const response = await fetch(request);
+	 response = await fetch(request);
 	if (!response.ok) throw new Error('Failed to request an Authorization code.');
 
 	try {
@@ -31,14 +31,14 @@ const getAuthorizationCode = async (authedFetch: any) => {
 	} catch {
 		throw new Error('Failed to parse the Authorization code response.');
 	}
-};
+},
 
-const resolveCommandsEndpoint = (applicationId: string, guildId?: string): string => {
+ resolveCommandsEndpoint = (applicationId: string, guildId?: string): string => {
 	if (guildId) return RouteBases.api + Routes.applicationGuildCommands(applicationId, guildId);
 	return RouteBases.api + Routes.applicationCommands(applicationId);
-};
+},
 
-const createCommands = async (
+ createCommands = async (
 	{
 		applicationId,
 		guildId,
@@ -50,9 +50,9 @@ const createCommands = async (
 	},
 	bearer: string
 ): Promise<Response> => {
-	const url = resolveCommandsEndpoint(applicationId, guildId);
+	const url = resolveCommandsEndpoint(applicationId, guildId),
 
-	const request = new Request(url, {
+	 request = new Request(url, {
 		method: 'PUT',
 		body: JSON.stringify(commands),
 		headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${bearer}` },
@@ -64,9 +64,9 @@ const createCommands = async (
 };
 
 export const setup = ({ applicationId, applicationSecret, guildId, commands }: Application) => {
-	const authorization = btoa(unescape(encodeURIComponent(applicationId + ':' + applicationSecret)));
+	const authorization = btoa(unescape(encodeURIComponent(applicationId + ':' + applicationSecret))),
 
-	const headers = {
+	 headers = {
 		Authorization: `Basic ${authorization}`,
 	};
 

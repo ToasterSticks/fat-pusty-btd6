@@ -35,10 +35,10 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					post.data?.url
 				);
 			})
-			.filter((post) => post);
+			.filter((post) => post),
 
-		const randomIndex = Math.floor(Math.random() * posts.length);
-		const randomPost = posts[randomIndex];
+		 randomIndex = Math.floor(Math.random() * posts.length),
+		 randomPost = posts[randomIndex];
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

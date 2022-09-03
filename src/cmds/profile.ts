@@ -33,8 +33,8 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 	],
 
 	handler: async ({ data: { options }, member }) => {
-		const code = getOption<string>(options, 'user');
-		const query = code ?? (await PROFILES.get(member!.user.id));
+		const code = getOption<string>(options, 'user'),
+		 query = code ?? (await PROFILES.get(member!.user.id));
 
 		if (!query)
 			return {
@@ -84,9 +84,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			bossEliteMedals,
 			ctLocalMedals,
 			ctGlobalMedals,
-		} = profile;
+		} = profile,
 
-		const embed: APIEmbed = {
+		 embed: APIEmbed = {
 			color: 13296619,
 			author:
 				profile.veteranRank && profile.veteranXp
@@ -230,9 +230,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 					].join('\n'),
 				},
 			],
-		};
+		},
 
-		const button: APIButtonComponent = {
+		 button: APIButtonComponent = {
 			type: ComponentType.Button,
 			style: ButtonStyle.Secondary,
 			label: 'View Raw',
@@ -249,9 +249,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 	},
 	components: {
 		raw: async (interaction) => {
-			const nkApiID = interaction.message.embeds[0].footer!.text;
-			const stats = await getPlayerStats(nkApiID);
-			const stringified = stringify(stats as object as JsonMap);
+			const nkApiID = interaction.message.embeds[0].footer!.text,
+			 stats = await getPlayerStats(nkApiID),
+			 stringified = stringify(stats as object as JsonMap);
 
 			return {
 				type: InteractionResponseType.ChannelMessageWithSource,
@@ -267,9 +267,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 const getPlayerStats = (nkApiID: string) =>
 	fetch(`https://fast-static-api.nkstatic.com/storage/static/11/${nkApiID}/public-stats`)
 		.then((res) => res.json() as Promise<PublicUserProfile>)
-		.catch(() => null);
+		.catch(() => null),
 
-const TOTAL_XP_REQUIRED = [
+ TOTAL_XP_REQUIRED = [
 	0, 280, 900, 1780, 3350, 5850, 8850, 12350, 15850, 19850, 24100, 28600, 33100, 38000, 45000,
 	53000, 62000, 72000, 83000, 95000, 108000, 122000, 137000, 153000, 170000, 188000, 207000, 227000,
 	250000, 275000, 305000, 340000, 380000, 425000, 475000, 530000, 590000, 655000, 725000, 800000,

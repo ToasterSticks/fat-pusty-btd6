@@ -40,8 +40,8 @@ export const movePage = async (
 	const page = getPage(interaction);
 	if (!page) return deferUpdate();
 
-	const query = interaction.message.embeds[0].footer?.text.split(' | ')[1];
-	const content = await command.handler(castInteraction(interaction), page + direction, query);
+	const query = interaction.message.embeds[0].footer?.text.split(' | ')[1],
+	 content = await command.handler(castInteraction(interaction), page + direction, query);
 
 	content.type = InteractionResponseType.UpdateMessage;
 
@@ -127,8 +127,8 @@ export const raceNonNullish = <T>(values: Promise<T>[]): Promise<T | null> =>
 	);
 
 export const formRequestOptions = (data: Record<string, unknown>) => {
-	const dataStr = JSON.stringify(data);
-	const nonce = (Math.random() * Math.pow(2, 63)).toString();
+	const dataStr = JSON.stringify(data),
+	 nonce = (Math.random() * Math.pow(2, 63)).toString();
 
 	return {
 		method: 'POST',
@@ -225,9 +225,9 @@ export const generateChallengeEmbed = ({
 	if (info) {
 		embed.color = isChallengeGray(info.latestVersionBeaten) ? 6516351 : 5874422;
 
-		const attempts = info.stats.plays + (info.stats.restarts ?? 0);
-		const winRate = attempts ? (info.stats.wins / attempts) * 100 : 0;
-		const completionRate = attempts ? (info.stats.winsUnique / info.stats.playsUnique) * 100 : 0;
+		const attempts = info.stats.plays + (info.stats.restarts ?? 0),
+		 winRate = attempts ? (info.stats.wins / attempts) * 100 : 0,
+		 completionRate = attempts ? (info.stats.winsUnique / info.stats.playsUnique) * 100 : 0;
 
 		embed.fields!.push({
 			name: 'General Info',
@@ -456,23 +456,23 @@ const getTowers = (towers: Tower[]) => {
 		'Etienne',
 		'Sauda',
 		'Psi',
-	];
+	],
 
-	const priOrder = ['Dart', 'Boomerang', 'Bomb', 'Tack', 'Ice', 'Glue'];
-	const milOrder = ['Sniper', 'Sub', 'Buccaneer', 'Ace', 'Heli', 'Mortar', 'Dartling'];
-	const magOrder = ['Wizard', 'Super', 'Ninja', 'Alchemist', 'Druid'];
-	const supOrder = ['Farm', 'Spike Factory', 'Village', 'Engineer'];
+	 priOrder = ['Dart', 'Boomerang', 'Bomb', 'Tack', 'Ice', 'Glue'],
+	 milOrder = ['Sniper', 'Sub', 'Buccaneer', 'Ace', 'Heli', 'Mortar', 'Dartling'],
+	 magOrder = ['Wizard', 'Super', 'Ninja', 'Alchemist', 'Druid'],
+	 supOrder = ['Farm', 'Spike Factory', 'Village', 'Engineer'];
 
 	towers.sort((a, b) => {
 		const towerOrder = [...heroOrder, ...priOrder, ...milOrder, ...magOrder, ...supOrder];
 		return towerOrder.indexOf(a.tower) - towerOrder.indexOf(b.tower);
 	});
 
-	const primary = towers.filter(({ tower }) => priOrder.includes(tower));
-	const military = towers.filter(({ tower }) => milOrder.includes(tower));
-	const magic = towers.filter(({ tower }) => magOrder.includes(tower));
-	const support = towers.filter(({ tower }) => supOrder.includes(tower));
-	const heroes = towers.filter((tower) => tower.isHero);
+	const primary = towers.filter(({ tower }) => priOrder.includes(tower)),
+	 military = towers.filter(({ tower }) => milOrder.includes(tower)),
+	 magic = towers.filter(({ tower }) => magOrder.includes(tower)),
+	 support = towers.filter(({ tower }) => supOrder.includes(tower)),
+	 heroes = towers.filter((tower) => tower.isHero);
 
 	return [
 		[`Hero${heroes.length !== 1 ? 'es' : ''}`, heroes.reduce((a, t) => `${a}${t.tower}\n`, '')],
@@ -481,26 +481,26 @@ const getTowers = (towers: Tower[]) => {
 		['Magic', magic.reduce(stringifyCrosspath, '')],
 		['Support', support.reduce(stringifyCrosspath, '')],
 	];
-};
+},
 
-const stringifyCrosspath = (
+ stringifyCrosspath = (
 	acc: string,
 	{ tower, max, path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers }: Tower
 ) =>
 	`${acc}${
 		max > 0 ? `${max}x ` : ''
-	}${tower} \`(${`${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers}`})\`\n`;
+	}${tower} \`(${`${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers}`})\`\n`,
 
-const bossIcons: Record<string, string> = {
+ bossIcons: Record<string, string> = {
 	'Bloonarius Normal': 'd7c187d0b125443079d5b41e822e7214',
 	'Bloonarius Elite': '177b43d651bf8fcb5dc01c75b0a066b9',
 	'Lych Normal': '761c68a031bb5169416bed0036f56301',
 	'Lych Elite': '7e857296728f236ecba6c6f2ddd25ad7',
 	'Vortex Normal': '9baf65029709fe34eda0775436d32c6c',
 	'Vortex Elite': '4d0beb6dd632fde0e61cb7d959e0352b',
-};
+},
 
-const gamemodeIcons: Record<string, string> = {
+ gamemodeIcons: Record<string, string> = {
 	Deflation: '692f69b2239e6e7c58530d24e05e50f1',
 	Reverse: 'fad8916ca6638c5f8ccacc0c3c89aa48',
 	Apopalypse: 'fa276e92d0827bc2032f21f1a5cc6f29',
@@ -510,9 +510,9 @@ const gamemodeIcons: Record<string, string> = {
 	Impoppable: '7b7f57b101cdc8c682d1c5c3654687df',
 	Chimps: 'e739a2ca6afcd40dd20c099d226b31fd',
 	Standard: 'f3d3fb46de3c4c6f791cd1b6fe9b60dd',
-};
+},
 
-const difficultyIcons: Record<string, string> = {
+ difficultyIcons: Record<string, string> = {
 	Easy: 'fa0dc0d42855ce8fc7920eec06ede956',
 	Medium: '08e5b02e88d6d4c50e75d6e433db359d',
 	Hard: '6e6137d23ad90d5df01ddd4baf1ac36e',

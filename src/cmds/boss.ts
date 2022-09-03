@@ -30,9 +30,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 		},
 	],
 	handler: async ({ data: { options } }, isElite?: boolean) => {
-		const [boss] = await getEvents('bossBloon');
+		const [boss] = await getEvents('bossBloon'),
 
-		const { normalDcm, eliteDcm, bossType } = (await fetch(
+		 { normalDcm, eliteDcm, bossType } = (await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${boss?.name}`
 		)
 			.then((res) => res.json())
@@ -52,9 +52,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 
 		isElite ??= getOption<boolean>(options, 'elite');
 
-		const embed = generateChallengeEmbed({ data: isElite ? eliteDcm : normalDcm });
+		const embed = generateChallengeEmbed({ data: isElite ? eliteDcm : normalDcm }),
 
-		const button: APIButtonComponent = {
+		 button: APIButtonComponent = {
 			type: ComponentType.Button,
 			style: ButtonStyle.Secondary,
 			label: `${isElite ? 'Normal' : 'Elite'} Mode`,
@@ -74,8 +74,8 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			if (interaction.member!.user.id !== interaction.message.interaction?.user.id)
 				return deferUpdate();
 
-			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');
-			const content = await command.handler(castInteraction(interaction), !isElite);
+			const isElite = interaction.message.embeds[0].title?.endsWith('Elite'),
+			 content = await command.handler(castInteraction(interaction), !isElite);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;

@@ -24,9 +24,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 		},
 	],
 	handler: async ({ data: { options } }) => {
-		const code = getOption<string>(options, 'code')!.toUpperCase();
+		const code = getOption<string>(options, 'code')!.toUpperCase(),
 
-		const b64Str = await fetch(
+		 b64Str = await fetch(
 			`https://static-api.nkstatic.com/appdocs/11/es/challenges/${code}`
 		).then((res) => res.text());
 
@@ -51,9 +51,9 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			};
 		}
 
-		const challenge: BloonsChallengeData = JSON.parse(decompressed);
+		const challenge: BloonsChallengeData = JSON.parse(decompressed),
 
-		const embed = generateChallengeEmbed({
+		 embed = generateChallengeEmbed({
 			data: challenge,
 			id: code,
 		});

@@ -1,9 +1,9 @@
 import { createApplicationCommandHandler, Command } from './http-interactions';
 import { mapFiles } from './util';
 
-const commands = mapFiles<Command>(require.context('./cmds', false, /\.ts$/));
+const commands = mapFiles<Command>(require.context('./cmds', false, /\.ts$/)),
 
-const applicationCommandHandler = createApplicationCommandHandler({
+ applicationCommandHandler = createApplicationCommandHandler({
 	applicationId: CLIENT_ID,
 	applicationSecret: CLIENT_SECRET,
 	publicKey: PUBLIC_KEY,
