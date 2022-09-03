@@ -1,9 +1,5 @@
 declare global {
-	const CLIENT_ID: string,
-	 CLIENT_SECRET: string,
-	 PUBLIC_KEY: string,
-
-	 PROFILES: KVNamespace;
+	const CLIENT_ID: string, CLIENT_SECRET: string, PUBLIC_KEY: string, PROFILES: KVNamespace;
 }
 
 export interface BloonsBossData {

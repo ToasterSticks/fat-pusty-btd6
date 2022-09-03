@@ -26,19 +26,18 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			};
 
 		const posts = data.children
-			.map((post) => {
-				if (post.is_gallery || post.over_18) return '';
+				.map((post) => {
+					if (post.is_gallery || post.over_18) return '';
 
-				return (
-					post.data?.media?.reddit_video?.fallback_url ||
-					post.data?.secure_media?.reddit_video?.fallback_url ||
-					post.data?.url
-				);
-			})
-			.filter((post) => post),
-
-		 randomIndex = Math.floor(Math.random() * posts.length),
-		 randomPost = posts[randomIndex];
+					return (
+						post.data?.media?.reddit_video?.fallback_url ||
+						post.data?.secure_media?.reddit_video?.fallback_url ||
+						post.data?.url
+					);
+				})
+				.filter((post) => post),
+			randomIndex = Math.floor(Math.random() * posts.length),
+			randomPost = posts[randomIndex];
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,

@@ -22,7 +22,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 
 	handler: async ({ data: { options }, member }) => {
 		const code = getOption<string>(options, 'code')!,
-		 btdUser = await findUser(code);
+			btdUser = await findUser(code);
 
 		if (!btdUser)
 			return {
