@@ -1,14 +1,15 @@
-import {
+import type {
 	APIApplicationCommandInteractionDataSubcommandOption,
+	ApplicationCommandType} from 'discord-api-types/v10';
+import {
 	ApplicationCommandOptionType,
-	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
 import { getOption, generateChallengeEmbed } from '../util';
-import { BloonsChallengeData } from '../types';
-import { Command } from '../http-interactions';
+import type { BloonsChallengeData } from '../types';
+import type { Command } from '../http-interactions';
 
 export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'daily-challenge',

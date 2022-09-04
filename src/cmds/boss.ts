@@ -1,15 +1,16 @@
-import { Command } from '../http-interactions';
-import {
+import type { Command } from '../http-interactions';
+import type {
 	APIButtonComponent,
+	ApplicationCommandType} from 'discord-api-types/v10';
+import {
 	ApplicationCommandOptionType,
-	ApplicationCommandType,
 	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { BloonsBossData } from '../types';
+import type { BloonsBossData } from '../types';
 import {
 	capitalize,
 	castInteraction,

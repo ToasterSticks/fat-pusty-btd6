@@ -1,14 +1,15 @@
 import nacl from 'tweetnacl';
 import { Buffer } from 'buffer';
-import {
-	InteractionType,
+import type {
 	APIInteraction,
 	APIApplicationCommandInteraction,
 	APIMessageComponentInteraction,
 	APIModalSubmitInteraction,
-	RESTPostAPIInteractionFollowupJSONBody,
+	RESTPostAPIInteractionFollowupJSONBody} from 'discord-api-types/v10';
+import {
+	InteractionType
 } from 'discord-api-types/v10';
-import { File, InteractionHandler, InteractionHandlerReturn } from './types';
+import type { File, InteractionHandler, InteractionHandlerReturn } from './types';
 import type { CommandStore } from './handler';
 
 const makeValidator =

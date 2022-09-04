@@ -1,8 +1,9 @@
-import { Command } from '../http-interactions';
-import {
+import type { Command } from '../http-interactions';
+import type {
 	APIEmbed,
+	ApplicationCommandType} from 'discord-api-types/v10';
+import {
 	ApplicationCommandOptionType,
-	ApplicationCommandType,
 	ComponentType,
 	InteractionResponseType,
 	MessageFlags,

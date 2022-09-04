@@ -1,17 +1,20 @@
-import { JsonMap, stringify } from '@iarna/toml';
-import { Command } from '../http-interactions';
-import {
+import type { JsonMap} from '@iarna/toml';
+import { stringify } from '@iarna/toml';
+import type { Command } from '../http-interactions';
+import type {
 	APIButtonComponent,
 	APIEmbed,
+	ApplicationCommandType} from 'discord-api-types/v10';
+import {
 	ApplicationCommandOptionType,
-	ApplicationCommandType,
 	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { BossType, PublicUserProfile, UserWallets } from '../types';
+import type { PublicUserProfile, UserWallets } from '../types';
+import { BossType } from '../types';
 import {
 	findUser,
 	getOption,

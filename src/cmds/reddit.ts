@@ -1,11 +1,12 @@
-import { Command } from '../http-interactions';
+import type { Command } from '../http-interactions';
+import type {
+	ApplicationCommandType} from 'discord-api-types/v10';
 import {
-	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { RedditResponse } from '../types';
+import type { RedditResponse } from '../types';
 
 export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'reddit',

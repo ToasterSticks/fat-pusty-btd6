@@ -1,7 +1,8 @@
-import { Command } from '../http-interactions';
+import type { Command } from '../http-interactions';
+import type {
+	ApplicationCommandType} from 'discord-api-types/v10';
 import {
 	ApplicationCommandOptionType,
-	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';

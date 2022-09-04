@@ -1,7 +1,8 @@
 import { Buffer } from 'buffer';
+import type {
+	RESTPostAPIApplicationCommandsJSONBody} from 'discord-api-types/v10';
 import {
 	OAuth2Routes,
-	RESTPostAPIApplicationCommandsJSONBody,
 	RouteBases,
 	Routes,
 } from 'discord-api-types/v10';

@@ -1,14 +1,15 @@
 import { inflate } from 'pako';
+import type {
+	ApplicationCommandType} from 'discord-api-types/v10';
 import {
 	ApplicationCommandOptionType,
-	ApplicationCommandType,
 	InteractionResponseType,
 	MessageFlags,
 } from 'discord-api-types/v10';
 
-import { BloonsChallengeData } from '../types';
+import type { BloonsChallengeData } from '../types';
 import { generateChallengeEmbed, getOption } from '../util';
-import { Command } from '../http-interactions';
+import type { Command } from '../http-interactions';
 
 export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'challenge',

@@ -1,5 +1,5 @@
-import { Command } from './http-interactions';
-import {
+import type { Command } from './http-interactions';
+import type {
 	APIApplicationCommandInteractionDataBasicOption,
 	APIApplicationCommandInteractionDataOption,
 	APIApplicationCommandInteractionDataSubcommandOption,
@@ -9,7 +9,8 @@ import {
 	APIInteraction,
 	APIInteractionResponse,
 	APIMessageComponentInteraction,
-	ApplicationCommandType,
+	ApplicationCommandType} from 'discord-api-types/v10';
+import {
 	ButtonStyle,
 	ComponentType,
 	InteractionResponseType,
@@ -17,7 +18,7 @@ import {
 // @ts-expect-error
 import nksku from 'nksku';
 
-import { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
+import type { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
 
 export const castInteraction = (interaction: APIInteraction) => {
 	const casted = interaction as APIChatInputApplicationCommandGuildInteraction;
