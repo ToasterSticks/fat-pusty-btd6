@@ -8,4 +8,4 @@ kv_namespaces = [
 ]
 
 [build]
-  command = "npm install && npm run build"
+  command = "yarn install && yarn build"
