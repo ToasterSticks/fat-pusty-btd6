@@ -7,21 +7,20 @@
 	"main": "dist/worker.js",
 	"scripts": {
 		"build": "webpack",
-		"format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
-		"lint": "eslint --fix --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'"
+		"lint": "eslint --fix --max-warnings=0 src"
 	},
 	"dependencies": {
-		"buffer": "^6.0.3",
-		"itty-router": "^2.6.1",
-		"tweetnacl": "^1.0.3",
 		"@iarna/toml": "^2.2.5",
 		"assert": "^2.0.0",
 		"browserify-zlib": "^0.2.0",
+		"buffer": "^6.0.3",
 		"common-tags": "^1.8.2",
+		"itty-router": "^2.6.1",
 		"nksku": "^1.0.7",
 		"pako": "^2.0.4",
 		"process": "^0.11.10",
 		"stream-browserify": "^3.0.0",
+		"tweetnacl": "^1.0.3",
 		"util": "^0.12.4"
 	},
 	"devDependencies": {
@@ -37,6 +36,7 @@
 		"eslint": "7.32.0",
 		"eslint-config-prettier": "8.5.0",
 		"eslint-config-typescript": "3.0.0",
+		"eslint-plugin-prettier": "^4.2.1",
 		"prettier": "2.7.1",
 		"service-worker-mock": "2.0.5",
 		"ts-loader": "9.3.1",
@@ -51,6 +51,9 @@
 			"typescript",
 			"prettier"
 		],
+		"plugins": [
+			"prettier"
+		],
 		"parserOptions": {
 			"project": "./tsconfig.json"
 		},
@@ -62,6 +65,7 @@
 			"@typescript-eslint/no-explicit-any": "off",
 			"@typescript-eslint/consistent-type-imports": "error",
 			"@typescript-eslint/consistent-type-exports": "error",
+			"prettier/prettier": "error",
 			"one-var": [
 				"error",
 				"consecutive"

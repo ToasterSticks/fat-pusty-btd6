@@ -1,6 +1,7 @@
 import type {
 	APIApplicationCommandInteractionDataSubcommandOption,
-	ApplicationCommandType} from 'discord-api-types/v10';
+	ApplicationCommandType,
+} from 'discord-api-types/v10';
 import {
 	ApplicationCommandOptionType,
 	InteractionResponseType,

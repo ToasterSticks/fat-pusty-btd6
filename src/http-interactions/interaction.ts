@@ -5,10 +5,9 @@ import type {
 	APIApplicationCommandInteraction,
 	APIMessageComponentInteraction,
 	APIModalSubmitInteraction,
-	RESTPostAPIInteractionFollowupJSONBody} from 'discord-api-types/v10';
-import {
-	InteractionType
+	RESTPostAPIInteractionFollowupJSONBody,
 } from 'discord-api-types/v10';
+import { InteractionType } from 'discord-api-types/v10';
 import type { File, InteractionHandler, InteractionHandlerReturn } from './types';
 import type { CommandStore } from './handler';
 

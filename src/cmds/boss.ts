@@ -1,7 +1,5 @@
 import type { Command } from '../http-interactions';
-import type {
-	APIButtonComponent,
-	ApplicationCommandType} from 'discord-api-types/v10';
+import type { APIButtonComponent, ApplicationCommandType } from 'discord-api-types/v10';
 import {
 	ApplicationCommandOptionType,
 	ButtonStyle,

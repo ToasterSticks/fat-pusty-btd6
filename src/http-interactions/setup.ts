@@ -1,11 +1,6 @@
 import { Buffer } from 'buffer';
-import type {
-	RESTPostAPIApplicationCommandsJSONBody} from 'discord-api-types/v10';
-import {
-	OAuth2Routes,
-	RouteBases,
-	Routes,
-} from 'discord-api-types/v10';
+import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord-api-types/v10';
+import { OAuth2Routes, RouteBases, Routes } from 'discord-api-types/v10';
 import type { Application } from './handler';
 
 const btoa = (value: string) => Buffer.from(value, 'binary').toString('base64'),

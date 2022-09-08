@@ -9,16 +9,20 @@ import type {
 	APIInteraction,
 	APIInteractionResponse,
 	APIMessageComponentInteraction,
-	ApplicationCommandType} from 'discord-api-types/v10';
-import {
-	ButtonStyle,
-	ComponentType,
-	InteractionResponseType,
+	ApplicationCommandType,
 } from 'discord-api-types/v10';
+import { ButtonStyle, ComponentType, InteractionResponseType } from 'discord-api-types/v10';
 // @ts-expect-error
 import nksku from 'nksku';
 
-import type { AuthorizedUserData, BloonsChallengeData, Event, Profile, Result, Tower } from './types';
+import type {
+	AuthorizedUserData,
+	BloonsChallengeData,
+	Event,
+	Profile,
+	Result,
+	Tower,
+} from './types';
 
 export const castInteraction = (interaction: APIInteraction) => {
 	const casted = interaction as APIChatInputApplicationCommandGuildInteraction;

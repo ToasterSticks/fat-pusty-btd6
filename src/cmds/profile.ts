@@ -1,10 +1,7 @@
-import type { JsonMap} from '@iarna/toml';
+import type { JsonMap } from '@iarna/toml';
 import { stringify } from '@iarna/toml';
 import type { Command } from '../http-interactions';
-import type {
-	APIButtonComponent,
-	APIEmbed,
-	ApplicationCommandType} from 'discord-api-types/v10';
+import type { APIButtonComponent, APIEmbed, ApplicationCommandType } from 'discord-api-types/v10';
 import {
 	ApplicationCommandOptionType,
 	ButtonStyle,
