@@ -28,13 +28,14 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			type: ApplicationCommandOptionType.Boolean,
 		},
 	],
+
 	handler: async ({ data: { options } }, isElite?: boolean) => {
-		const [boss] = await getEvents('bossBloon'),
-			{ normalDcm, eliteDcm, bossType } = (await fetch(
-				`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${boss?.name}`
-			)
-				.then((res) => res.json())
-				.catch(() => ({}))) as BloonsBossData;
+		const [boss] = await getEvents('bossBloon');
+		const { normalDcm, eliteDcm, bossType } = (await fetch(
+			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${boss?.name}`
+		)
+			.then((res) => res.json())
+			.catch(() => ({}))) as BloonsBossData;
 
 		if (!bossType)
 			return {
@@ -50,13 +51,13 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 
 		isElite ??= getOption<boolean>(options, 'elite');
 
-		const embed = generateChallengeEmbed({ data: isElite ? eliteDcm : normalDcm }),
-			button: APIButtonComponent = {
-				type: ComponentType.Button,
-				style: ButtonStyle.Secondary,
-				label: `${isElite ? 'Normal' : 'Elite'} Mode`,
-				custom_id: 'toggle-mode',
-			};
+		const embed = generateChallengeEmbed({ data: isElite ? eliteDcm : normalDcm });
+		const button: APIButtonComponent = {
+			type: ComponentType.Button,
+			style: ButtonStyle.Secondary,
+			label: `${isElite ? 'Normal' : 'Elite'} Mode`,
+			custom_id: 'toggle-mode',
+		};
 
 		return {
 			type: InteractionResponseType.ChannelMessageWithSource,
@@ -66,13 +67,14 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			},
 		};
 	},
+
 	components: {
 		'toggle-mode': async (interaction) => {
 			if (interaction.member!.user.id !== interaction.message.interaction?.user.id)
 				return deferUpdate();
 
-			const isElite = interaction.message.embeds[0].title?.endsWith('Elite'),
-				content = await command.handler(castInteraction(interaction), !isElite);
+			const isElite = interaction.message.embeds[0].title?.endsWith('Elite');
+			const content = await command.handler(castInteraction(interaction), !isElite);
 			content.type = InteractionResponseType.UpdateMessage;
 
 			return content;

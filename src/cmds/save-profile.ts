@@ -21,8 +21,8 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 	],
 
 	handler: async ({ data: { options }, member }) => {
-		const code = getOption<string>(options, 'code')!,
-			btdUser = await findUser(code);
+		const code = getOption<string>(options, 'code')!;
+		const btdUser = await findUser(code);
 
 		if (!btdUser)
 			return {

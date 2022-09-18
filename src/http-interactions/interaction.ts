@@ -12,21 +12,21 @@ import type { File, InteractionHandler, InteractionHandlerReturn } from './types
 import type { CommandStore } from './handler';
 
 const makeValidator =
-		({ publicKey }: { publicKey: string }) =>
-		async (request: Request) => {
-			const headers = Object.fromEntries(request.headers),
-				signature = String(headers['x-signature-ed25519']),
-				timestamp = String(headers['x-signature-timestamp']),
-				body = await request.json(),
-				isValid = nacl.sign.detached.verify(
-					Buffer.from(timestamp + JSON.stringify(body)),
-					Buffer.from(signature, 'hex'),
-					Buffer.from(publicKey, 'hex')
-				);
+	({ publicKey }: { publicKey: string }) =>
+	async (request: Request) => {
+		const headers = Object.fromEntries(request.headers);
+		const signature = String(headers['x-signature-ed25519']);
+		const timestamp = String(headers['x-signature-timestamp']);
+		const body = await request.json();
+		const isValid = nacl.sign.detached.verify(
+			Buffer.from(timestamp + JSON.stringify(body)),
+			Buffer.from(signature, 'hex'),
+			Buffer.from(publicKey, 'hex')
+		);
 
-			if (!isValid) throw new Error('Invalid request');
-		},
-	isFileUpload = (data: InteractionHandlerReturn) => data.files && data.files.length > 0;
+		if (!isValid) throw new Error('Invalid request');
+	};
+const isFileUpload = (data: InteractionHandlerReturn) => data.files && data.files.length > 0;
 
 export const formDataResponse = (
 	data: InteractionHandlerReturn | (RESTPostAPIInteractionFollowupJSONBody & { files?: File[] })
@@ -94,8 +94,12 @@ export const interaction = ({
 					case InteractionType.ApplicationCommandAutocomplete:
 				}
 				if (!handler) return new Response(null, { status: 500 });
-				// @ts-expect-error
-				return createResponse(await handler(interaction));
+
+				const response = await (handler as InteractionHandler<APIApplicationCommandInteraction>)(
+					interaction as APIApplicationCommandInteraction
+				);
+
+				return createResponse(response);
 			} catch {
 				return new Response(null, { status: 400 });
 			}

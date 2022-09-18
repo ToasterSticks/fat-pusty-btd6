@@ -41,28 +41,29 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			],
 		},
 	],
+
 	handler: async ({ data: { options } }) => {
-		const normalId = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24),
-			advancedId = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24),
-			normSubOptions = getOption<APIApplicationCommandInteractionDataSubcommandOption[]>(
-				options,
-				'normal'
-			),
-			advSubOptions = getOption<APIApplicationCommandInteractionDataSubcommandOption[]>(
-				options,
-				'advanced'
-			),
-			id = (
-				getOption<string>(normSubOptions ?? advSubOptions, 'challenge') ??
-				(advSubOptions ? advancedId : normalId)
-			).toString(),
-			challenge = (await fetch(
-				`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallenges${
-					advSubOptions ? 'Advanced' : ''
-				}/${id}`
-			)
-				.then((res) => res.json())
-				.catch(() => null)) as BloonsChallengeData | null;
+		const normalId = Math.trunc((Date.now() / 1000 - 1533974400) / 60 / 60 / 24);
+		const advancedId = Math.trunc((Date.now() / 1000 - 1535097600) / 60 / 60 / 24);
+		const normSubOptions = getOption<APIApplicationCommandInteractionDataSubcommandOption[]>(
+			options,
+			'normal'
+		);
+		const advSubOptions = getOption<APIApplicationCommandInteractionDataSubcommandOption[]>(
+			options,
+			'advanced'
+		);
+		const id = (
+			getOption<string>(normSubOptions ?? advSubOptions, 'challenge') ??
+			(advSubOptions ? advancedId : normalId)
+		).toString();
+		const challenge = (await fetch(
+			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallenges${
+				advSubOptions ? 'Advanced' : ''
+			}/${id}`
+		)
+			.then((res) => res.json())
+			.catch(() => null)) as BloonsChallengeData | null;
 
 		if (!challenge)
 			return {

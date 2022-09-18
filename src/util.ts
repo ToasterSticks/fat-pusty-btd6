@@ -45,8 +45,8 @@ export const movePage = async (
 	const page = getPage(interaction);
 	if (!page) return deferUpdate();
 
-	const query = interaction.message.embeds[0].footer?.text.split(' | ')[1],
-		content = await command.handler(castInteraction(interaction), page + direction, query);
+	const query = interaction.message.embeds[0].footer?.text.split(' | ')[1];
+	const content = await command.handler(castInteraction(interaction), page + direction, query);
 
 	content.type = InteractionResponseType.UpdateMessage;
 
@@ -131,8 +131,8 @@ export const raceNonNullish = <T>(values: Promise<T>[]): Promise<T | null> =>
 	);
 
 export const formRequestOptions = (data: Record<string, unknown>) => {
-	const dataStr = JSON.stringify(data),
-		nonce = (Math.random() * Math.pow(2, 63)).toString();
+	const dataStr = JSON.stringify(data);
+	const nonce = (Math.random() * Math.pow(2, 63)).toString();
 
 	return {
 		method: 'POST',
@@ -156,7 +156,7 @@ export const formRequestOptions = (data: Record<string, unknown>) => {
 
 export const getEvents = async (type?: string) => {
 	const data = await fetch(
-		'https://static-api.nkstatic.com/nkapi/skusettings/32af4b4034dac5553e3188b91f7b4c67.json'
+		'https://static-api.nkstatic.com/nkapi/skusettings/55e2af5676e98c26d29e14cafcc70b8b.json'
 	)
 		.then((res) => res.arrayBuffer())
 		.then((buffer) => new Uint8Array(buffer));
@@ -229,9 +229,9 @@ export const generateChallengeEmbed = ({
 	if (info) {
 		embed.color = isChallengeGray(info.latestVersionBeaten) ? 6516351 : 5874422;
 
-		const attempts = info.stats.plays + (info.stats.restarts ?? 0),
-			winRate = attempts ? (info.stats.wins / attempts) * 100 : 0,
-			completionRate = attempts ? (info.stats.winsUnique / info.stats.playsUnique) * 100 : 0;
+		const attempts = info.stats.plays + (info.stats.restarts ?? 0);
+		const winRate = attempts ? (info.stats.wins / attempts) * 100 : 0;
+		const completionRate = attempts ? (info.stats.winsUnique / info.stats.playsUnique) * 100 : 0;
 
 		embed.fields!.push({
 			name: 'General Info',
@@ -427,95 +427,95 @@ export const convertRate = (rate: number) =>
 export const spacePascalCase = (str: string) => str.replace(/([A-Z])/g, ' $1').trim();
 
 const getTowers = (towers: Tower[]) => {
-		towers = towers.filter((tower) => tower.max !== 0);
+	towers = towers.filter((tower) => tower.max !== 0);
 
-		for (const tower of towers) {
-			tower.tower = spacePascalCase(tower.tower.replace(/Monkey|Shooter|Pilot|Gunner|Banana/g, ''));
+	for (const tower of towers) {
+		tower.tower = spacePascalCase(tower.tower.replace(/Monkey|Shooter|Pilot|Gunner|Banana/g, ''));
 
-			tower.path1NumBlockedTiers = 5 - tower.path1NumBlockedTiers;
-			tower.path2NumBlockedTiers = 5 - tower.path2NumBlockedTiers;
-			tower.path3NumBlockedTiers = 5 - tower.path3NumBlockedTiers;
+		tower.path1NumBlockedTiers = 5 - tower.path1NumBlockedTiers;
+		tower.path2NumBlockedTiers = 5 - tower.path2NumBlockedTiers;
+		tower.path3NumBlockedTiers = 5 - tower.path3NumBlockedTiers;
 
-			if (tower.path1NumBlockedTiers === 6) tower.path1NumBlockedTiers = 0;
-			if (tower.path2NumBlockedTiers === 6) tower.path2NumBlockedTiers = 0;
-			if (tower.path3NumBlockedTiers === 6) tower.path3NumBlockedTiers = 0;
+		if (tower.path1NumBlockedTiers === 6) tower.path1NumBlockedTiers = 0;
+		if (tower.path2NumBlockedTiers === 6) tower.path2NumBlockedTiers = 0;
+		if (tower.path3NumBlockedTiers === 6) tower.path3NumBlockedTiers = 0;
 
-			if (isNaN(tower.path1NumBlockedTiers)) tower.path1NumBlockedTiers = 5;
-			if (isNaN(tower.path2NumBlockedTiers)) tower.path2NumBlockedTiers = 5;
-			if (isNaN(tower.path3NumBlockedTiers)) tower.path3NumBlockedTiers = 5;
-		}
+		if (isNaN(tower.path1NumBlockedTiers)) tower.path1NumBlockedTiers = 5;
+		if (isNaN(tower.path2NumBlockedTiers)) tower.path2NumBlockedTiers = 5;
+		if (isNaN(tower.path3NumBlockedTiers)) tower.path3NumBlockedTiers = 5;
+	}
 
-		const heroOrder = [
-				'Quincy',
-				'Gwendolin',
-				'Striker Jones',
-				'Obyn Greenfoot',
-				'Geraldo',
-				'Captain Churchill',
-				'Benjamin',
-				'Ezili',
-				'Pat Fusty',
-				'Adora',
-				'Admiral Brickell',
-				'Etienne',
-				'Sauda',
-				'Psi',
-			],
-			priOrder = ['Dart', 'Boomerang', 'Bomb', 'Tack', 'Ice', 'Glue'],
-			milOrder = ['Sniper', 'Sub', 'Buccaneer', 'Ace', 'Heli', 'Mortar', 'Dartling'],
-			magOrder = ['Wizard', 'Super', 'Ninja', 'Alchemist', 'Druid'],
-			supOrder = ['Farm', 'Spike Factory', 'Village', 'Engineer'];
+	const heroOrder = [
+		'Quincy',
+		'Gwendolin',
+		'Striker Jones',
+		'Obyn Greenfoot',
+		'Geraldo',
+		'Captain Churchill',
+		'Benjamin',
+		'Ezili',
+		'Pat Fusty',
+		'Adora',
+		'Admiral Brickell',
+		'Etienne',
+		'Sauda',
+		'Psi',
+	];
+	const priOrder = ['Dart', 'Boomerang', 'Bomb', 'Tack', 'Ice', 'Glue'];
+	const milOrder = ['Sniper', 'Sub', 'Buccaneer', 'Ace', 'Heli', 'Mortar', 'Dartling'];
+	const magOrder = ['Wizard', 'Super', 'Ninja', 'Alchemist', 'Druid'];
+	const supOrder = ['Farm', 'Spike Factory', 'Village', 'Engineer'];
 
-		towers.sort((a, b) => {
-			const towerOrder = [...heroOrder, ...priOrder, ...milOrder, ...magOrder, ...supOrder];
-			return towerOrder.indexOf(a.tower) - towerOrder.indexOf(b.tower);
-		});
+	towers.sort((a, b) => {
+		const towerOrder = [...heroOrder, ...priOrder, ...milOrder, ...magOrder, ...supOrder];
+		return towerOrder.indexOf(a.tower) - towerOrder.indexOf(b.tower);
+	});
 
-		const primary = towers.filter(({ tower }) => priOrder.includes(tower)),
-			military = towers.filter(({ tower }) => milOrder.includes(tower)),
-			magic = towers.filter(({ tower }) => magOrder.includes(tower)),
-			support = towers.filter(({ tower }) => supOrder.includes(tower)),
-			heroes = towers.filter((tower) => tower.isHero);
+	const primary = towers.filter(({ tower }) => priOrder.includes(tower));
+	const military = towers.filter(({ tower }) => milOrder.includes(tower));
+	const magic = towers.filter(({ tower }) => magOrder.includes(tower));
+	const support = towers.filter(({ tower }) => supOrder.includes(tower));
+	const heroes = towers.filter((tower) => tower.isHero);
 
-		return [
-			[`Hero${heroes.length !== 1 ? 'es' : ''}`, heroes.reduce((a, t) => `${a}${t.tower}\n`, '')],
-			['Primary', primary.reduce(stringifyCrosspath, '')],
-			['Military', military.reduce(stringifyCrosspath, '')],
-			['Magic', magic.reduce(stringifyCrosspath, '')],
-			['Support', support.reduce(stringifyCrosspath, '')],
-		];
-	},
-	stringifyCrosspath = (
-		acc: string,
-		{ tower, max, path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers }: Tower
-	) =>
-		`${acc}${
-			max > 0 ? `${max}x ` : ''
-		}${tower} \`(${`${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers}`})\`\n`,
-	bossIcons: Record<string, string> = {
-		'Bloonarius Normal': 'd7c187d0b125443079d5b41e822e7214',
-		'Bloonarius Elite': '177b43d651bf8fcb5dc01c75b0a066b9',
-		'Lych Normal': '761c68a031bb5169416bed0036f56301',
-		'Lych Elite': '7e857296728f236ecba6c6f2ddd25ad7',
-		'Vortex Normal': '9baf65029709fe34eda0775436d32c6c',
-		'Vortex Elite': '4d0beb6dd632fde0e61cb7d959e0352b',
-	},
-	gamemodeIcons: Record<string, string> = {
-		Deflation: '692f69b2239e6e7c58530d24e05e50f1',
-		Reverse: 'fad8916ca6638c5f8ccacc0c3c89aa48',
-		Apopalypse: 'fa276e92d0827bc2032f21f1a5cc6f29',
-		DoubleMoabHealth: 'c0639b69078970041dee23d92daf0b13',
-		HalfCash: '50a88ece1c58ae5ee742a4672a5559bf',
-		AlternateBloonsRounds: 'd7bba9962f2d1307a316aa2eebfcd8e9',
-		Impoppable: '7b7f57b101cdc8c682d1c5c3654687df',
-		Chimps: 'e739a2ca6afcd40dd20c099d226b31fd',
-		Standard: 'f3d3fb46de3c4c6f791cd1b6fe9b60dd',
-	},
-	difficultyIcons: Record<string, string> = {
-		Easy: 'fa0dc0d42855ce8fc7920eec06ede956',
-		Medium: '08e5b02e88d6d4c50e75d6e433db359d',
-		Hard: '6e6137d23ad90d5df01ddd4baf1ac36e',
-	};
+	return [
+		[`Hero${heroes.length !== 1 ? 'es' : ''}`, heroes.reduce((a, t) => `${a}${t.tower}\n`, '')],
+		['Primary', primary.reduce(stringifyCrosspath, '')],
+		['Military', military.reduce(stringifyCrosspath, '')],
+		['Magic', magic.reduce(stringifyCrosspath, '')],
+		['Support', support.reduce(stringifyCrosspath, '')],
+	];
+};
+const stringifyCrosspath = (
+	acc: string,
+	{ tower, max, path1NumBlockedTiers, path2NumBlockedTiers, path3NumBlockedTiers }: Tower
+) =>
+	`${acc}${
+		max > 0 ? `${max}x ` : ''
+	}${tower} \`(${`${path1NumBlockedTiers}-${path2NumBlockedTiers}-${path3NumBlockedTiers}`})\`\n`;
+const bossIcons: Record<string, string> = {
+	'Bloonarius Normal': 'd7c187d0b125443079d5b41e822e7214',
+	'Bloonarius Elite': '177b43d651bf8fcb5dc01c75b0a066b9',
+	'Lych Normal': '761c68a031bb5169416bed0036f56301',
+	'Lych Elite': '7e857296728f236ecba6c6f2ddd25ad7',
+	'Vortex Normal': '9baf65029709fe34eda0775436d32c6c',
+	'Vortex Elite': '4d0beb6dd632fde0e61cb7d959e0352b',
+};
+const gamemodeIcons: Record<string, string> = {
+	Deflation: '692f69b2239e6e7c58530d24e05e50f1',
+	Reverse: 'fad8916ca6638c5f8ccacc0c3c89aa48',
+	Apopalypse: 'fa276e92d0827bc2032f21f1a5cc6f29',
+	DoubleMoabHealth: 'c0639b69078970041dee23d92daf0b13',
+	HalfCash: '50a88ece1c58ae5ee742a4672a5559bf',
+	AlternateBloonsRounds: 'd7bba9962f2d1307a316aa2eebfcd8e9',
+	Impoppable: '7b7f57b101cdc8c682d1c5c3654687df',
+	Chimps: 'e739a2ca6afcd40dd20c099d226b31fd',
+	Standard: 'f3d3fb46de3c4c6f791cd1b6fe9b60dd',
+};
+const difficultyIcons: Record<string, string> = {
+	Easy: 'fa0dc0d42855ce8fc7920eec06ede956',
+	Medium: '08e5b02e88d6d4c50e75d6e433db359d',
+	Hard: '6e6137d23ad90d5df01ddd4baf1ac36e',
+};
 
 export const Constants = {
 	EMBED_COLOR: 13296619,

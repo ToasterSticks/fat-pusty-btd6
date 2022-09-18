@@ -5,6 +5,7 @@ import { InteractionResponseType, MessageFlags } from 'discord-api-types/v10';
 export const command: Command<ApplicationCommandType.ChatInput> = {
 	name: 'ping',
 	description: 'Reply with pong',
+
 	handler: ({ member }) => {
 		const userID = member!.user.id;
 

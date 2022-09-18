@@ -68,7 +68,7 @@
 			"prettier/prettier": "error",
 			"one-var": [
 				"error",
-				"consecutive"
+				"never"
 			]
 		}
 	}

@@ -51,6 +51,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			min_value: 1,
 		},
 	],
+
 	handler: async (interaction, page?: number, type?: string) => {
 		const {
 			data: { options },
@@ -85,8 +86,8 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			title: type ? eventTypes.find(({ value }) => value === type)?.name : 'All Events',
 			description: events.slice(endIndex - 5, endIndex).reduce((a, { name, type, start, end }) => {
 				name = name.replaceAll('_', ' ');
-				const hasStarted = Date.now() >= start,
-					fmtType = eventTypes.find(({ value }) => value === type)?.name;
+				const hasStarted = Date.now() >= start;
+				const fmtType = eventTypes.find(({ value }) => value === type)?.name;
 
 				return buildEmojis`${a}**${name}** (${fmtType})\n${'875985515357282316'} ${discordTimestamp(
 					start,
@@ -106,6 +107,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			},
 		};
 	},
+
 	components: {
 		'bulk-left': (interaction) => movePage(command, interaction, -5),
 		left: (interaction) => movePage(command, interaction, -1),

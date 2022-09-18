@@ -37,6 +37,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			min_value: 1,
 		},
 	],
+
 	handler: async (interaction, page?: number, code?: string) => {
 		const {
 			data: { options },
@@ -102,31 +103,31 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 		if (page > pages) page = pages;
 		if (page < 1) page = 1;
 
-		const endIndex = page * 5,
-			list = results
-				.slice(endIndex - 5, endIndex)
-				.reduce(
-					(a, { id, createdAt, challengeName, map, stats, latestVersionBeaten, gameVersion }) => {
-						if (map === 'Tutorial') map = 'MonkeyMeadow';
-						if (map === 'TownCentre') map = 'TownCenter';
+		const endIndex = page * 5;
+		const list = results
+			.slice(endIndex - 5, endIndex)
+			.reduce(
+				(a, { id, createdAt, challengeName, map, stats, latestVersionBeaten, gameVersion }) => {
+					if (map === 'Tutorial') map = 'MonkeyMeadow';
+					if (map === 'TownCentre') map = 'TownCenter';
 
-						const attempts = stats.plays + (stats.restarts ?? 0),
-							winRate = attempts ? (stats.wins / attempts) * 100 : 0,
-							completionRate = attempts ? (stats.winsUnique / stats.playsUnique) * 100 : 0;
+					const attempts = stats.plays + (stats.restarts ?? 0);
+					const winRate = attempts ? (stats.wins / attempts) * 100 : 0;
+					const completionRate = attempts ? (stats.winsUnique / stats.playsUnique) * 100 : 0;
 
-						return buildEmojis`${a}[\`${id}\`](https://join.btd6.com/Challenge/${id} 'Map: ${spacePascalCase(
-							map
-						)}\nUpvotes: ${stats.upvotes}\nGame version: ${gameVersion}${
-							isChallengeGray(latestVersionBeaten)
-								? `\n\nThis challenge may not be possible anymore.`
-								: ''
-						}') - **${challengeName}**\n${'875985515357282316'} ${discordTimestamp(
-							createdAt,
-							'R'
-						)} | CR: ${convertRate(completionRate)}% - WR: ${convertRate(winRate)}%\n\n`;
-					},
-					''
-				);
+					return buildEmojis`${a}[\`${id}\`](https://join.btd6.com/Challenge/${id} 'Map: ${spacePascalCase(
+						map
+					)}\nUpvotes: ${stats.upvotes}\nGame version: ${gameVersion}${
+						isChallengeGray(latestVersionBeaten)
+							? `\n\nThis challenge may not be possible anymore.`
+							: ''
+					}') - **${challengeName}**\n${'875985515357282316'} ${discordTimestamp(
+						createdAt,
+						'R'
+					)} | CR: ${convertRate(completionRate)}% - WR: ${convertRate(winRate)}%\n\n`;
+				},
+				''
+			);
 
 		pageButtons[0].disabled = pageButtons[1].disabled = page === 1;
 		pageButtons[2].disabled = pageButtons[3].disabled = page === pages;
