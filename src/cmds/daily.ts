@@ -57,13 +57,13 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 			getOption<string>(normSubOptions ?? advSubOptions, 'challenge') ??
 			(advSubOptions ? advancedId : normalId)
 		).toString();
-		const challenge = (await fetch(
+		const challenge = await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/dailyChallenges${
 				advSubOptions ? 'Advanced' : ''
 			}/${id}`
 		)
-			.then((res) => res.json())
-			.catch(() => null)) as BloonsChallengeData | null;
+			.then((res) => res.json<BloonsChallengeData>())
+			.catch(() => null);
 
 		if (!challenge)
 			return {

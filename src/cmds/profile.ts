@@ -62,7 +62,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 				'https://api.ninjakiwi.com/bank/balances',
 				formRequestOptions({ accountHolder: btdUser.nkapiID, wallets: ['NK_ACCDATA'] })
 			)
-				.then((res) => res.json() as Promise<{ data: string }>)
+				.then((res) => res.json<{ data: string }>())
 				.then(({ data }) => JSON.parse(data) as UserWallets),
 		]);
 
@@ -264,7 +264,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 
 const getPlayerStats = (nkApiID: string) =>
 	fetch(`https://fast-static-api.nkstatic.com/storage/static/11/${nkApiID}/public-stats`)
-		.then((res) => res.json() as Promise<PublicUserProfile>)
+		.then((res) => res.json<PublicUserProfile>())
 		.catch(() => null);
 const TOTAL_XP_REQUIRED = [
 	0, 280, 900, 1780, 3350, 5850, 8850, 12350, 15850, 19850, 24100, 28600, 33100, 38000, 45000,

@@ -182,7 +182,7 @@ export const findUser = (query: string) =>
 					includeOnlineStatus: false,
 				})
 			)
-				.then((res) => res.json() as Promise<{ data: string }>)
+				.then((res) => res.json<{ data: string }>())
 				.then(({ data }) => Object.values((JSON.parse(data) as AuthorizedUserData).users)[0]);
 		})
 	);

@@ -31,11 +31,11 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 
 	handler: async ({ data: { options } }, isElite?: boolean) => {
 		const [boss] = await getEvents('bossBloon');
-		const { normalDcm, eliteDcm, bossType } = (await fetch(
+		const { normalDcm, eliteDcm, bossType } = await fetch(
 			`https://fast-static-api.nkstatic.com/storage/static/appdocs/11/bossData/${boss?.name}`
 		)
-			.then((res) => res.json())
-			.catch(() => ({}))) as BloonsBossData;
+			.then((res) => res.json<BloonsBossData>())
+			.catch(() => ({} as BloonsBossData));
 
 		if (!bossType)
 			return {

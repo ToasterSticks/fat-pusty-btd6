@@ -10,7 +10,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 
 	handler: async () => {
 		const { data } = await fetch(`https://www.reddit.com/r/btd6/hot.json`)
-			.then((res) => res.json() as Promise<RedditResponse>)
+			.then((res) => res.json<RedditResponse>())
 			.catch(() => ({ data: null }));
 
 		if (!data)

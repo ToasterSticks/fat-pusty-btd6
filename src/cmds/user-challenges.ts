@@ -86,7 +86,7 @@ export const command: Command<ApplicationCommandType.ChatInput> = {
 				offset: 0,
 			})
 		)
-			.then((res) => res.json() as Promise<{ data: string }>)
+			.then((res) => res.json<{ data: string }>())
 			.then(({ data }) => JSON.parse(data) as AuthorizedChallengeData);
 
 		if (!results.length)
