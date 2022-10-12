@@ -156,7 +156,7 @@ export const formRequestOptions = (data: Record<string, unknown>) => {
 
 export const getEvents = async (type?: string) => {
 	const data = await fetch(
-		'https://static-api.nkstatic.com/nkapi/skusettings/55e2af5676e98c26d29e14cafcc70b8b.json'
+		'https://static-api.nkstatic.com/nkapi/skusettings/952916f872f7507f1e337e02041661ee.json'
 	)
 		.then((res) => res.arrayBuffer())
 		.then((buffer) => new Uint8Array(buffer));
