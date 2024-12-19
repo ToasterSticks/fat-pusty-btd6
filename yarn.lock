@@ -1078,10 +1078,10 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-discord-api-types@0.37.3:
-  version "0.37.3"
-  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.3.tgz#41e0139304d75b75e1e12d514eb28970bb9add04"
-  integrity sha512-LWcx1jDL8zanQJOPwNmHdFQTr/PFflDw1VYoRmTjme7LEKLr2Qqa2uz04gjN0eNEYskM2TYkOvNn3H5rblFM6g==
+discord-api-types@0.37.112:
+  version "0.37.112"
+  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.112.tgz#a32d63585fecc5c886b045a8f4cb12a3e4e70370"
+  integrity sha512-DDEt3696k7o9+Ot2a5phqsEKnwhSGfIDzXJR9V5OMba9fbvJOEhPapLXy645RkrGCEKZeoFd3qXFhrvVQSUbxQ==
 
 doctrine@^3.0.0:
   version "3.0.0"
